@@ -1,0 +1,55 @@
+/* /src/components/currency/currency.module.css */
+
+.currencyContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .currencyIcon {
+    width: 70px;
+    height: 50px;
+    object-fit: contain;
+  }
+  
+  .currencyDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .currencyButtonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .currencyButton {
+    padding: 8px 12px;
+    font-size: 1em;
+    background-color: #19ca02;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .currencyButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .clearButton {
+    background-color: #d9534f;
+  }
+  
+  .clearButton:hover {
+    background-color: #c9302c;
+  }
+  
+  .currencyAmountHigh {
+    color: green;
+  }
+  

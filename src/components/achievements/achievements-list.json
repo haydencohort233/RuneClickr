@@ -1,0 +1,31 @@
+[
+    {
+      "id": "gain_100_currency",
+      "name": "Gain 100 Currency",
+      "description": "Earn 100 currency.",
+      "conditionType": "currency-based",
+      "threshold": 100
+    },
+    {
+      "id": "buy_5_buildings",
+      "name": "Young Monopoly",
+      "description": "Own 5 buildings.",
+      "conditionType": "building-based",
+      "threshold": 5
+    },
+    {
+      "id": "click_100_times",
+      "name": "Click Master",
+      "description": "Click the button 100 times.",
+      "conditionType": "click-based",
+      "threshold": 100
+    },
+    {
+      "id": "buy_varrock",
+      "name": "Buy Varrock",
+      "description": "Buy the 'Varrock' building.",
+      "conditionType": "specific-building",
+      "buildingName": "Varrock"
+    }
+  ]
+  
