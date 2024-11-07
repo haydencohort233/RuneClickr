@@ -1,0 +1,39 @@
+[
+    {
+      "id": "spawn",
+      "name": "Spawn",
+      "description": "Spawn",
+      "coordinates": { "top": "-123px", "left": "133px" },
+      "travelTime": 5
+    },
+    {
+      "id": "draynorMansion",
+      "name": "Draynor Mansion",
+      "description": "A haunted mansion, the thick fog surrounds the building",
+      "coordinates": { "top": "-260px", "left": "44px" },
+      "travelTime": 5
+    },
+    {
+      "id": "cowPen",
+      "name": "Cow Pens",
+      "description": "Stinky",
+      "coordinates": { "top": "-160px", "left": "190px" },
+      "travelTime": 5
+    },
+    {
+      "id": "wizardTower",
+      "name": "Wizard's Tower",
+      "description": "Spells",
+      "coordinates": { "top": "-70px", "left": "50px" },
+      "travelTime": 5
+    },
+    {
+      "id": "draynor",
+      "name": "Draynor Village",
+      "description": "Spook",
+      "coordinates": { "top": "-155px", "left": "30px" },
+      "travelTime": 5,
+      "features": ["Aggie's Magic Shop"]
+    }
+  ]
+  

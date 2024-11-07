@@ -6,20 +6,30 @@ import Login from '../components/users/Login';
 import Logout from '../components/users/Logout';
 import Buildings from '../components/buildings/buildings';
 import Achievements from '../components/achievements/achievements';
+import PlayerDetails from '../components/player/playerDetails';
 
 function Home() {
+  // Initial gameState values and arrays
   const [gameState, setGameState] = useState({
-    currency: 0, // Initial currency value
-    buildings: [], // Initial buildings array
+    username: 'Unknown Player',
+    level: 1,
+    experience: 0,
+    hitpoints: 100,
+    maxHitPoints: 100,
+    currentLocation: 'spawn',
+    currency: 0,
+    buildings: [],
     clicks: 0,
-    achievements: [], // Initial achievements array
+    achievements: [],
   });
+
   const [userId, setUserId] = useState(null);
 
   return (
     <div className="home">
       {userId ? (
         <>
+          <PlayerDetails player={gameState} setPlayer={setGameState} />
           <Logout setUserId={setUserId} />
           <Currency gameState={gameState} setGameState={setGameState} />
           <GameSaves userId={userId} gameState={gameState} setGameState={setGameState} />

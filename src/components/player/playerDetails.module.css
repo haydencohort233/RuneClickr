@@ -1,0 +1,31 @@
+/* /src/components/player/playerDetails.module.css */
+
+.playerDetailsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 20px auto;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  p {
+    font-size: 16px;
+    margin: 8px 0;
+    color: #555;
+  }
+  
+  strong {
+    color: #000;
+  }
+  

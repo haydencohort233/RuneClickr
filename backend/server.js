@@ -4,6 +4,7 @@ const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const path = require('path');
 const dbPath = path.resolve(__dirname, './db/idleGameData.sqlite');
+console.log('Database Path:', dbPath); // Log the database path
 const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
   if (err) {
     console.error('Error connecting to SQLite database:', err);
@@ -76,7 +77,8 @@ app.post('/api/login', (req, res) => {
 app.get('/api/user-details/:userId', (req, res) => {
   const userId = req.params.userId;
 
-  const query = `SELECT username, password, last_active FROM users WHERE id = ?`;
+  const query = `SELECT username, password, currentLocation, last_active, level, currency, experience, hitpoints, maxHitPoints, 
+    inventory, maxInventorySpace, bank, maxBankSpace FROM users WHERE id = ?`;
   db.get(query, [userId], (err, row) => {
     if (err) {
       if (err.code === 'SQLITE_BUSY') {
@@ -89,52 +91,100 @@ app.get('/api/user-details/:userId', (req, res) => {
     if (!row) {
       return res.status(404).json({ message: 'User not found.' });
     }
-    res.json({ username: row.username, password: row.password, last_active: row.last_active });
+    res.json({ username: row.username, password: row.password, currentLocation: row.currentLocation, currency: row.currency, 
+      hitpoints: row.hitpoints, maxHitPoints: row.maxHitPoints, level: row.level, experience: row.experience,
+      inventory: row.inventory, maxInventorySpace: row.maxHitPoints, bank: row.bank, maxBankSpace: row.maxBankSpace, 
+      last_active: row.last_active });
   });
 });
 
-// Route to save game state
+const retryDatabaseOperation = (query, params, retries, callback) => {
+  db.run(query, params, function (err) {
+    if (err && err.code === 'SQLITE_BUSY' && retries > 0) {
+      console.error('Database is busy, retrying...');
+      setTimeout(() => retryDatabaseOperation(query, params, retries - 1, callback), 100); // retry after 100 ms
+    } else if (err) {
+      callback(err);
+    } else {
+      callback(null);
+    }
+  });
+};
+
+// Update the save game route to use the retry function
 app.post('/api/save-game', (req, res) => {
   const { userId, gameState } = req.body;
   if (!userId || !gameState) {
     return res.status(400).json({ message: 'Invalid request. User ID and game state are required.' });
   }
 
-  const { currency, ...restOfGameState } = gameState;
-  const gameStateString = JSON.stringify(restOfGameState);
+  const {
+    currency,
+    currentLocation,
+    level,
+    experience,
+    hitpoints,
+    maxHitPoints,
+    inventory,
+    maxInventorySpace,
+    bank,
+    maxBankSpace
+  } = gameState;
+
   const lastActive = new Date().toISOString();
 
-  const updateUserQuery = `UPDATE users SET currency = ?, last_active = ? WHERE id = ?`;
-  db.run(updateUserQuery, [currency, lastActive, userId], function (err) {
-    if (err) {
-      if (err.code === 'SQLITE_BUSY') {
-        console.error('Database is busy. Please try again.');
-        return res.status(503).json({ message: 'Database is busy. Please try again later.' });
-      }
-      console.error('Error updating user data:', err);
-      return res.status(500).json({ message: 'Failed to save user data. Please try again later.' });
-    }
+  const updateUserQuery = `
+    UPDATE users 
+    SET currency = ?, currentLocation = ?, level = ?, experience = ?, 
+        hitpoints = ?, maxHitPoints = ?, inventory = ?, 
+        maxInventorySpace = ?, bank = ?, maxBankSpace = ?, last_active = ? 
+    WHERE id = ?`;
 
-    const query = `INSERT INTO game_state (user_id, game_state) VALUES (?, ?) ON CONFLICT(user_id) DO UPDATE SET game_state = excluded.game_state`;
-    db.run(query, [userId, gameStateString], function (err) {
+  retryDatabaseOperation(
+    updateUserQuery,
+    [
+      currency,
+      currentLocation,
+      level,
+      experience,
+      hitpoints,
+      maxHitPoints,
+      JSON.stringify(inventory),
+      maxInventorySpace,
+      JSON.stringify(bank),
+      maxBankSpace,
+      lastActive,
+      userId
+    ],
+    5,
+    function (err) {
       if (err) {
-        if (err.code === 'SQLITE_BUSY') {
-          console.error('Database is busy. Please try again.');
-          return res.status(503).json({ message: 'Database is busy. Please try again later.' });
-        }
-        console.error('Error saving game state:', err);
-        return res.status(500).json({ message: 'Failed to save game state. Please try again later.' });
+        console.error('Error updating user data:', err);
+        return res.status(500).json({ message: 'Failed to save user data. Please try again later.' });
       }
-      res.json({ message: 'Game state saved successfully.' });
-    });
-  });
+
+      const query = `
+        INSERT INTO game_state (user_id, game_state) 
+        VALUES (?, ?) 
+        ON CONFLICT(user_id) DO UPDATE SET game_state = excluded.game_state`;
+
+      retryDatabaseOperation(query, [userId, JSON.stringify(gameState)], 5, function (err) {
+        if (err) {
+          console.error('Error saving game state:', err);
+          return res.status(500).json({ message: 'Failed to save game state. Please try again later.' });
+        }
+        res.json({ message: 'Game state saved successfully.' });
+      });
+    }
+  );
 });
 
 // Route to load game state
 app.get('/api/load-game/:userId', (req, res) => {
   const userId = req.params.userId;
 
-  const userQuery = `SELECT currency, last_active FROM users WHERE id = ?`;
+  const userQuery = `SELECT currency, last_active, currentLocation, level, experience, 
+    hitpoints, maxHitPoints, inventory, maxInventorySpace, bank, maxBankSpace FROM users WHERE id = ?`;
   db.get(userQuery, [userId], (err, userRow) => {
     if (err) {
       if (err.code === 'SQLITE_BUSY') {
@@ -170,7 +220,8 @@ app.get('/api/load-game/:userId', (req, res) => {
 app.get('/api/export-game/:userId', (req, res) => {
   const userId = req.params.userId;
 
-  const userQuery = `SELECT currency, last_active FROM users WHERE id = ?`;
+  const userQuery = `SELECT currency, last_active, currentLocation, level, experience, 
+    hitpoints, maxHitPoints, inventory, maxInventorySpace, bank, maxBankSpace FROM users WHERE id = ?`;
   db.get(userQuery, [userId], (err, userRow) => {
     if (err) {
       if (err.code === 'SQLITE_BUSY') {
@@ -215,7 +266,8 @@ app.post('/api/import-game', (req, res) => {
   const { currency, last_active, ...restOfGameState } = gameState;
   const gameStateString = JSON.stringify(restOfGameState);
 
-  const updateUserQuery = `UPDATE users SET currency = ?, last_active = ? WHERE id = ?`;
+  const updateUserQuery = `UPDATE users SET currency = ?, currentLocation = ?, level = ?, experience = ?, 
+    hitpoints = ?, maxHitPoints = ?, inventory = ?, maxInventorySpace = ?, bank = ?, maxBankSpace = ?, last_active = ? WHERE id = ?`;
   db.run(updateUserQuery, [currency, last_active, userId], function (err) {
     if (err) {
       if (err.code === 'SQLITE_BUSY') {

@@ -1,0 +1,9 @@
+- Player component to make it more of an entity
+- 100/100 HP
+- Inventory
+- Inventory limit (28) [2 for testing]
+- DB Table for all items in the game
+
+
+- Damage can be taken from:
+Monsters, Traps, Random Events (You lost! -5 HP)
