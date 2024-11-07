@@ -21,6 +21,7 @@ function GameSaves({ userId, gameState, setGameState }) {
       bank: [],
       maxBankSpace: 50,
       currentLocation: 'spawn',
+      travel_count: 0,
       ...state,
     };
   };

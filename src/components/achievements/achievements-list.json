@@ -33,6 +33,13 @@
       "description": "Reach Level 5 to unlock this achievement.",
       "conditionType": "level-based",
       "threshold": 5
-    }    
+    },
+    {
+      "id": "frequent_traveler",
+      "name": "Frequent Traveler",
+      "description": "Travel 5 times between different locations.",
+      "conditionType": "travel-based",
+      "threshold": 5
+    }       
   ]
   

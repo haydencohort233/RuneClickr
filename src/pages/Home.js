@@ -7,6 +7,7 @@ import Logout from '../components/users/Logout';
 import Buildings from '../components/buildings/buildings';
 import Achievements from '../components/achievements/achievements';
 import PlayerDetails from '../components/player/playerDetails';
+import WorldMap from '../components/worldmap/worldMap';
 
 function Home() {
   // Initial gameState values and arrays
@@ -34,7 +35,8 @@ function Home() {
           <Currency gameState={gameState} setGameState={setGameState} />
           <GameSaves userId={userId} gameState={gameState} setGameState={setGameState} />
           <Buildings gameState={gameState} setGameState={setGameState} />
-          <Achievements gameState={gameState} setGameState={setGameState} />
+          <Achievements gameState={gameState} setGameState={setGameState} userId={userId} />
+          <WorldMap gameState={gameState} setGameState={setGameState} />
         </>
       ) : (
         <Login setUserId={setUserId} />

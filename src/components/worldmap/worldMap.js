@@ -68,12 +68,13 @@ function WorldMap({ gameState, setGameState }) {
       return newGameState;
     });
 
+    // Update gameState once travel is complete
     setTimeout(() => {
-      // Update gameState once travel is complete
       setGameState((prevState) => {
         const completedGameState = {
           ...prevState,
           currentLocation: location.id,
+          travel_count: (prevState.travel_count || 0) + 1,
           travel: {
             currentLocation: location.id,
             destination: '',

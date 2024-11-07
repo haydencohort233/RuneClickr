@@ -78,7 +78,7 @@ app.get('/api/user-details/:userId', (req, res) => {
   const userId = req.params.userId;
 
   const query = `SELECT username, password, currentLocation, last_active, level, currency, experience, hitpoints, maxHitPoints, 
-    inventory, maxInventorySpace, bank, maxBankSpace FROM users WHERE id = ?`;
+    inventory, maxInventorySpace, bank, maxBankSpace, travel_count FROM users WHERE id = ?`;
   db.get(query, [userId], (err, row) => {
     if (err) {
       if (err.code === 'SQLITE_BUSY') {
@@ -94,7 +94,7 @@ app.get('/api/user-details/:userId', (req, res) => {
     res.json({ username: row.username, password: row.password, currentLocation: row.currentLocation, currency: row.currency, 
       hitpoints: row.hitpoints, maxHitPoints: row.maxHitPoints, level: row.level, experience: row.experience,
       inventory: row.inventory, maxInventorySpace: row.maxHitPoints, bank: row.bank, maxBankSpace: row.maxBankSpace, 
-      last_active: row.last_active });
+      travel_count: row.travel_count, last_active: row.last_active });
   });
 });
 
@@ -128,7 +128,8 @@ app.post('/api/save-game', (req, res) => {
     inventory,
     maxInventorySpace,
     bank,
-    maxBankSpace
+    maxBankSpace,
+    travel_count
   } = gameState;
 
   const lastActive = new Date().toISOString();
@@ -136,27 +137,28 @@ app.post('/api/save-game', (req, res) => {
   const updateUserQuery = `
     UPDATE users 
     SET currency = ?, currentLocation = ?, level = ?, experience = ?, 
-        hitpoints = ?, maxHitPoints = ?, inventory = ?, 
+        hitpoints = ?, maxHitPoints = ?, inventory = ?, travel_count = ?, 
         maxInventorySpace = ?, bank = ?, maxBankSpace = ?, last_active = ? 
     WHERE id = ?`;
 
-  retryDatabaseOperation(
-    updateUserQuery,
-    [
-      currency,
-      currentLocation,
-      level,
-      experience,
-      hitpoints,
-      maxHitPoints,
-      JSON.stringify(inventory),
-      maxInventorySpace,
-      JSON.stringify(bank),
-      maxBankSpace,
-      lastActive,
-      userId
-    ],
-    5,
+    retryDatabaseOperation(
+      updateUserQuery,
+      [
+        currency,              // matches "currency = ?"
+        currentLocation,       // matches "currentLocation = ?"
+        level,                 // matches "level = ?"
+        experience,            // matches "experience = ?"
+        hitpoints,             // matches "hitpoints = ?"
+        maxHitPoints,          // matches "maxHitPoints = ?"
+        JSON.stringify(inventory), // matches "inventory = ?"
+        travel_count,          // matches "travel_count = ?"
+        maxInventorySpace,     // matches "maxInventorySpace = ?"
+        JSON.stringify(bank),  // matches "bank = ?"
+        maxBankSpace,          // matches "maxBankSpace = ?"
+        lastActive,            // matches "last_active = ?"
+        userId                 // matches "WHERE id = ?"
+      ],
+      5,
     function (err) {
       if (err) {
         console.error('Error updating user data:', err);
@@ -183,7 +185,7 @@ app.post('/api/save-game', (req, res) => {
 app.get('/api/load-game/:userId', (req, res) => {
   const userId = req.params.userId;
 
-  const userQuery = `SELECT currency, last_active, currentLocation, level, experience, 
+  const userQuery = `SELECT currency, last_active, currentLocation, level, experience, travel_count,
     hitpoints, maxHitPoints, inventory, maxInventorySpace, bank, maxBankSpace FROM users WHERE id = ?`;
   db.get(userQuery, [userId], (err, userRow) => {
     if (err) {
@@ -220,7 +222,7 @@ app.get('/api/load-game/:userId', (req, res) => {
 app.get('/api/export-game/:userId', (req, res) => {
   const userId = req.params.userId;
 
-  const userQuery = `SELECT currency, last_active, currentLocation, level, experience, 
+  const userQuery = `SELECT currency, last_active, currentLocation, level, experience, travel_count,
     hitpoints, maxHitPoints, inventory, maxInventorySpace, bank, maxBankSpace FROM users WHERE id = ?`;
   db.get(userQuery, [userId], (err, userRow) => {
     if (err) {
@@ -266,7 +268,7 @@ app.post('/api/import-game', (req, res) => {
   const { currency, last_active, ...restOfGameState } = gameState;
   const gameStateString = JSON.stringify(restOfGameState);
 
-  const updateUserQuery = `UPDATE users SET currency = ?, currentLocation = ?, level = ?, experience = ?, 
+  const updateUserQuery = `UPDATE users SET currency = ?, currentLocation = ?, level = ?, experience = ?, travel_count = ?,
     hitpoints = ?, maxHitPoints = ?, inventory = ?, maxInventorySpace = ?, bank = ?, maxBankSpace = ?, last_active = ? WHERE id = ?`;
   db.run(updateUserQuery, [currency, last_active, userId], function (err) {
     if (err) {

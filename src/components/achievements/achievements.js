@@ -39,6 +39,8 @@ function Achievements({ gameState, setGameState }) {
           return gameState.buildings && gameState.buildings[achievement.buildingName]?.count >= 1;
         case "click-based":
           return gameState.clicks >= achievement.threshold;
+        case "travel-based":
+          return gameState.travel_count >= achievement.threshold;
         default:
           return false;
       }
