@@ -28,6 +28,8 @@ function Achievements({ gameState, setGameState }) {
       switch (achievement.conditionType) {
         case "currency-based":
           return gameState.currency >= achievement.threshold;
+        case "level-based":
+          return gameState.level >= achievement.threshold;
         case "building-based":
           return (
             gameState.buildings &&

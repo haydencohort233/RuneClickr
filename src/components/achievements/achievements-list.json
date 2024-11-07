@@ -26,6 +26,13 @@
       "description": "Buy the 'Varrock' building.",
       "conditionType": "specific-building",
       "buildingName": "Varrock"
-    }
+    },
+    {
+      "id": "reach_level_5",
+      "name": "Reach Level 5",
+      "description": "Reach Level 5 to unlock this achievement.",
+      "conditionType": "level-based",
+      "threshold": 5
+    }    
   ]
   
