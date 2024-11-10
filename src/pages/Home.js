@@ -8,6 +8,8 @@ import Buildings from '../components/buildings/buildings';
 import Achievements from '../components/achievements/achievements';
 import PlayerDetails from '../components/player/playerDetails';
 import WorldMap from '../components/worldmap/worldMap';
+import LocationDetails from '../components/locationdetails/locationDetails';
+import worldLocations from '../components/worldmap/worldLocations.json';
 
 function Home() {
   // Initial gameState values and arrays
@@ -26,6 +28,11 @@ function Home() {
 
   const [userId, setUserId] = useState(null);
 
+  // Get the current location details from worldLocations based on gameState
+  const currentLocationDetails = worldLocations.find(
+    (location) => location.id === gameState.currentLocation
+  );
+
   return (
     <div className="home">
       {userId ? (
@@ -34,9 +41,10 @@ function Home() {
           <Logout setUserId={setUserId} />
           <Currency gameState={gameState} setGameState={setGameState} />
           <GameSaves userId={userId} gameState={gameState} setGameState={setGameState} />
+          <LocationDetails currentLocation={currentLocationDetails} />
           <Buildings gameState={gameState} setGameState={setGameState} />
-          <Achievements gameState={gameState} setGameState={setGameState} userId={userId} />
           <WorldMap gameState={gameState} setGameState={setGameState} />
+          <Achievements gameState={gameState} setGameState={setGameState} userId={userId} />
         </>
       ) : (
         <Login setUserId={setUserId} />

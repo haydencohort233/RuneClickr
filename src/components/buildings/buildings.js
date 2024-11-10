@@ -1,7 +1,8 @@
 // /src/components/buildings/buildings.js
-import React, { useState, useEffect } from 'react';
-import buildingStats from './building-stats.json';
 import styles from './buildings.module.css';
+import buildingStats from './building-stats.json';
+import React, { useState, useEffect } from 'react';
+import fallbackImage from '../../assets/images/buildings/fallback.png';
 
 function Buildings({ gameState, setGameState }) {
   const [buildings, setBuildings] = useState(() => {
@@ -85,11 +86,13 @@ function Buildings({ gameState, setGameState }) {
     };
     setBuildings(newBuildings);
 
-    // Update gameState with new buildings object and deduct cost
+    // Update gameState with new buildings object, deduct cost, and add experience
+    const expReward = buildingStats[buildingName]?.expReward || 0;
     setGameState((prevState) => ({
       ...prevState,
       currency: prevState.currency - currentCost,
       buildings: newBuildings,
+      experience: prevState.experience + expReward,
     }));
   };
 
@@ -122,6 +125,7 @@ function Buildings({ gameState, setGameState }) {
               src={require(`../../assets/images/buildings/building_${building.toLowerCase().replace(/ /g, '_')}.png`)} 
               alt={building}
               className={styles.buildingThumbnail}
+              onError={(e) => e.target.src = fallbackImage}
             />
             <div className={styles.buildingTitle}>{building}</div>
             <div className={styles.buildingDetails}>

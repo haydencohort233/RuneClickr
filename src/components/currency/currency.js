@@ -1,3 +1,4 @@
+//currency.js
 import React, { useState, useEffect } from 'react';
 import buildingStats from '../buildings/building-stats.json';
 import styles from './currency.module.css';
@@ -45,12 +46,13 @@ function Currency({ gameState, setGameState = () => {} }) {
     }
   }, [currency, setGameState]);
 
-// Function to increment currency and track clicks
-const incrementCurrency = () => {
+  // Function to increment currency and track clicks and gain experience
+  const incrementCurrency = () => {
     setCurrency((prevCurrency) => prevCurrency + 1);
     setGameState((prevState) => ({
       ...prevState,
       clicks: (prevState.clicks || 0) + 1, // Increment clicks count
+      experience: (prevState.experience || 0) + 1, // Gain 1 EXP per click
     }));
   };  
 

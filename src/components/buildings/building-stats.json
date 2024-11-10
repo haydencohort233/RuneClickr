@@ -1,31 +1,34 @@
 {
-    "Cow Pen": {
-      "cost": 50,
-      "income": 5,
-      "description": "The east Lumbridge cow pen",
-      "incomeInterval": 1000,
-      "costIncreaseModifier": 1.15
-    },
-    "Wheat Field": {
-      "cost": 100,
-      "income": 10,
-      "description": "One of many Gielinor's wheat fields.",
-      "incomeInterval": 1000,
-      "costIncreaseModifier": 1.2
-    },
-    "Varrock": {
-      "cost": 500,
-      "income": 50,
-      "description": "A bustling town that generates significant income.",
-      "incomeInterval": 1000,
-      "costIncreaseModifier": 1.25
-    },
-    "Falador Pub": {
-      "cost": 1000,
-      "income": 100,
-      "description": "Make sure to try the Blue Moon!",
-      "incomeInterval": 1000,
-      "costIncreaseModifier": 1.5
-    }
+  "Cow Pen": {
+    "cost": 50,
+    "income": 5,
+    "description": "The east Lumbridge cow pen",
+    "incomeInterval": 1000,
+    "costIncreaseModifier": 1.15,
+    "expReward": 10
+  },
+  "Wheat Field": {
+    "cost": 100,
+    "income": 10,
+    "description": "One of many Gielinor's wheat fields.",
+    "incomeInterval": 1000,
+    "costIncreaseModifier": 1.2,
+    "expReward": 20
+  },
+  "Varrock": {
+    "cost": 500,
+    "income": 50,
+    "description": "A bustling town that generates significant income.",
+    "incomeInterval": 1000,
+    "costIncreaseModifier": 1.25,
+    "expReward": 50
+  },
+  "Falador Pub": {
+    "cost": 1000,
+    "income": 100,
+    "description": "Make sure to try the Blue Moon!",
+    "incomeInterval": 1000,
+    "costIncreaseModifier": 1.5,
+    "expReward": 100
   }
-  
+}

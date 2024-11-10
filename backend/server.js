@@ -3,6 +3,7 @@ const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const path = require('path');
+const shopRoutes = require('./routes/shopRoutes');
 const dbPath = path.resolve(__dirname, './db/idleGameData.sqlite');
 console.log('Database Path:', dbPath); // Log the database path
 const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
@@ -18,9 +19,14 @@ db.serialize(); // Serialize to avoid concurrent write access issues
 const app = express();
 const port = 5000;
 
+// Serve static files from the 'public' directory
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
+
 // Setup CORS and JSON parsing
 app.use(cors());
 app.use(express.json());
+
+app.use('/api', shopRoutes);
 
 // Route to register a new user
 app.post('/api/register', (req, res) => {

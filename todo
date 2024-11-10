@@ -1,8 +1,7 @@
-- Player component to make it more of an entity
-- 100/100 HP
-- Inventory
-- Inventory limit (28) [2 for testing]
 - DB Table for all items in the game
+- DB Table for all monsters in the game
+
+- FIX IMAGES NOT LOADING (locationPhoto, item_photo, shop owner photo)
 
 
 - Damage can be taken from:

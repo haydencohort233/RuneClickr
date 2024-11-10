@@ -1,0 +1,11 @@
+[
+    {
+      "id": "aggie_magic_shop",
+      "name": "Aggies Magic Shop",
+      "type": "shop",
+      "description": "A magical shop run by Aggie.",
+      "component": "MagicShop",
+      "shopId": 2
+    }
+  ]
+  
