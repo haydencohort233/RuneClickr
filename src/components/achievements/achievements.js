@@ -54,6 +54,12 @@ function Achievements({ gameState, setGameState }) {
         updatedAchievements[achievement.id] = true;
         setNotification(`Achievement unlocked: ${achievement.name}`); // Set notification message
         setTimeout(() => setNotification(null), 3000); // Remove notification after 3 seconds
+
+        // Add experience points based on achievement
+        setGameState((prevState) => ({
+          ...prevState,
+          experience: prevState.experience + (achievement.expReward || 0), // Award EXP based on the expReward from achievement data
+        }));
       }
     });
 

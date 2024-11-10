@@ -5,7 +5,8 @@
     "description": "The east Lumbridge cow pen",
     "incomeInterval": 1000,
     "costIncreaseModifier": 1.15,
-    "expReward": 10
+    "expReward": 10,
+    "levelRequirement": 1
   },
   "Wheat Field": {
     "cost": 100,
@@ -13,7 +14,8 @@
     "description": "One of many Gielinor's wheat fields.",
     "incomeInterval": 1000,
     "costIncreaseModifier": 1.2,
-    "expReward": 20
+    "expReward": 20,
+    "levelRequirement": 3
   },
   "Varrock": {
     "cost": 500,
@@ -21,7 +23,8 @@
     "description": "A bustling town that generates significant income.",
     "incomeInterval": 1000,
     "costIncreaseModifier": 1.25,
-    "expReward": 50
+    "expReward": 50,
+    "levelRequirement": 5
   },
   "Falador Pub": {
     "cost": 1000,
@@ -29,6 +32,7 @@
     "description": "Make sure to try the Blue Moon!",
     "incomeInterval": 1000,
     "costIncreaseModifier": 1.5,
-    "expReward": 100
+    "expReward": 100,
+    "levelRequirement": 7
   }
 }

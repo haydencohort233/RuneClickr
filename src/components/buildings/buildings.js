@@ -77,6 +77,13 @@ function Buildings({ gameState, setGameState }) {
       return;
     }
 
+    // Check if the player meets the level requirement to buy the building
+    const levelRequirement = buildingStats[buildingName]?.levelRequirement || 1;
+    if (gameState.level < levelRequirement) {
+      alert(`You need to be at least level ${levelRequirement} to buy this building!`);
+      return;
+    }
+
     const newBuildings = {
       ...buildings,
       [buildingName]: {
@@ -119,23 +126,31 @@ function Buildings({ gameState, setGameState }) {
     <div className={styles.buildings}>
       <h2>Buildings</h2>
       <div className={styles.buildingList}>
-        {Object.entries(buildings).map(([building, { count, cost }]) => (
-          <div key={building} className={styles.buildingItem}>
-            <img 
-              src={require(`../../assets/images/buildings/building_${building.toLowerCase().replace(/ /g, '_')}.png`)} 
-              alt={building}
-              className={styles.buildingThumbnail}
-              onError={(e) => e.target.src = fallbackImage}
-            />
-            <div className={styles.buildingTitle}>{building}</div>
-            <div className={styles.buildingDetails}>
-              Count: {count} <br />
-              Income: {buildingStats[building]?.income || 0} per interval <br />
-              Next Cost: {cost.toLocaleString()}
+        {Object.entries(buildings).map(([building, { count, cost }]) => {
+          const levelRequirement = buildingStats[building]?.levelRequirement || 1;
+          if (gameState.level < levelRequirement) {
+            // Hide the building if the player does not meet the level requirement
+            return null;
+          }
+          return (
+            <div key={building} className={styles.buildingItem}>
+              <img 
+                src={require(`../../assets/images/buildings/building_${building.toLowerCase().replace(/ /g, '_')}.png`)} 
+                alt={building}
+                className={styles.buildingThumbnail}
+                onError={(e) => e.target.src = fallbackImage}
+              />
+              <div className={styles.buildingTitle}>{building}</div>
+              <div className={styles.buildingDetails}>
+                Count: {count} <br />
+                Income: {buildingStats[building]?.income || 0} per interval <br />
+                Next Cost: {cost.toLocaleString()} <br />
+                Level Requirement: {levelRequirement}
+              </div>
+              <button onClick={() => addBuilding(building)} className={styles.buildingButton}>Buy</button>
             </div>
-            <button onClick={() => addBuilding(building)} className={styles.buildingButton}>Buy</button>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <button onClick={clearAllBuildings} className={`${styles.buildingButton} ${styles.devButton}`}>Clear All Buildings (Dev Button)</button>
     </div>
