@@ -103,6 +103,51 @@ function Buildings({ gameState, setGameState }) {
     }));
   };
 
+  // Add five buildings at once or increase count if they exist
+  const addFiveBuildings = (buildingName) => {
+    let currentCount = buildings[buildingName]?.count || 0;
+    let currentCost = buildings[buildingName]?.cost || buildingStats[buildingName].cost;
+    const costIncreaseModifier = buildingStats[buildingName]?.costIncreaseModifier || 1.15;
+    let totalCost = 0;
+
+    // Calculate total cost for buying 5 buildings
+    for (let i = 0; i < 5; i++) {
+      totalCost += currentCost;
+      currentCost = Math.round(currentCost * costIncreaseModifier);
+    }
+
+    // Check if user has enough currency to buy 5 buildings
+    if (gameState.currency < totalCost) {
+      alert('Not enough currency to buy 5 of this building!');
+      return;
+    }
+
+    // Check if the player meets the level requirement to buy the building
+    const levelRequirement = buildingStats[buildingName]?.levelRequirement || 1;
+    if (gameState.level < levelRequirement) {
+      alert(`You need to be at least level ${levelRequirement} to buy this building!`);
+      return;
+    }
+
+    const newBuildings = {
+      ...buildings,
+      [buildingName]: {
+        count: currentCount + 5,
+        cost: currentCost,
+      },
+    };
+    setBuildings(newBuildings);
+
+    // Update gameState with new buildings object, deduct total cost, and add experience
+    const expReward = buildingStats[buildingName]?.expReward || 0;
+    setGameState((prevState) => ({
+      ...prevState,
+      currency: prevState.currency - totalCost,
+      buildings: newBuildings,
+      experience: prevState.experience + expReward * 5,
+    }));
+  };
+
   // Clear all buildings for development testing
   const clearAllBuildings = () => {
     console.log('Clearing all buildings for testing purposes');
@@ -147,7 +192,20 @@ function Buildings({ gameState, setGameState }) {
                 Next Cost: {cost.toLocaleString()} <br />
                 Level Requirement: {levelRequirement}
               </div>
-              <button onClick={() => addBuilding(building)} className={styles.buildingButton}>Buy</button>
+              <button 
+                onClick={() => addBuilding(building)} 
+                className={styles.buildingButton} 
+                disabled={gameState.currency < cost}
+              >
+                Buy
+              </button>
+              <button 
+                onClick={() => addFiveBuildings(building)} 
+                className={styles.buildingButton} 
+                disabled={gameState.currency < cost * 5}
+              >
+                Buy 5
+              </button>
             </div>
           );
         })}

@@ -37,11 +37,11 @@ function Home() {
     <div className="home">
       {userId ? (
         <>
-          <PlayerDetails player={gameState} setPlayer={setGameState} />
           <Logout setUserId={setUserId} />
-          <Currency gameState={gameState} setGameState={setGameState} />
           <GameSaves userId={userId} gameState={gameState} setGameState={setGameState} />
-          <LocationDetails currentLocation={currentLocationDetails} />
+          <Currency gameState={gameState} setGameState={setGameState} />
+          <PlayerDetails player={gameState} setPlayer={setGameState} />
+          <LocationDetails currentLocation={currentLocationDetails} player={gameState} setPlayer={setGameState} />
           <Buildings gameState={gameState} setGameState={setGameState} />
           <WorldMap gameState={gameState} setGameState={setGameState} />
           <Achievements gameState={gameState} setGameState={setGameState} userId={userId} />

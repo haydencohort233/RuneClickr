@@ -1,13 +1,18 @@
+// /src/components/locationdetails/locationDetails.js
 import React, { useState, useEffect } from 'react';
 import styles from './locationDetails.module.css';
 import featureRegistry from '../locationFeatures/featureRegistry';
 import features from '../worldmap/features.json';  // Import features.json
 import axios from 'axios';
+import Enemy from '../enemy/enemy';
+import Combat from '../combat/combat';
 
-function LocationDetails({ currentLocation }) {
+function LocationDetails({ currentLocation, player, setPlayer, onEnemyDefeat }) {
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [shopData, setShopData] = useState(null);
   const [inventory, setInventory] = useState([]);
+  const [inCombat, setInCombat] = useState(false);
+  const [currentEnemy, setCurrentEnemy] = useState(null);
 
   useEffect(() => {
     if (!selectedFeature) {
@@ -42,7 +47,7 @@ function LocationDetails({ currentLocation }) {
     return null;
   }
 
-  const { name, description, feature_ids = [], locationPhoto } = currentLocation;
+  const { name, description, feature_ids = [], locationPhoto, enemies = [] } = currentLocation;
 
   // Get the feature details based on feature_ids
   const availableFeatures = features.filter((feature) => feature_ids.includes(feature.id));
@@ -64,6 +69,26 @@ function LocationDetails({ currentLocation }) {
       ) : null;
     }
     return null;
+  };
+
+  const handleStartCombat = (enemy) => {
+    setInCombat(true);
+    setCurrentEnemy(enemy);
+  };
+
+  const handleCombatEnd = () => {
+    // Award experience to the player when the enemy is defeated
+    if (currentEnemy) {
+      const experienceGained = currentEnemy.experience || 0;
+      setPlayer((prevPlayer) => ({
+        ...prevPlayer,
+        experience: (prevPlayer.experience || 0) + experienceGained,
+      }));
+    }
+
+    setInCombat(false);
+    setCurrentEnemy(null);
+    if (onEnemyDefeat) onEnemyDefeat();
   };
 
   return (
@@ -109,6 +134,14 @@ function LocationDetails({ currentLocation }) {
       <div className={`${styles.featureDetailsContainer} ${selectedFeature ? styles.hasContent : ''}`}>
         {renderFeatureComponent()}
       </div>
+      {enemies.length > 0 && !inCombat && (
+        <div className={styles.enemiesContainer}>
+          <Enemy locationId={currentLocation.id} onStartCombat={handleStartCombat} />
+        </div>
+      )}
+      {inCombat && currentEnemy && (
+        <Combat enemy={currentEnemy} player={player} setPlayer={setPlayer} onCombatEnd={handleCombatEnd} />
+      )}
     </div>
   );
 }

@@ -41,17 +41,16 @@
 }
 
 .mapImage {
-  width: 90%;
+  width: 100%;
   height: auto;
-  max-width: 800px;
-  margin-bottom: 20px;
-  border-radius: 5px;
+  min-width: 400px;
+  margin-bottom: 10px;
 }
 
 .locationsContainer {
   position: relative;
-  width: 90%;
-  max-width: 800px;
+  width: 100%;
+  min-width: 400px;
   height: auto;
 }
 

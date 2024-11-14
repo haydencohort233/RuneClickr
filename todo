@@ -1,8 +1,18 @@
 - DB Table for all items in the game
 - DB Table for all monsters in the game
 
-- FIX IMAGES NOT LOADING (locationPhoto, item_photo, shop owner photo)
-
-
 - Damage can be taken from:
 Monsters, Traps, Random Events (You lost! -5 HP)
+
+
+
+- Draw how out you want your icons
+- Have 10 Buildings
+- Have 10 Achievements
+- Darken behind World Map Overlay
+
+
+- Monster .JSON Data (HP, Combat Level)
+- Random Hit Formula for Monster/Player
+- Inventory
+- Player Profile Page to see Cloud Saved Data & Local Saved Data (no editing) only viewing

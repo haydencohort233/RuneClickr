@@ -1,0 +1,22 @@
+{
+    "legendary": {
+        "name": "Legendary",
+        "levelMultiplier": 2,
+        "hpMultiplier": 10,
+        "damageMultiplier": 2,
+        "experienceMultiplier": 5,
+        "maxHitMultiplier": 2,
+        "attackPowerMultiplier": 2,
+        "defencePowerMultiplier": 2
+    },
+    "mythical": {
+        "name": "Mythical",
+        "levelMultiplier": 3,
+        "hpMultiplier": 20,
+        "damageMultiplier": 5,
+        "experienceMultiplier": 10,
+        "maxHitMultiplier": 3,
+        "attackPowerMultiplier": 3,
+        "defencePowerMultiplier": 3
+    }
+}
