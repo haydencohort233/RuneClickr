@@ -1,0 +1,16 @@
+{
+    "equipmentSlots": {
+      "head": { "x": 110, "y": 33, "width": 32, "height": 32 },
+      "neck": { "x": 110, "y": 98, "width": 32, "height": 32 },
+      "chest": { "x": 110, "y": 161, "width": 32, "height": 32 },
+      "legs": { "x": 110, "y": 226, "width": 32, "height": 32 },
+      "feet": { "x": 110, "y": 289, "width": 32, "height": 32 },
+      "fingers": [
+        { "x": 46, "y": 289, "width": 32, "height": 32 },
+        { "x": 174, "y": 289, "width": 32, "height": 32 }
+      ],
+      "gloves": { "x": 46, "y": 226, "width": 32, "height": 32 },
+      "primaryHand": { "x": 46, "y": 161, "width": 32, "height": 32 }
+    }
+  }
+  

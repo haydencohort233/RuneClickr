@@ -23,8 +23,8 @@ function PlayerDetails({ player, setPlayer }) {
           health: newLevelStats.health,
           attackPower: newLevelStats.attackPower,
           defencePower: newLevelStats.defencePower,
-          maxHitPoints: newLevelStats.health, // Update max hitpoints as well when leveling up
-          hitpoints: newLevelStats.health // Restore health to maximum on level up
+          maxHitPoints: newLevelStats.health, // Update max hitpoints when leveling up
+          hitpoints: newLevelStats.health // Restore health to max on level up
         }));
       }
     }

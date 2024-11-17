@@ -24,6 +24,16 @@ function GameSaves({ userId, gameState, setGameState }) {
       maxBankSpace: 50,
       currentLocation: 'spawn',
       travel_count: 0,
+      equipment: {
+        head: null,
+        neck: null,
+        chest: null,
+        legs: null,
+        feet: null,
+        fingers: [null, null],
+        gloves: null,
+        primaryHand: null,
+      },
       ...state,
     };
   };

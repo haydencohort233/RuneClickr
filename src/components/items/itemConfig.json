@@ -1,0 +1,158 @@
+{
+    "items": [
+      { 
+        "itemId": 1, 
+        "name": "Bronze Scythe", 
+        "image": "/weapons/bronze_scythe.png",
+        "description": "A standard bronze scythe used for farming or combat.",
+        "type": "weapon", 
+        "slot": "primaryHand", 
+        "attackBoost": 2,
+        "defenceBoost": 0,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 2, 
+        "name": "Iron Scythe", 
+        "image": "/weapons/iron_scythe.png",
+        "description": "An iron scythe with increased attack power.",
+        "type": "weapon", 
+        "slot": "primaryHand", 
+        "attackBoost": 4,
+        "defenceBoost": 0,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 4, 
+        "name": "Adamant Scythe", 
+        "image": "/weapons/adamant_scythe.png",
+        "description": "A powerful scythe made of adamant, for experienced warriors.",
+        "type": "weapon", 
+        "slot": "primaryHand", 
+        "attackBoost": 7,
+        "defenceBoost": 0,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 5, 
+        "name": "Rune Scythe", 
+        "image": "/weapons/rune_scythe.png",
+        "description": "A scythe made from rune, delivering a significant attack boost.",
+        "type": "weapon", 
+        "slot": "primaryHand", 
+        "attackBoost": 10,
+        "defenceBoost": 0,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 7, 
+        "name": "Grapes", 
+        "image": "/food/grapes.png",
+        "description": "Restores a small amount of health.",
+        "type": "food", 
+        "effect": { "heal": 4 },
+        "isUsable": true,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },        
+      { 
+        "itemId": 8, 
+        "name": "Health Potion", 
+        "image": "/potions/health_potion.png",
+        "description": "A potion that restores a significant amount of health.",
+        "type": "potion", 
+        "effect": { "heal": 20 },
+        "isUsable": true,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },        
+      { 
+        "itemId": 9, 
+        "name": "Quest Potion", 
+        "image": "/potions/health_potion.png",
+        "description": "A special potion used during a specific quest.",
+        "type": "quest",
+        "isUsable": false,
+        "isTradeable": false,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 10, 
+        "name": "Leather Helmet", 
+        "image": "/armor/leather_helmet.png",
+        "description": "A simple helmet made of leather, provides basic defence.",
+        "type": "armor", 
+        "slot": "head",
+        "defenceBoost": 5,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 11, 
+        "name": "Leather Boots", 
+        "image": "/armor/leather_boots.png",
+        "description": "Boots made of leather, providing some defensive capability.",
+        "type": "armor", 
+        "slot": "feet",
+        "defenceBoost": 10,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 12, 
+        "name": "Gold Ring", 
+        "image": "/jewelry/gold_ring.png",
+        "description": "A ring made of gold, provides a small attack boost.",
+        "type": "jewelry", 
+        "slot": "fingers",
+        "attackBoost": 1,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 13, 
+        "name": "Silver Ring", 
+        "image": "/jewelry/silver_ring.png",
+        "description": "A ring made of silver, provides a small attack boost.",
+        "type": "jewelry", 
+        "slot": "fingers",
+        "attackBoost": 1,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 14, 
+        "name": "Silver Necklace", 
+        "image": "/jewelry/silver_necklace.png",
+        "description": "A necklace made of silver, provides a small attack boost.",
+        "type": "jewelry", 
+        "slot": "neck",
+        "attackBoost": 1,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 15, 
+        "name": "Bones", 
+        "image": "/misc/bones.png",
+        "description": "A bone dropped by a skeleton. Can be used in crafting or rituals.",
+        "type": "material",
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": true
+      }
+    ]
+  }
