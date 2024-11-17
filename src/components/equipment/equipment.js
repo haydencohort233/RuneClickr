@@ -53,6 +53,20 @@ function Equipment({ gameState, setGameState }) {
     setIsOpen(!isOpen);
   };
 
+  // Helper function to add item to inventory, considering stacking and space limitations
+  const addItemToInventory = (inventory, item, maxInventorySpace) => {
+    const existingItemIndex = inventory.findIndex(i => i.itemId === item.itemId);
+
+    if (existingItemIndex >= 0 && inventory[existingItemIndex].quantity < 25) {
+      inventory[existingItemIndex].quantity += 1;
+    } else if (inventory.length < maxInventorySpace) {
+      inventory.push({ ...item, quantity: 1 });
+    } else {
+      alert('Inventory is full! Cannot unequip the item.');
+      throw new Error('Inventory is full.'); // Prevent further unequip if inventory is full
+    }
+  };
+
   // Function to unequip an item from a specific slot
   const handleUnequipItem = (slot, fingerIndex = null) => {
     setGameState((prevState) => {
@@ -61,12 +75,12 @@ function Equipment({ gameState, setGameState }) {
 
       if (slot === 'fingers' && fingerIndex !== null) {
         if (updatedEquipment.fingers[fingerIndex]) {
-          updatedInventory.push(updatedEquipment.fingers[fingerIndex]);
+          addItemToInventory(updatedInventory, updatedEquipment.fingers[fingerIndex], prevState.maxInventorySpace);
           updatedEquipment.fingers[fingerIndex] = null;
         }
       } else {
         if (updatedEquipment[slot]) {
-          updatedInventory.push(updatedEquipment[slot]);
+          addItemToInventory(updatedInventory, updatedEquipment[slot], prevState.maxInventorySpace);
           updatedEquipment[slot] = null;
         }
       }
@@ -153,8 +167,8 @@ function Equipment({ gameState, setGameState }) {
             <h3>Total Stats:</h3>
             <p>Attack Power: {gameState.attackPower || 0}</p>
             <p>Defence Power: {gameState.defencePower || 0}</p>
-            <p>Equipment Attack Bonus: {gameState.equipmentAttackPower || 0}</p>
-            <p>Equipment Defence Bonus: {gameState.equipmentDefencePower || 0}</p>
+            {gameState.equipmentAttackPower !== 0 && <p>Equipment Attack Bonus: {gameState.equipmentAttackPower}</p>}
+            {gameState.equipmentDefencePower !== 0 && <p>Equipment Defence Bonus: {gameState.equipmentDefencePower}</p>}
           </div>
         </div>
       )}

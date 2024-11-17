@@ -5,8 +5,8 @@ import itemConfig from '../items/itemConfig.json';
 
 function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [sortOption, setSortOption] = useState('rarity');
 
-  // Function to add a random item to inventory (for dev purposes)
   const handleAddRandomItem = () => {
     if (inventory.length >= maxInventorySpace) {
       alert('Inventory is full! Cannot add more items.');
@@ -26,7 +26,7 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
           updatedInventory.push({ ...randomItem, quantity: 1 });
         }
       } else {
-        if (existingItemIndex >= 0 && updatedInventory[existingItemIndex].quantity < 25) {
+        if (existingItemIndex >= 0 && updatedInventory[existingItemIndex].quantity < 65535) {
           updatedInventory[existingItemIndex].quantity += 1;
         } else if (existingItemIndex === -1) {
           updatedInventory.push({ ...randomItem, quantity: 1 });
@@ -61,20 +61,20 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
           const replacedItem = updatedEquipment.fingers[0];
           updatedEquipment.fingers[0] = item; // Replace first ring if both are occupied
           if (replacedItem) {
-            updatedInventory.push(replacedItem);
+            addItemToInventory(updatedInventory, replacedItem);
             console.log('Returned item to inventory:', replacedItem);
           }
         }
       } else if (slot === "neck") {
         // Equip to neck slot
         if (updatedEquipment.neck) {
-          updatedInventory.push(updatedEquipment.neck); // Return the previously equipped item to inventory
+          addItemToInventory(updatedInventory, updatedEquipment.neck); // Return the previously equipped item to inventory
           console.log('Returned item to inventory:', updatedEquipment.neck);
         }
         updatedEquipment.neck = item; // Equip the item
       } else {
         if (updatedEquipment[slot]) {
-          updatedInventory.push(updatedEquipment[slot]); // Return the previously equipped item to inventory
+          addItemToInventory(updatedInventory, updatedEquipment[slot]); // Return the previously equipped item to inventory
           console.log('Returned item to inventory:', updatedEquipment[slot]);
         }
         updatedEquipment[slot] = item; // Equip the item
@@ -90,6 +90,23 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
       console.log('Current equipment:', updatedEquipment);
       return { ...prevPlayer, inventory: updatedInventory, equipment: updatedEquipment };
     });
+  };
+
+  // Helper function to add item to inventory, considering stacking and space limitations
+  const addItemToInventory = (inventory, item) => {
+    const existingItemIndex = inventory.findIndex(i => i.itemId === item.itemId);
+
+    if (existingItemIndex >= 0 && inventory[existingItemIndex].quantity < 65535) {
+      inventory[existingItemIndex].quantity += 1;
+    } else if (existingItemIndex >= 0) {
+        // Stack the item if it already exists but the quantity is at max
+        inventory[existingItemIndex].quantity = Math.min(inventory[existingItemIndex].quantity + 1, 65535);
+    } else if (inventory.length < maxInventorySpace) {
+      inventory.push({ ...item, quantity: 1 });
+    } else {
+      alert('Inventory is full! Cannot unequip the item.');
+      throw new Error('Inventory is full.'); // Prevent further unequip if inventory is full
+    }
   };
 
   // Function to handle item actions from inventory
@@ -124,8 +141,8 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
           updatedPlayer.hitpoints = Math.min(updatedPlayer.maxHitPoints, updatedPlayer.hitpoints + item.effect.heal);
         } else if (item.type === "weapon" && item.attackBoost) {
           updatedPlayer.attackPower += item.attackBoost;
-        } else if (item.type === "armor" && item.defenseBoost) {
-          updatedPlayer.defencePower += item.defenseBoost;
+        } else if (item.type === "armor" && item.defenceBoost) {
+          updatedPlayer.defencePower += item.defenceBoost;
         }
       }
 
@@ -133,20 +150,49 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
     });
   };
 
+  // Sort inventory based on the selected sort option
+  const sortedInventory = [...inventory].sort((a, b) => {
+    const itemA = itemConfig.items.find(i => i.itemId === a.itemId);
+    const itemB = itemConfig.items.find(i => i.itemId === b.itemId);
+    if (!itemA || !itemB) return 0;
+
+    if (sortOption === 'rarity') {
+      const rarityOrder = ["common", "uncommon", "rare", "very rare", "mythical", "quest"];
+      return rarityOrder.indexOf(itemA.rarity) - rarityOrder.indexOf(itemB.rarity);
+    }
+
+    return 0;
+  });
+
   return (
     <div className={styles.inventoryContainer}>
       <button onClick={handleAddRandomItem} className={styles.devButton}>Add Random Item (Dev)</button>
+      <div className={styles.sortOptions}>
+        <label htmlFor="sort">Sort by:</label>
+        <select id="sort" value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+          <option value="default">Default</option>
+          <option value="rarity">Rarity</option>
+        </select>
+      </div>
       {inventory.length === 0 ? (
         <p>Your inventory is empty.</p>
       ) : (
         <div className={styles.inventoryGrid}>
-          {inventory.map((item, index) => {
+          {sortedInventory.map((item, index) => {
             const itemData = itemConfig.items.find(i => i.itemId === item.itemId);
             if (!itemData) return null;
+            const rarityClass = {
+              "common": styles.common,
+              "uncommon": styles.uncommon,
+              "rare": styles.rare,
+              "very rare": styles.veryRare,
+              "mythical": styles.mythical,
+              "quest": styles.quest
+            };
             return (
               <div 
                 key={index} 
-                className={styles.inventoryItem}
+                className={`${styles.inventoryItem} ${rarityClass[itemData.rarity]}`}
                 onMouseEnter={() => setHoveredItem(itemData)}
                 onMouseLeave={() => setHoveredItem(null)}
               >
@@ -198,8 +244,8 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
                   <div className={styles.tooltip}>
                     <p><strong>{hoveredItem.name}</strong></p>
                     <p>{hoveredItem.description}</p>
-                    {hoveredItem.attackBoost && <p>Attack Boost: {hoveredItem.attackBoost}</p>}
-                    {hoveredItem.defenseBoost && <p>Defense Boost: {hoveredItem.defenseBoost}</p>}
+                    {hoveredItem.attackBoost !== undefined && hoveredItem.attackBoost !== 0 && <p>Attack Boost: {hoveredItem.attackBoost}</p>}
+                    {hoveredItem.defenceBoost !== undefined && hoveredItem.defenceBoost !== 0 && <p>Defence Boost: {hoveredItem.defenceBoost}</p>}
                     {hoveredItem.effect && hoveredItem.effect.heal && <p>Heal: {hoveredItem.effect.heal}</p>}
                   </div>
                 )}

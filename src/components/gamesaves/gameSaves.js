@@ -19,7 +19,7 @@ function GameSaves({ userId, gameState, setGameState }) {
       attackPower: 10,
       defencePower: 5,
       inventory: [],
-      maxInventorySpace: 10,
+      maxInventorySpace: 30,
       bank: [],
       maxBankSpace: 50,
       currentLocation: 'spawn',

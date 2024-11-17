@@ -6,6 +6,7 @@ import features from '../worldmap/features.json';  // Import features.json
 import axios from 'axios';
 import Enemy from '../enemy/enemy';
 import Combat from '../combat/combat';
+import getDropItems from '../drops/getDropItems'; // Assuming we create a helper function for drops
 
 function LocationDetails({ currentLocation, player, setPlayer, onEnemyDefeat }) {
   const [selectedFeature, setSelectedFeature] = useState(null);
@@ -84,6 +85,26 @@ function LocationDetails({ currentLocation, player, setPlayer, onEnemyDefeat }) 
         ...prevPlayer,
         experience: (prevPlayer.experience || 0) + experienceGained,
       }));
+
+      // Generate loot from the defeated enemy
+      const droppedItems = getDropItems(currentEnemy.type);
+      setPlayer((prevPlayer) => {
+        let updatedInventory = [...prevPlayer.inventory];
+
+        droppedItems.forEach((item) => {
+          const existingItemIndex = updatedInventory.findIndex(i => i.itemId === item.itemId);
+          if (existingItemIndex >= 0 && updatedInventory[existingItemIndex].quantity < 25) {
+            updatedInventory[existingItemIndex].quantity += item.quantity;
+          } else if (updatedInventory.length < prevPlayer.maxInventorySpace) {
+            updatedInventory.push({ ...item, quantity: item.quantity });
+          }
+        });
+
+        return {
+          ...prevPlayer,
+          inventory: updatedInventory,
+        };
+      });
     }
 
     setInCombat(false);
