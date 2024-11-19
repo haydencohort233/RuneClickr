@@ -1,0 +1,45 @@
+/* /components/ui/ui.module.css */
+
+.uiContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000; /* Ensures the buttons stay on top of other elements */
+}
+
+.uiButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.uiButton:hover {
+  background-color: #0056b3;
+}
+
+.uiButton:active {
+  background-color: #004494;
+}
+
+.inventoryOverlay {
+  position: fixed;
+  top: 0;
+  left: 0; /* Slide in from left */
+  height: 100%;
+  width: 30%;
+  background-color: #ffffff;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+  transition: left 0.3s ease;
+  z-index: 999;
+}
+
+.inventoryOverlay.open {
+  left: 0; /* Slide into view */
+}

@@ -1,11 +1,14 @@
 // /components/inventory/inventory.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './inventory.module.css';
 import itemConfig from '../items/itemConfig.json';
 
 function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
   const [hoveredItem, setHoveredItem] = useState(null);
   const [sortOption, setSortOption] = useState('rarity');
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [dropItem, setDropItem] = useState(null);
 
   const handleAddRandomItem = () => {
     if (inventory.length >= maxInventorySpace) {
@@ -92,6 +95,43 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
     });
   };
 
+  // Tooltip Position Logic
+  const getTooltipPosition = (element) => {
+    if (!element) return { top: '100%', left: '50%', transform: 'translateX(-50%)' };
+
+    const rect = element.getBoundingClientRect();
+    const containerRect = element.closest(`.${styles.inventoryContainer}`).getBoundingClientRect();
+    const tooltipHeight = 60; // Estimated tooltip height
+    const tooltipWidth = 150; // Estimated tooltip width
+    const spaceBelow = containerRect.bottom - rect.bottom;
+    const spaceRight = containerRect.right - rect.right;
+    const spaceLeft = rect.left - containerRect.left;
+
+    let position = {};
+
+    // Determine vertical position
+    if (spaceBelow >= tooltipHeight) {
+      position = { top: '100%', left: '50%', transform: 'translateX(-50%)' };
+    } else {
+      position = { bottom: '110%', left: '50%', transform: 'translateX(-50%)' };
+    }
+
+    // Adjust horizontal position if tooltip is going off the container on the left side
+    if (spaceLeft < tooltipWidth / 2) {
+      position.left = '0';
+      position.transform = 'translateX(10%)';
+    }
+
+    // Ensure tooltip does not get cut off on the right side
+    if (spaceRight < tooltipWidth / 2) {
+      position.left = 'auto';
+      position.right = '0';
+      position.transform = 'translateX(-10%)';
+    }
+
+    return position;
+  };
+
   // Helper function to add item to inventory, considering stacking and space limitations
   const addItemToInventory = (inventory, item) => {
     const existingItemIndex = inventory.findIndex(i => i.itemId === item.itemId);
@@ -114,6 +154,12 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
     const item = itemConfig.items.find((i) => i.itemId === itemId);
     if (!item) return;
 
+    if (action === 'drop') {
+      setDropItem(item);
+      setSelectedItem(item);
+      return;
+    }
+
     setPlayer((prevPlayer) => {
       let updatedInventory = [...prevPlayer.inventory];
       const itemIndex = updatedInventory.findIndex(i => i.itemId === itemId);
@@ -123,9 +169,7 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
           return prevPlayer;
         }
 
-        if (action === "drop") {
-          updatedInventory.splice(itemIndex, 1);
-        } else if (action === "use" && updatedInventory[itemIndex].quantity > 1) {
+        if (action === "use" && updatedInventory[itemIndex].quantity > 1) {
           updatedInventory[itemIndex].quantity -= 1;
         } else if (action === "use") {
           updatedInventory.splice(itemIndex, 1);
@@ -148,6 +192,27 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
 
       return updatedPlayer;
     });
+  };
+
+  // Function to drop a specific quantity of an item
+  const handleDropQuantity = (quantity) => {
+    if (!dropItem) return;
+
+    setPlayer((prevPlayer) => {
+      let updatedInventory = [...prevPlayer.inventory];
+      const itemIndex = updatedInventory.findIndex(i => i.itemId === dropItem.itemId);
+      if (itemIndex >= 0) {
+        if (quantity >= updatedInventory[itemIndex].quantity) {
+          updatedInventory.splice(itemIndex, 1);
+        } else {
+          updatedInventory[itemIndex].quantity -= quantity;
+        }
+      }
+
+      return { ...prevPlayer, inventory: updatedInventory };
+    });
+    setDropItem(null);
+    setSelectedItem(null);
   };
 
   // Sort inventory based on the selected sort option
@@ -193,62 +258,77 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace }) {
               <div 
                 key={index} 
                 className={`${styles.inventoryItem} ${rarityClass[itemData.rarity]}`}
-                onMouseEnter={() => setHoveredItem(itemData)}
+                onMouseEnter={(e) => setHoveredItem({ itemData, position: getTooltipPosition(e.currentTarget) })}
                 onMouseLeave={() => setHoveredItem(null)}
+                onClick={() => setSelectedItem(selectedItem === item ? null : item)}
               >
-                <img src={`http://localhost:5000/assets/images/items/${itemData.image}`} alt={itemData.name} className={styles.itemImage} />
-                <p>{itemData.name} (x{item.quantity})</p>
-                
-                {itemData.type === "weapon" && (
-                  <>
-                    <button onClick={() => handleEquipItem(item)}>Equip</button>
-                    <button onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
-                  </>
-                )}
-
-                {itemData.type === "armor" && (
-                  <>
-                    <button onClick={() => handleEquipItem(item)}>Equip</button>
-                    <button onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
-                  </>
-                )}
-
-                {itemData.type === "jewelry" && (
-                  <>
-                    <button onClick={() => handleEquipItem(item)}>Equip</button>
-                    <button onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
-                  </>
-                )}
-
-                {itemData.type === "food" && (
-                  <>
-                    <button onClick={() => handleItemAction(item.itemId, 'use')}>Eat</button>
-                    <button onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
-                  </>
-                )}
-                
-                {itemData.type === "potion" && (
-                  <>
-                    <button onClick={() => handleItemAction(item.itemId, 'use')}>Drink</button>
-                    <button onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
-                  </>
-                )}
-                
-                {itemData.type === "quest" ? (
-                  <button>Quest Item</button>
-                ) : (itemData.type !== "weapon" && itemData.type !== "armor" && itemData.type !== "food" && itemData.type !== "potion" && itemData.type !== "jewelry") && (
-                  <button onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
-                )}
-
-                {hoveredItem && hoveredItem.itemId === item.itemId && (
-                  <div className={styles.tooltip}>
-                    <p><strong>{hoveredItem.name}</strong></p>
-                    <p>{hoveredItem.description}</p>
-                    {hoveredItem.attackBoost !== undefined && hoveredItem.attackBoost !== 0 && <p>Attack Boost: {hoveredItem.attackBoost}</p>}
-                    {hoveredItem.defenceBoost !== undefined && hoveredItem.defenceBoost !== 0 && <p>Defence Boost: {hoveredItem.defenceBoost}</p>}
-                    {hoveredItem.effect && hoveredItem.effect.heal && <p>Heal: {hoveredItem.effect.heal}</p>}
+                {dropItem && dropItem.itemId === item.itemId ? (
+                  <div className={styles.dropOptions}>
+                    <p>Drop {dropItem.name} (x{inventory.find(i => i.itemId === dropItem.itemId)?.quantity || 1})</p>
+                    <button className={styles.dropOneButton} onClick={() => handleDropQuantity(1)}>Drop 1</button>
+                    <button className={styles.dropXButton} onClick={() => handleDropQuantity(prompt('Enter quantity to drop:', '1'))}>Drop X</button>
+                    <button className={styles.dropAllButton} onClick={() => handleDropQuantity(inventory.find(i => i.itemId === dropItem.itemId)?.quantity || 1)}>Drop All</button>
+                    <button className={styles.cancelButton} onClick={() => { setDropItem(null); setSelectedItem(null); }}>Cancel</button>
                   </div>
+                ) : (
+                  <>
+                    <img src={`http://localhost:5000/assets/images/items/${itemData.image}`} alt={itemData.name} className={styles.itemImage} />
+                    <p>{itemData.name} (x{item.quantity})</p>
+                    {selectedItem && selectedItem.itemId === item.itemId && !dropItem && (
+                      <div>
+                        {itemData.type === "weapon" && (
+                          <>
+                            <button className={styles.equipButton} onClick={() => handleEquipItem(item)}>Equip</button>
+                            <button className={styles.dropButton} onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
+                          </>
+                        )}
+
+                        {itemData.type === "armor" && (
+                          <>
+                            <button className={styles.equipButton} onClick={() => handleEquipItem(item)}>Equip</button>
+                            <button className={styles.dropButton} onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
+                          </>
+                        )}
+
+                        {itemData.type === "jewelry" && (
+                          <>
+                            <button className={styles.equipButton} onClick={() => handleEquipItem(item)}>Equip</button>
+                            <button className={styles.dropButton} onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
+                          </>
+                        )}
+
+                        {itemData.type === "food" && (
+                          <>
+                            <button className={styles.eatButton} onClick={() => handleItemAction(item.itemId, 'use')}>Eat</button>
+                            <button className={styles.dropButton} onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
+                          </>
+                        )}
+                        
+                        {itemData.type === "potion" && (
+                          <>
+                            <button className={styles.drinkButton} onClick={() => handleItemAction(item.itemId, 'use')}>Drink</button>
+                            <button className={styles.dropButton} onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
+                          </>
+                        )}
+                        
+                        {itemData.type === "quest" ? (
+                          <button className={styles.questButton}>Quest Item</button>
+                        ) : (itemData.type !== "weapon" && itemData.type !== "armor" && itemData.type !== "food" && itemData.type !== "potion" && itemData.type !== "jewelry") && (
+                          <button className={styles.dropButton} onClick={() => handleItemAction(item.itemId, 'drop')}>Drop</button>
+                        )}
+                      </div>
+                    )}
+                  </>
                 )}
+                {hoveredItem && hoveredItem.itemData.itemId === item.itemId && (
+                      <div className={styles.tooltip} style={hoveredItem.position}>
+                        <p><strong>{hoveredItem.itemData.name}</strong></p>
+                        <p>{hoveredItem.itemData.description}</p>
+                        {hoveredItem.itemData.attackBoost !== undefined && hoveredItem.itemData.attackBoost !== 0 && <p>Attack Boost: {hoveredItem.itemData.attackBoost}</p>}
+                        {hoveredItem.itemData.defenceBoost !== undefined && hoveredItem.itemData.defenceBoost !== 0 && <p>Defence Boost: {hoveredItem.itemData.defenceBoost}</p>}
+                        {hoveredItem.itemData.effect && hoveredItem.itemData.effect.heal && <p>Heal: {hoveredItem.itemData.effect.heal}</p>}
+                      </div>
+                    )}
               </div>
             );
           })}

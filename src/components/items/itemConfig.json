@@ -42,7 +42,7 @@
       { 
         "itemId": 5, 
         "name": "Rune Scythe",
-        "rarity": "uncommon",
+        "rarity": "rare",
         "image": "/weapons/rune_scythe.png",
         "description": "A scythe made from rune, delivering a significant attack boost.",
         "type": "weapon", 

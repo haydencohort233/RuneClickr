@@ -12,6 +12,7 @@ import LocationDetails from '../components/locationdetails/locationDetails';
 import Equipment from '../components/equipment/equipment';
 import Inventory from '../components/inventory/inventory';
 import worldLocations from '../components/worldmap/worldLocations.json';
+import UI from '../components/ui/ui';
 
 function Home() {
   // Initial gameState values and arrays
@@ -49,16 +50,22 @@ function Home() {
     (location) => location.id === gameState.currentLocation
   );
 
+  //          <Inventory inventory={gameState.inventory} setPlayer={setGameState} maxInventorySpace={gameState.maxInventorySpace} />
+
   return (
     <div className="home">
       {userId ? (
         <>
+          <UI 
+            inventory={gameState.inventory} 
+            setPlayer={setGameState} 
+            maxInventorySpace={gameState.maxInventorySpace}
+          />
           <Logout setUserId={setUserId} />
           <GameSaves userId={userId} gameState={gameState} setGameState={setGameState} />
           <Currency gameState={gameState} setGameState={setGameState} />
           <PlayerDetails player={gameState} setPlayer={setGameState} />
           <Equipment gameState={gameState} setGameState={setGameState} />
-          <Inventory inventory={gameState.inventory} setPlayer={setGameState} maxInventorySpace={gameState.maxInventorySpace} />
           <LocationDetails currentLocation={currentLocationDetails} player={gameState} setPlayer={setGameState} />
           <Buildings gameState={gameState} setGameState={setGameState} />
           <WorldMap gameState={gameState} setGameState={setGameState} />
