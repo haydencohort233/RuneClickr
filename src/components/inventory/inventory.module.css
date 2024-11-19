@@ -6,13 +6,16 @@
   padding: 10px; /* Minimal padding for mobile */
   background-color: #f5f5f5;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  height: 100%;
-  width: 100%;
+  overflow-y: scroll;
+  max-width: 100%;
+  min-width: 220px;
+  height: 98%;
 }
 
 @media (min-width: 768px) {
   .inventoryContainer {
+    max-width: 100%;
+    min-width: 220px;
     padding: 20px; /* More padding for desktop */
   }
 }
@@ -45,17 +48,17 @@
   width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1128px) {
   .inventoryGrid {
-    grid-template-columns: repeat(3, 1fr); /* 4 items per row for tablet view */
+    grid-template-columns: repeat(2, 1fr); /* 3 items per row for tablet view */
     gap: 10px; /* More gap for tablet */
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1624px) {
   .inventoryGrid {
-    grid-template-columns: repeat(3, 1fr); /* 6 items per row for desktop view */
-    gap: 20px; /* More gap for desktop */
+    grid-template-columns: repeat(3, 1fr); /* 3 items per row for desktop view */
+    
   }
 }
 
@@ -74,7 +77,7 @@
 
 @media (min-width: 768px) {
   .inventoryItem {
-    padding: 15px; /* More padding for desktop */
+
   }
 }
 

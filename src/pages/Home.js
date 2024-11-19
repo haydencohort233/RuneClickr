@@ -51,7 +51,8 @@ function Home() {
   );
 
   //          <Inventory inventory={gameState.inventory} setPlayer={setGameState} maxInventorySpace={gameState.maxInventorySpace} />
-
+  //          <Equipment gameState={gameState} setGameState={setGameState} />
+  //          <WorldMap gameState={gameState} setGameState={setGameState} />
   return (
     <div className="home">
       {userId ? (
@@ -60,15 +61,15 @@ function Home() {
             inventory={gameState.inventory} 
             setPlayer={setGameState} 
             maxInventorySpace={gameState.maxInventorySpace}
+            gameState={gameState} 
+            setGameState={setGameState}
           />
           <Logout setUserId={setUserId} />
           <GameSaves userId={userId} gameState={gameState} setGameState={setGameState} />
           <Currency gameState={gameState} setGameState={setGameState} />
           <PlayerDetails player={gameState} setPlayer={setGameState} />
-          <Equipment gameState={gameState} setGameState={setGameState} />
           <LocationDetails currentLocation={currentLocationDetails} player={gameState} setPlayer={setGameState} />
           <Buildings gameState={gameState} setGameState={setGameState} />
-          <WorldMap gameState={gameState} setGameState={setGameState} />
           <Achievements gameState={gameState} setGameState={setGameState} userId={userId} />
         </>
       ) : (
