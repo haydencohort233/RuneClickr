@@ -34,10 +34,10 @@
     border: 2px solid #333;
     padding: 20px;
   }
-  
+
   .equipmentSlotsImage {
-    max-width: 100%;
-    height: auto;
+    width: 192px;
+    height: 320px;
     z-index: 1;
   }
   
@@ -47,6 +47,7 @@
     border: 2px dashed #666;
     border-radius: 10%;
     background-color: rgba(255, 255, 255, 0.5);
+    box-sizing: border-box; /* Ensure border is included in width/height calculations */
   }
   
   .equipmentImage {

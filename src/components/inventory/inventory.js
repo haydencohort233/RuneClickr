@@ -77,7 +77,7 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
       const equipmentSlot = item.slot;
       let updatedEquipment = { ...prevState.equipment };
       let updatedInventory = [...prevState.inventory];
-
+  
       // Remove the item from inventory
       const itemIndex = updatedInventory.findIndex((i) => i.itemId === item.itemId);
       if (itemIndex > -1) {
@@ -87,28 +87,40 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
           updatedInventory.splice(itemIndex, 1);
         }
       }
-
-    // Equip the item in the appropriate slot
-    if (equipmentSlot === 'fingers') {
-      const emptyFingerSlot = updatedEquipment.fingers.findIndex((finger) => finger === null);
-      if (emptyFingerSlot !== -1) {
-        updatedEquipment.fingers[emptyFingerSlot] = item;
-      } else {
-        alert('No available finger slot to equip this item.');
-        return prevState;
-      }
-    } else {
-      if (updatedEquipment[equipmentSlot]) {
-        // Unequip current item and add back to inventory
-        if (updatedInventory.length >= maxInventorySpace) {
-          alert('Inventory is full! Cannot unequip this item.');
+  
+      // Equip the item in the appropriate slot
+      if (equipmentSlot === 'fingers') {
+        const emptyFingerSlot = updatedEquipment.fingers.findIndex((finger) => finger === null);
+        if (emptyFingerSlot !== -1) {
+          updatedEquipment.fingers[emptyFingerSlot] = item;
+        } else {
+          alert('No available finger slot to equip this item.');
           return prevState;
         }
-        updatedInventory.push({ ...updatedEquipment[equipmentSlot], quantity: 1 });
+      } else if (equipmentSlot === 'leftGlove' || equipmentSlot === 'rightGlove' || equipmentSlot === 'offHand') {
+        // For leftGlove, rightGlove, and offHand slots
+        if (updatedEquipment[equipmentSlot]) {
+          // Unequip current item and add back to inventory
+          if (updatedInventory.length >= maxInventorySpace) {
+            alert('Inventory is full! Cannot unequip this item.');
+            return prevState;
+          }
+          updatedInventory.push({ ...updatedEquipment[equipmentSlot], quantity: 1 });
+        }
+        updatedEquipment[equipmentSlot] = item;
+      } else {
+        // For other slots
+        if (updatedEquipment[equipmentSlot]) {
+          // Unequip current item and add back to inventory
+          if (updatedInventory.length >= maxInventorySpace) {
+            alert('Inventory is full! Cannot unequip this item.');
+            return prevState;
+          }
+          updatedInventory.push({ ...updatedEquipment[equipmentSlot], quantity: 1 });
+        }
+        updatedEquipment[equipmentSlot] = item;
       }
-      updatedEquipment[equipmentSlot] = item;
-    }
-
+  
       return {
         ...prevState,
         equipment: updatedEquipment,

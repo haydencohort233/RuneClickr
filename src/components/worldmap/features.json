@@ -6,6 +6,13 @@
       "description": "A magical shop run by Aggie.",
       "component": "MagicShop",
       "shopId": 2
+    },
+    {
+      "id": "local_bank",
+      "name": "Local Bank",
+      "type": "bank",
+      "description": "A place to store and manage your items safely.",
+      "component": "Banking"
     }
   ]
   

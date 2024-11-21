@@ -5,6 +5,7 @@
       "description": "Lumbridge Castle, aah no place like home..",
       "coordinates": { "top": "-110px", "left": "240px" },
       "travelTime": 5,
+      "feature_ids": ["local_bank"],
       "locationPhoto": "lumbridge_castle.png"
     },
     {
@@ -37,7 +38,7 @@
       "description": "An ominous fishing village with a light layer of fog, the mood seems dull. Where is everybody?",
       "coordinates": { "top": "-200px", "left": "80px" },
       "travelTime": 5,
-      "feature_ids": ["aggie_magic_shop"],
+      "feature_ids": ["aggie_magic_shop", "local_bank"],
       "locationPhoto": "draynor_village.png"
     }    
   ]

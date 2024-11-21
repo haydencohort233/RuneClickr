@@ -55,6 +55,7 @@ function Home() {
   //          <Inventory inventory={gameState.inventory} setPlayer={setGameState} maxInventorySpace={gameState.maxInventorySpace} />
   //          <Equipment gameState={gameState} setGameState={setGameState} />
   //          <WorldMap gameState={gameState} setGameState={setGameState} />
+  //          <Banking gameState={gameState} setGameState={setGameState} />
   return (
     <div className="home">
       {userId ? (
@@ -67,7 +68,6 @@ function Home() {
             setGameState={setGameState}
           />
           <Logout setUserId={setUserId} />
-          <Banking gameState={gameState} setGameState={setGameState} />
           <GameSaves userId={userId} gameState={gameState} setGameState={setGameState} />
           <Currency gameState={gameState} setGameState={setGameState} />
           <PlayerDetails player={gameState} setPlayer={setGameState} />

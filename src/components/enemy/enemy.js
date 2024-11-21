@@ -53,7 +53,7 @@ const Enemy = ({ locationId, onStartCombat }) => {
     };
 
     return (
-        <div className={styles.enemyContainer}>
+        <div className={styles['enemy-container']}>
             {enemies.map((enemy, index) => (
                 <div key={index} className={styles.enemy}>
                     <h3>{enemy.type}</h3>
@@ -68,6 +68,7 @@ const Enemy = ({ locationId, onStartCombat }) => {
             ))}
         </div>
     );
+    
 };
 
 export default Enemy;

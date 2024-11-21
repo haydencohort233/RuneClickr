@@ -66,6 +66,8 @@ function LocationDetails({ currentLocation, player, setPlayer, onEnemyDefeat }) 
           shopId={selectedFeature.shopId}
           shopData={shopData}
           inventory={inventory}
+          gameState={player} // Pass gameState for Banking Component
+          setGameState={setPlayer} // Pass setGameState for Banking Component
         />
       ) : null;
     }

@@ -1,10 +1,8 @@
-/* /components/enemy/enemy.module.css */
-
 .enemy-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Default to 3 columns */
     gap: 16px;
-    justify-content: center;
+    justify-items: center; /* Align items in the center of each cell */
     margin-top: 20px;
 }
 
@@ -13,13 +11,13 @@
     border-radius: 8px;
     padding: 16px;
     text-align: center;
-    width: 200px;
+    width: 155px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
 }
 
 .enemy img {
-    max-width: 100%;
+    max-width: 50%;
     height: auto;
     border-radius: 4px;
     margin-bottom: 12px;
@@ -28,4 +26,11 @@
 .special-tag {
     font-weight: bold;
     color: #d9534f;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 635px) {
+    .enemy-container {
+        grid-template-columns: repeat(2, 1fr); /* Change to 2 columns on smaller screens */
+    }
 }

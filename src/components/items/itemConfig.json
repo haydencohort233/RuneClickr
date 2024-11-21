@@ -238,7 +238,7 @@
         "image": "/armor/wooden_shield.png",
         "description": "A shield is nothing without its plank.",
         "type": "armor", 
-        "slot": "feet",
+        "slot": "offHand",
         "defenceBoost": 10,
         "isUsable": false,
         "isTradeable": true,
@@ -307,31 +307,31 @@
         "isTradeable": true,
         "isCraftingMaterial": false
       },
-      { 
-        "itemId": 28, 
+      {
+        "itemId": 28,
         "name": "Leather Glove (Left)",
         "rarity": "common",
         "image": "/armor/leather_glove_left.png",
-        "description": "Boots made of leather, providing some defensive capability.",
-        "type": "armor", 
-        "slot": "gloves",
+        "description": "A glove made of leather, providing some defensive capability for the left hand.",
+        "type": "armor",
+        "slot": "leftGlove",
         "defenceBoost": 1,
         "isUsable": false,
         "isTradeable": true,
         "isCraftingMaterial": false
       },
-      { 
-        "itemId": 29, 
+      {
+        "itemId": 29,
         "name": "Leather Glove (Right)",
         "rarity": "common",
         "image": "/armor/leather_glove_right.png",
-        "description": "Boots made of leather, providing some defensive capability.",
-        "type": "armor", 
-        "slot": "gloves",
+        "description": "A glove made of leather, providing some defensive capability for the right hand.",
+        "type": "armor",
+        "slot": "rightGlove",
         "defenceBoost": 10,
         "isUsable": false,
         "isTradeable": true,
         "isCraftingMaterial": false
-      }
+      }      
     ]
   }

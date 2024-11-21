@@ -270,8 +270,13 @@ function Banking({ gameState, setGameState }) {
     </div>
       ) : (
         <div className={styles.bankingContainer}>
-          <h2 className={styles.bankingTitle}>Bank Locked</h2>
-          <p>You need to purchase the Bank building to use this feature.</p>
+            <img
+                src="http://localhost:5000/assets/images/icons/bank_icon.png"
+                alt="Bank Icon"
+                className={styles.bankIcon}
+            />
+            <h2 className={styles.bankingTitle}>Bank Locked</h2>
+            <p>You need to purchase the Bank building to use this feature.</p>
         </div>
       );
 }
