@@ -197,6 +197,141 @@
         "isUsable": true,
         "isTradeable": true,
         "isCraftingMaterial": false
-      }      
+      },
+      { 
+        "itemId": 19, 
+        "name": "Empty Vial",
+        "rarity": "common",
+        "image": "/material/empty_vial.png",
+        "description": "Do you see it as empty or waiting to be filled?",
+        "type": "material",
+        "isUsable": true,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 20, 
+        "name": "Mana Potion",
+        "rarity": "uncommon",
+        "image": "/potions/mana_potion.png",
+        "description": "A potion that restores a significant amount of mana.",
+        "type": "material",
+        "isUsable": true,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 21, 
+        "name": "Mushrooms",
+        "rarity": "common",
+        "image": "/material/mushrooms.png",
+        "description": "Smelly. Why did I pick this up again?",
+        "type": "material",
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": true
+      },
+      { 
+        "itemId": 22, 
+        "name": "Wooden Shield",
+        "rarity": "uncommon",
+        "image": "/armor/wooden_shield.png",
+        "description": "A shield is nothing without its plank.",
+        "type": "armor", 
+        "slot": "feet",
+        "defenceBoost": 10,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 23, 
+        "name": "Staff",
+        "rarity": "uncommon",
+        "image": "/weapons/air_staff.png",
+        "description": "A shield is nothing without its plank.",
+        "type": "armor", 
+        "slot": "primaryHand",
+        "attackBoost": 10,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 24, 
+        "name": "Empty Bucket",
+        "rarity": "common",
+        "image": "/material/empty_bucket.png",
+        "description": "An empty bucket. Maybe we can fill this?",
+        "type": "material",
+        "isUsable": true,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 25, 
+        "name": "Ruby Ring",
+        "rarity": "uncommon",
+        "image": "/jewelry/ruby_ring.png",
+        "description": "A ring made of gold, provides a small attack boost.",
+        "type": "jewelry", 
+        "slot": "fingers",
+        "attackBoost": 1,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 26, 
+        "name": "Emerald Ring",
+        "rarity": "uncommon",
+        "image": "/jewelry/emerald_ring.png",
+        "description": "A ring made of gold, provides a small attack boost.",
+        "type": "jewelry", 
+        "slot": "fingers",
+        "attackBoost": 1,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 27, 
+        "name": "Sapphire Ring",
+        "rarity": "uncommon",
+        "image": "/jewelry/sapphire_ring.png",
+        "description": "A ring made of gold, provides a small attack boost.",
+        "type": "jewelry", 
+        "slot": "fingers",
+        "attackBoost": 1,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 28, 
+        "name": "Leather Glove (Left)",
+        "rarity": "common",
+        "image": "/armor/leather_glove_left.png",
+        "description": "Boots made of leather, providing some defensive capability.",
+        "type": "armor", 
+        "slot": "gloves",
+        "defenceBoost": 1,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      },
+      { 
+        "itemId": 29, 
+        "name": "Leather Glove (Right)",
+        "rarity": "common",
+        "image": "/armor/leather_glove_right.png",
+        "description": "Boots made of leather, providing some defensive capability.",
+        "type": "armor", 
+        "slot": "gloves",
+        "defenceBoost": 10,
+        "isUsable": false,
+        "isTradeable": true,
+        "isCraftingMaterial": false
+      }
     ]
   }

@@ -46,6 +46,14 @@
       "conditionType": "travel-based",
       "threshold": 5,
       "expReward": 50
-    }       
+    },
+    {
+      "id": "buy_bank",
+      "name": "Financial Independence",
+      "description": "Purchase the 'Bank' building.",
+      "conditionType": "specific-building",
+      "buildingName": "Bank",
+      "expReward": 75
+    }
   ]
   

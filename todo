@@ -1,5 +1,18 @@
-- Damage can be taken from:
-Monsters, Traps, Random Events (You lost! -5 HP)
+- Rearranging Inventories (Remove sorting or add a "Manual" sort mode when interacted with)
+- Bank and Click to Drop to add to Banks
+- Equip / Drop options in Inventory should go away after 5-10secs if no option is chosen
+
+
+- Equipment Equipped Photo UI should be centered down more in current state
+- Fix Enemies CSS to spawn in columns 
+
+
+
+
+
+
+
+
 
 
 

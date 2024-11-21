@@ -1,0 +1,7 @@
+{
+    "initialBankSpaces": 30,
+    "maxBankSpaces": 1000,
+    "initialCost": 25000,
+    "costIncrementMultiplier": 1.8
+  }
+  

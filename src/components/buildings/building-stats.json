@@ -34,5 +34,14 @@
     "costIncreaseModifier": 1.5,
     "expReward": 100,
     "levelRequirement": 7
+  },
+  "Bank": {
+    "cost": 2000,
+    "income": 5,
+    "description": "A place to safely store and manage items.",
+    "incomeInterval": 1000,
+    "costIncreaseModifier": 1.35,
+    "expReward": 100,
+    "levelRequirement": 3
   }
 }

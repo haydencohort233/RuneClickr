@@ -34,6 +34,8 @@ function UI({ inventory, setPlayer, maxInventorySpace, gameState, setGameState }
             inventory={inventory} 
             setPlayer={setPlayer} 
             maxInventorySpace={maxInventorySpace} 
+            gameState={gameState}
+            setGameState={setGameState}
           />
         </div>
       )}

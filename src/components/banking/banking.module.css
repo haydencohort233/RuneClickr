@@ -1,0 +1,207 @@
+/* /components/banking/banking.module.css */
+
+.bankingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .bankingTitle,
+  .inventoryTitle {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+  }
+  
+  .bankingSlots,
+  .inventorySlots {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    width: 100%;
+    max-width: 600px;
+    justify-items: center;
+  }
+  
+  .bankSlot,
+  .inventorySlot {
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  
+  .bankSlot:hover,
+  .inventorySlot:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .bankSlot img,
+  .inventorySlot img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+  }
+  
+  .itemActions {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .itemActions h4 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .itemActions button {
+    margin: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .itemActions button:hover {
+    background-color: #0056b3;
+  }
+
+  .cancelButton {
+    background-color: #c82333;
+  }
+  
+  .bankUpgradeContainer {
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  .upgradeButton {
+    margin: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .upgradeButton:hover {
+    background-color: #218838;
+  }
+  
+  .resetButton {
+    background-color: #dc3545;
+  }
+  
+  .resetButton:hover {
+    background-color: #c82333;
+  }
+  
+  .contextMenu {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1000;
+    position: absolute;
+  }
+  
+  .contextMenu button {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s;
+  }
+  
+  .contextMenu button:last-child {
+    border-bottom: none;
+  }
+  
+  .contextMenu button:hover {
+    background-color: #e9ecef;
+  }
+  
+  .bankContextMenu {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1000;
+    position: absolute;
+  }
+  
+  .bankContextMenu button {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s;
+  }
+  
+  .bankContextMenu button:last-child {
+    border-bottom: none;
+  }
+  
+  .bankContextMenu button:hover {
+    background-color: #e9ecef;
+  }
+  
+  @media (max-width: 600px) {
+    .bankingSlots,
+    .inventorySlots {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+    }
+  
+    .bankSlot img,
+    .inventorySlot img {
+      width: 32px;
+      height: 32px;
+    }
+  
+    .itemActions button,
+    .contextMenu button,
+    .bankContextMenu button {
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+  }
+  

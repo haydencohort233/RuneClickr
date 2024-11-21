@@ -13,6 +13,7 @@ function GameSaves({ userId, gameState, setGameState }) {
   const ensureCompleteGameState = (state) => {
     return {
       level: 1,
+      currency: 0,
       experience: 0,
       hitpoints: 100,
       maxHitPoints: 100,
@@ -21,7 +22,8 @@ function GameSaves({ userId, gameState, setGameState }) {
       inventory: [],
       maxInventorySpace: 30,
       bank: [],
-      maxBankSpace: 50,
+      bankSpacesBought: 0,
+      bankSpace: 30,
       currentLocation: 'spawn',
       travel_count: 0,
       equipment: {

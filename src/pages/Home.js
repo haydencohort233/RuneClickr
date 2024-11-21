@@ -13,6 +13,7 @@ import Equipment from '../components/equipment/equipment';
 import Inventory from '../components/inventory/inventory';
 import worldLocations from '../components/worldmap/worldLocations.json';
 import UI from '../components/ui/ui';
+import Banking from '../components/banking/banking';
 
 function Home() {
   // Initial gameState values and arrays
@@ -25,7 +26,8 @@ function Home() {
     inventory: [],
     maxInventorySpace: 30,
     bank: [],
-    maxBankSpace: 50,
+    bankSpacesBought: 0,
+    bankSpace: 30,
     currentLocation: 'spawn',
     currency: 0,
     buildings: [],
@@ -65,6 +67,7 @@ function Home() {
             setGameState={setGameState}
           />
           <Logout setUserId={setUserId} />
+          <Banking gameState={gameState} setGameState={setGameState} />
           <GameSaves userId={userId} gameState={gameState} setGameState={setGameState} />
           <Currency gameState={gameState} setGameState={setGameState} />
           <PlayerDetails player={gameState} setPlayer={setGameState} />
