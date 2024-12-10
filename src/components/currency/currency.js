@@ -37,13 +37,13 @@ function Currency({ gameState, setGameState = () => {} }) {
         currency: currency
       }));
     }
-    // Update currency text and image when currency changes
+    // Update currency text when currency changes
     for (const level of currencyLevels.currencyLevels) {
       if (currency >= level.min) {
         setCurrencyText(level.text);
       }
     }
-  }, [currency, setGameState, currencyLevels.currencyLevels]);
+  }, [currency, setGameState]);
 
   // Function to increment currency and track clicks and gain experience
   const incrementCurrency = () => {
