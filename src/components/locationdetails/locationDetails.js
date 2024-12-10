@@ -8,7 +8,7 @@ import Enemy from '../enemy/enemy';
 import Combat from '../combat/combat';
 import getDropItems from '../drops/getDropItems'; // Assuming we create a helper function for drops
 
-function LocationDetails({ currentLocation, player, setPlayer, onEnemyDefeat }) {
+function LocationDetails({ currentLocation, player, setPlayer, gainExperience, setLevelUpMessage, onEnemyDefeat }) {
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [shopData, setShopData] = useState(null);
   const [inventory, setInventory] = useState([]);
@@ -66,13 +66,15 @@ function LocationDetails({ currentLocation, player, setPlayer, onEnemyDefeat }) 
           shopId={selectedFeature.shopId}
           shopData={shopData}
           inventory={inventory}
-          gameState={player} // Pass gameState for Banking Component
-          setGameState={setPlayer} // Pass setGameState for Banking Component
+          gameState={player} // Pass gameState for Banking Component or CookingRange
+          setGameState={setPlayer} // Pass setGameState for Banking Component or CookingRange
+          skills={player.skills} // Specifically pass skills object to the component
+          gainExperience={(skillName, exp) => gainExperience(player, setPlayer, skillName, exp, setLevelUpMessage)} // Handle experience properly
         />
       ) : null;
     }
     return null;
-  };
+  };  
 
   const handleStartCombat = (enemy) => {
     setInCombat(true);
@@ -122,7 +124,7 @@ function LocationDetails({ currentLocation, player, setPlayer, onEnemyDefeat }) 
         <div className={styles.locationPhotoContainer}>
           <img 
             src={`http://localhost:5000/assets/images/locations/${locationPhoto}`} 
-            alt={`${name} photo`} 
+            alt={name} 
             className={styles.locationPhoto} 
             onError={(e) => { e.target.src = 'http://localhost:5000/assets/images/locations/fallback.png'; }}
           />
@@ -131,7 +133,7 @@ function LocationDetails({ currentLocation, player, setPlayer, onEnemyDefeat }) 
         <div className={styles.locationPhotoContainer}>
           <img 
             src={`http://localhost:5000/assets/images/locations/fallback.png`} 
-            alt={`${name} fallback photo`} 
+            alt={name} 
             className={styles.locationPhoto} 
           />
         </div>

@@ -1,45 +1,44 @@
 [
-    {
-      "id": "spawn",
-      "name": "Spawn",
-      "description": "Lumbridge Castle, aah no place like home..",
-      "coordinates": { "top": "-110px", "left": "240px" },
-      "travelTime": 5,
-      "feature_ids": ["local_bank"],
-      "locationPhoto": "lumbridge_castle.png"
-    },
-    {
-      "id": "draynorMansion",
-      "name": "Draynor Mansion",
-      "description": "A haunted mansion, the thick fog surrounds the building",
-      "coordinates": { "top": "-350px", "left": "80px" },
-      "travelTime": 5,
-      "locationPhoto": "draynor_mansion.png"
-    },
-    {
-      "id": "cowPen",
-      "name": "Cow Pens",
-      "description": "A lavish green field with a variety of cows!",
-      "coordinates": { "top": "-250px", "left": "340px" },
-      "travelTime": 5,
-      "enemies": ["Cow"],
-      "amount": 4
-    },
-    {
-      "id": "wizardTower",
-      "name": "Wizard's Tower",
-      "description": "Known to lead players to the 'Abyss' a mysterious dimension.",
-      "coordinates": { "top": "-70px", "left": "90px" },
-      "travelTime": 5
-    },
-    {
-      "id": "draynor",
-      "name": "Draynor Village",
-      "description": "An ominous fishing village with a light layer of fog, the mood seems dull. Where is everybody?",
-      "coordinates": { "top": "-200px", "left": "80px" },
-      "travelTime": 5,
-      "feature_ids": ["aggie_magic_shop", "local_bank"],
-      "locationPhoto": "draynor_village.png"
-    }    
-  ]
-  
+  {
+    "id": "spawn",
+    "name": "Spawn",
+    "description": "Lumbridge Castle, aah no place like home..",
+    "coordinates": { "top": "-110px", "left": "240px" },
+    "travelTime": 5,
+    "feature_ids": ["local_bank"],
+    "locationPhoto": "lumbridge_castle.png"
+  },
+  {
+    "id": "draynorMansion",
+    "name": "Draynor Mansion",
+    "description": "A haunted mansion, the thick fog surrounds the building",
+    "coordinates": { "top": "-350px", "left": "80px" },
+    "travelTime": 5,
+    "locationPhoto": "draynor_mansion.png"
+  },
+  {
+    "id": "cowPen",
+    "name": "Cow Pens",
+    "description": "A lavish green field with a variety of cows!",
+    "coordinates": { "top": "-250px", "left": "340px" },
+    "travelTime": 5,
+    "enemies": ["Cow"],
+    "amount": 4
+  },
+  {
+    "id": "wizardTower",
+    "name": "Wizard's Tower",
+    "description": "Known to lead players to the 'Abyss' a mysterious dimension.",
+    "coordinates": { "top": "-70px", "left": "90px" },
+    "travelTime": 5
+  },
+  {
+    "id": "draynor",
+    "name": "Draynor Village",
+    "description": "An ominous fishing village with a light layer of fog, the mood seems dull. Where is everybody?",
+    "coordinates": { "top": "-200px", "left": "80px" },
+    "travelTime": 5,
+    "feature_ids": ["aggie_magic_shop", "local_bank", "cooking_range"],
+    "locationPhoto": "draynor_village.png"
+  }    
+]

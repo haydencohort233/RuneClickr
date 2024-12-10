@@ -36,6 +36,10 @@ function GameSaves({ userId, gameState, setGameState }) {
         gloves: null,
         primaryHand: null,
       },
+      skills: {
+        cooking: { level: 1, experience: 0 },
+        gathering: { level: 1, experience: 0 }
+      },
       ...state,
     };
   };

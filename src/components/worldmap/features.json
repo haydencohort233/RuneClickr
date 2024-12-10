@@ -1,18 +1,24 @@
 [
-    {
-      "id": "aggie_magic_shop",
-      "name": "Aggies Magic Shop",
-      "type": "shop",
-      "description": "A magical shop run by Aggie.",
-      "component": "MagicShop",
-      "shopId": 2
-    },
-    {
-      "id": "local_bank",
-      "name": "Local Bank",
-      "type": "bank",
-      "description": "A place to store and manage your items safely.",
-      "component": "Banking"
-    }
-  ]
-  
+  {
+    "id": "aggie_magic_shop",
+    "name": "Aggies Magic Shop",
+    "type": "shop",
+    "description": "A magical shop run by Aggie.",
+    "component": "MagicShop",
+    "shopId": 2
+  },
+  {
+    "id": "local_bank",
+    "name": "Local Bank",
+    "type": "bank",
+    "description": "A place to store and manage your items safely.",
+    "component": "Banking"
+  },
+  {
+    "id": "cooking_range",
+    "name": "Cooking Range",
+    "type": "cooking_range",
+    "description": "Learn to cook your dishes.",
+    "component": "CookingRange"
+  }
+]
