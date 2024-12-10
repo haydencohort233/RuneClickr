@@ -18,6 +18,8 @@ function Banking({ gameState, setGameState }) {
       const updatedInventory = [...prevState.inventory];
       const updatedBank = [...prevState.bank];
   
+      const bankSpace = prevState.bankSpace; // Extract from prevState
+  
       const itemIndex = updatedInventory.findIndex((i) => i.itemId === item.itemId);
       if (itemIndex > -1) {
         if (updatedInventory[itemIndex].quantity >= quantity) {
@@ -33,7 +35,7 @@ function Banking({ gameState, setGameState }) {
               updatedBank[bankItemIndex].quantity + quantity,
               65535
             );
-          } else if (updatedBank.length < gameState.bankSpace) { // Accessing gameState.bankSpace
+          } else if (updatedBank.length < bankSpace) { // Use bankSpace from prevState
             updatedBank.push({ ...item, quantity });
           } else {
             alert('Bank is full! Cannot deposit more items.');
@@ -51,7 +53,7 @@ function Banking({ gameState, setGameState }) {
         bank: updatedBank,
       };
     });
-  }, [setGameState, gameState.bankSpace]); // Add gameState.bankSpace here  
+  }, [setGameState]); // No need for gameState.bankSpace here  
 
   const handleWithdrawItem = useCallback((item, quantity = 1) => {
     setGameState((prevState) => {
