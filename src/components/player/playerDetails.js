@@ -5,7 +5,7 @@ import playerStats from './playerStats.json'; // Import player stats configurati
 
 function PlayerDetails({ player, setPlayer }) {
   // Ensure that player data is defined before rendering
-  const { username, level, experience, hitpoints, maxHitPoints, currentLocation } = player || {};
+  const { level, experience, hitpoints, maxHitPoints, currentLocation } = player || {};
 
   // Check if player can level up based on experience
   useEffect(() => {

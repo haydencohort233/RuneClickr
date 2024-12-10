@@ -13,7 +13,7 @@ function Currency({ gameState, setGameState = () => {} }) {
     if (gameState && gameState.currency !== undefined) {
       setCurrency(gameState.currency);
     }
-  }, [gameState.currency]);
+  }, [gameState]);
 
   // Calculate total income whenever buildings change
   useEffect(() => {
@@ -27,7 +27,7 @@ function Currency({ gameState, setGameState = () => {} }) {
       }
       setTotalIncome(income);
     }
-  }, [gameState.buildings]);
+  }, [gameState, gameState.buildings]);
 
   // Update gameState whenever currency changes
   useEffect(() => {
@@ -43,7 +43,7 @@ function Currency({ gameState, setGameState = () => {} }) {
         setCurrencyText(level.text);
       }
     }
-  }, [currency, setGameState]);
+  }, [currency, setGameState, currencyLevels.currencyLevels]);
 
   // Function to increment currency and track clicks and gain experience
   const incrementCurrency = () => {

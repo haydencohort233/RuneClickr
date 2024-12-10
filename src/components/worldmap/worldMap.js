@@ -7,7 +7,6 @@ import markerUnavailable from '../../assets/images/worldmap/icons/marker_unavail
 
 function WorldMap({ gameState, setGameState, onClose }) {
   const mapRef = useRef(null);
-  const [hoveredLocation, setHoveredLocation] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState(null);
 
   useEffect(() => {

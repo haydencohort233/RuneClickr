@@ -53,7 +53,7 @@ function Banking({ gameState, setGameState }) {
         bank: updatedBank,
       };
     });
-  }, [setGameState]); // No need for gameState.bankSpace here  
+  }, [setGameState]);
 
   const handleWithdrawItem = useCallback((item, quantity = 1) => {
     setGameState((prevState) => {

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import worldLocations from '../worldmap/worldLocations.json';
 import enemyConfig from './enemyConfig.json';
 import modifiersConfig from './modifiers.json';
-import Combat from '../combat/combat';
 
 const Enemy = ({ locationId, onStartCombat }) => {
     const [enemies, setEnemies] = useState([]);
