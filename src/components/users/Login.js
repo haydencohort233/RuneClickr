@@ -1,10 +1,10 @@
-// /src/components/users/Login.js
 import React, { useState } from 'react';
+import styles from './Login.module.css';
 
 function Login({ setUserId }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isRegistered, setIsRegistered] = useState(true); // Toggles between login and register
+  const [isRegistered, setIsRegistered] = useState(true);
 
   const handleLogin = async () => {
     try {
@@ -18,14 +18,11 @@ function Login({ setUserId }) {
         const data = await response.json();
         setUserId(data.userId);
         alert('Login successful');
-        console.log('Login successful');
       } else {
         alert('Login failed: Invalid credentials');
-        console.error('Login failed');
       }
     } catch (error) {
       alert('Failed to log in. Please try again later.');
-      console.error('Failed to log in:', error);
     }
   };
 
@@ -48,40 +45,47 @@ function Login({ setUserId }) {
 
       if (response.ok) {
         alert('Registration successful');
-        console.log('Registration successful');
         setIsRegistered(true);
       } else if (response.status === 409) {
         alert('Username already exists. Please choose a different username.');
       } else {
         alert('Registration failed. Please try again.');
-        console.error('Registration failed');
       }
     } catch (error) {
       alert('Failed to register. Please try again later.');
-      console.error('Failed to register:', error);
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>{isRegistered ? "Login" : "Register"}</h2>
+    <div className={styles["login-container"]}>
+      <h2 className={styles["login-header"]}>
+        {isRegistered ? "Login to RuneClicker" : "Welcome to RuneClicker"}
+      </h2>
       <input
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        className={styles["login-input"]}
       />
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        className={styles["login-input"]}
       />
-      <button onClick={isRegistered ? handleLogin : handleRegister}>
+      <button
+        onClick={isRegistered ? handleLogin : handleRegister}
+        className={styles["login-button"]}
+      >
         {isRegistered ? "Login" : "Register"}
       </button>
-      <button onClick={() => setIsRegistered(!isRegistered)}>
-        {isRegistered ? "Need to register?" : "Already have an account?"}
+      <button
+        onClick={() => setIsRegistered(!isRegistered)}
+        className={styles["login-toggle-button"]}
+      >
+        {isRegistered ? "Need to register?" : "Returning user?"}
       </button>
     </div>
   );

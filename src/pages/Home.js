@@ -6,7 +6,6 @@ import Login from '../components/users/Login';
 import Logout from '../components/users/Logout';
 import Buildings from '../components/buildings/buildings';
 import Achievements from '../components/achievements/achievements';
-import PlayerDetails from '../components/player/playerDetails';
 import LocationDetails from '../components/locationdetails/locationDetails';
 import worldLocations from '../components/worldmap/worldLocations.json';
 import UI from '../components/ui/ui';
@@ -76,11 +75,10 @@ function Home() {
             maxInventorySpace={gameState.maxInventorySpace}
             gameState={gameState} 
             setGameState={setGameState}
+            userId={userId}
           />
           <Logout setUserId={setUserId} />
-          <GameSaves userId={userId} gameState={gameState} setGameState={setGameState} />
           <Currency gameState={gameState} setGameState={setGameState} />
-          <PlayerDetails player={gameState} setPlayer={setGameState} />
           <LocationDetails 
             currentLocation={currentLocationDetails} 
             player={gameState} 

@@ -14,6 +14,7 @@
   }
   
   .currencyDetails {
+    color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,17 +32,21 @@
     font-size: 1em;
     background-color: #19ca02;
     color: white;
-    border: none;
+    border: 2px solid #02811e;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
   }
   
   .currencyButton:hover {
-    background-color: #02811e;
+    background-color: #08a329;
+    border: 2px solid #fbff00;
+    transition: border 0.3s;
+    transition: background-color 0.3s;
   }
   
   .clearButton {
+    border: 2px solid #020202;
     background-color: #d9534f;
   }
   

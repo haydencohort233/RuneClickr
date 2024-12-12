@@ -89,7 +89,7 @@ function Currency({ gameState, setGameState = () => {} }) {
       </div>
       <div className={styles.currencyButtonContainer}>
         <button onClick={incrementCurrency} className={styles.currencyButton}>Earn Currency</button>
-        <button onClick={clearCurrency} className={`${styles.currencyButton} ${styles.clearButton}`}>Clear Currency [Dev]</button>
+        <button onClick={clearCurrency} className={`${styles.currencyButton} ${styles.clearButton}`}>Clear All [Dev]</button>
       </div>
     </div>
   );

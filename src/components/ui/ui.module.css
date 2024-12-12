@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  z-index: 1000; /* Ensures the buttons stay on top of other elements */
+  z-index: 10;
 }
 
 .uiButton {
@@ -24,6 +24,48 @@
 
 .uiButton:active {
   background-color: #004494;
+}
+
+.playerDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  gap: 15px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.gameButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #a39c9c;
+  border: 2px solid #007bff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.gameButton:hover {
+  background-color: #c5c2c2;
+  border-color: #fbff00;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
 }
 
 .inventoryOverlay {

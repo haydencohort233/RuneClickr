@@ -1,13 +1,13 @@
 {
     "currencyLevels": [
       { "min": 0, "text": "Noob", "image": "currency_1.png" },
-      { "min": 20, "text": "Nooblet", "image": "currency_2.png" },
-      { "min": 50, "text": "Newb", "image": "currency_3.png" },
-      { "min": 100, "text": "Cow Slayer", "image": "currency_4.png" },
-      { "min": 250, "text": "Gary Gilbert", "image": "currency_5.png" },
-      { "min": 500, "text": "Well-off", "image": "currency_6.png" },
-      { "min": 1500, "text": "Wealthy", "image": "currency_7.png" },
-      { "min": 5000, "text": "Very Wealthy", "image": "currency_8.png" }
+      { "min": 100, "text": "Nooblet", "image": "currency_2.png" },
+      { "min": 5000, "text": "Newb", "image": "currency_3.png" },
+      { "min": 10000, "text": "Cow Slayer", "image": "currency_4.png" },
+      { "min": 250000, "text": "Gary Gilbert", "image": "currency_5.png" },
+      { "min": 500000, "text": "Well-off", "image": "currency_6.png" },
+      { "min": 1000000, "text": "Wealthy", "image": "currency_7.png" },
+      { "min": 5000000, "text": "Very Wealthy", "image": "currency_8.png" }
     ],
     "highCurrencyThreshold": 10000000,
     "highCurrencyClass": "currencyAmountHigh"

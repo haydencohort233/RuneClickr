@@ -1,16 +1,14 @@
 /* /src/components/player/playerDetails.module.css */
 
 .playerDetailsContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background-color: #aa3333;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  margin: 20px auto;
+  position: flex;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.9); /* Optional background */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000; /* Ensures it stays on top */
 }
 
 h2 {
@@ -29,12 +27,26 @@ strong {
   color: #000;
 }
 
-.playerImage {
-  max-width: 150px;
+.playerImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 15px;
+}
+
+.playerImage {
+  max-width: 100px;
   border-radius: 100px;
-  border: 10px solid rgb(1, 1, 48);
+  border: 5px solid rgb(255, 255, 255);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.imageBreakLine {
+  width: 90%;
+  margin: 15px auto;
+  height: 2px;
+  background-color: #363434;
+  border: none;
 }
 
 .levelImage {

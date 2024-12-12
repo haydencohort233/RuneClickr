@@ -82,13 +82,16 @@ function PlayerDetails({ player, setPlayer }) {
     <div className={styles.playerDetailsContainer}>
       {player ? (
         <>
-          <img src={getPlayerImage()} alt="Level Icon" className={styles.playerImage} />
+          <div className={styles.playerImageContainer}>
+            <img src={getPlayerImage()} alt="Player Icon" className={styles.playerImage} />
+          </div>
+          <hr className={styles.imageBreakLine} />
           <div className={styles.levelContainer}>
             <div className={styles.iconAligned}>
-              <img 
-                src={require('../../assets/images/player/level.png')} 
-                alt="Level" 
-                className={styles.levelImage} 
+              <img
+                src={require('../../assets/images/player/level.png')}
+                alt="Level"
+                className={styles.levelImage}
                 title="Level"
               />
               <p><strong>Level:</strong> {level}</p>
@@ -96,8 +99,8 @@ function PlayerDetails({ player, setPlayer }) {
           </div>
           <div className={styles.experienceContainer}>
             <div className={styles.iconAligned}>
-              <img 
-                src={require('../../assets/images/player/exp.png')} 
+              <img
+                src={require('../../assets/images/player/exp.png')}
                 alt="Experience"
                 className={styles.expImage}
                 title="Experience"
@@ -115,8 +118,8 @@ function PlayerDetails({ player, setPlayer }) {
           </div>
           <div className={styles.hitpointsContainer}>
             <div className={styles.iconAligned}>
-              <img 
-                src={getHitpointsImage()} 
+              <img
+                src={getHitpointsImage()}
                 alt="Hitpoints"
                 className={styles.hitpointsImage}
                 title="Hitpoints"
@@ -126,8 +129,8 @@ function PlayerDetails({ player, setPlayer }) {
           </div>
           <div className={styles.currentLocationContainer}>
             <div className={styles.iconAligned}>
-              <img 
-                src={require('../../assets/images/player/map.png')} 
+              <img
+                src={require('../../assets/images/player/map.png')}
                 alt="Current Location"
                 className={styles.mapImage}
                 title="Current Location"
@@ -140,7 +143,7 @@ function PlayerDetails({ player, setPlayer }) {
         <div>Loading player details...</div>
       )}
     </div>
-  );
+  );  
 }
 
 export default PlayerDetails;
