@@ -1,7 +1,6 @@
 // /src/pages/Home.js
 import React, { useState } from 'react';
 import Currency from '../components/currency/currency';
-import GameSaves from '../components/gamesaves/gameSaves';
 import Login from '../components/users/Login';
 import Logout from '../components/users/Logout';
 import Buildings from '../components/buildings/buildings';

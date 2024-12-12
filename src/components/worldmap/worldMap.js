@@ -34,12 +34,12 @@ function WorldMap({ gameState, setGameState, onClose }) {
         onClose();
       }
     };
-
+  
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [onClose]);
+  }, [onClose]);  
 
   // Handle traveling prompt to a specific location
   const promptTravelToLocation = (location) => {
