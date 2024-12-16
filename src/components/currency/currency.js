@@ -12,12 +12,12 @@ function Currency({ gameState, setGameState = () => {} }) {
   const [localClicks, setLocalClicks] = useState(0); // Local clicks buffer
   const syncInterval = useRef(null); // Reference to setInterval
   
-  // Load initial currency from gameState on mount
+  // Load initial currency from gameState on mount and whenever gameState.currency changes
   useEffect(() => {
-    if (gameState && gameState.currency !== undefined) {
+    if (gameState?.currency !== undefined) {
       setCurrency(gameState.currency);
     }
-  }, [gameState]);
+  }, [gameState?.currency]); // ✅ Only update when gameState.currency changes
 
   // Calculate total income whenever buildings change
   useEffect(() => {
@@ -31,7 +31,7 @@ function Currency({ gameState, setGameState = () => {} }) {
       }
       setTotalIncome(income);
     }
-  }, [gameState.buildings]);
+  }, [gameState.buildings]); // ✅ Re-run this effect if gameState.buildings changes
 
   // Sync localCurrency and localClicks to global gameState every 1000ms
   useEffect(() => {
@@ -50,7 +50,7 @@ function Currency({ gameState, setGameState = () => {} }) {
     }, 1000); // Sync every 1000ms (1 second)
 
     return () => clearInterval(syncInterval.current);
-  }, [localCurrency, localClicks, setGameState]);
+  }, [localCurrency, localClicks, setGameState]); // ✅ Added setGameState to dependencies
 
   // Update currencyText only when currency changes
   useEffect(() => {
@@ -59,7 +59,7 @@ function Currency({ gameState, setGameState = () => {} }) {
         setCurrencyText(level.text);
       }
     }
-  }, [currency]);
+  }, [currency]); // ✅ Dependency on currency to detect changes
 
   // Increment currency and clicks (only local state, not global gameState)
   const incrementCurrency = () => {
