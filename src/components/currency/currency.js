@@ -8,16 +8,16 @@ function Currency({ gameState, setGameState = () => {} }) {
   const [totalIncome, setTotalIncome] = useState(0);
   const [currencyText, setCurrencyText] = useState('');
   
-  const [localCurrency, setLocalCurrency] = useState(0); // Local currency buffer
-  const [localClicks, setLocalClicks] = useState(0); // Local clicks buffer
-  const syncInterval = useRef(null); // Reference to setInterval
+  const [localCurrency, setLocalCurrency] = useState(0);
+  const [localClicks, setLocalClicks] = useState(0);
+  const syncInterval = useRef(null);
   
   // Load initial currency from gameState on mount and whenever gameState.currency changes
   useEffect(() => {
     if (gameState?.currency !== undefined) {
       setCurrency(gameState.currency);
     }
-  }, [gameState?.currency]); // ✅ Only update when gameState.currency changes
+  }, [gameState?.currency]);
 
   // Calculate total income whenever buildings change
   useEffect(() => {
@@ -31,7 +31,7 @@ function Currency({ gameState, setGameState = () => {} }) {
       }
       setTotalIncome(income);
     }
-  }, [gameState.buildings]); // ✅ Re-run this effect if gameState.buildings changes
+  }, [gameState.buildings]);
 
   // Sync localCurrency and localClicks to global gameState every 1000ms
   useEffect(() => {
@@ -47,10 +47,10 @@ function Currency({ gameState, setGameState = () => {} }) {
         setLocalCurrency(0);
         setLocalClicks(0);
       }
-    }, 1000); // Sync every 1000ms (1 second)
+    }, 1000);
 
     return () => clearInterval(syncInterval.current);
-  }, [localCurrency, localClicks, setGameState]); // ✅ Added setGameState to dependencies
+  }, [localCurrency, localClicks, setGameState]);
 
   // Update currencyText only when currency changes
   useEffect(() => {
@@ -59,7 +59,7 @@ function Currency({ gameState, setGameState = () => {} }) {
         setCurrencyText(level.text);
       }
     }
-  }, [currency]); // ✅ Dependency on currency to detect changes
+  }, [currency]);
 
   // Increment currency and clicks (only local state, not global gameState)
   const incrementCurrency = () => {

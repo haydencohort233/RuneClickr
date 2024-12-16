@@ -55,7 +55,25 @@ function Home() {
   );
 
   const handleGainExperience = (skillName, exp) => {
-    gainExperience(gameState, setGameState, skillName, exp, setLevelUpMessage);
+    if (typeof skillName !== 'string') {
+      console.error(`Invalid skillName passed to handleGainExperience:`, skillName);
+      return;
+    }
+  
+    setGameState((prevState) => {
+      const updatedSkill = { ...prevState.skills[skillName] };
+      updatedSkill.experience += exp;
+  
+      const updatedSkills = {
+        ...prevState.skills,
+        [skillName]: updatedSkill
+      };
+  
+      return {
+        ...prevState,
+        skills: updatedSkills
+      };
+    });
   };  
 
   return (

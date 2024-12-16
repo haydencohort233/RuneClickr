@@ -9,7 +9,7 @@ function Skills({ skills, gainExperience }) {
           <h3>{skill.charAt(0).toUpperCase() + skill.slice(1)}</h3>
           <p>Level: {skills[skill].level}</p>
           <p>Experience: {skills[skill].experience}</p>
-          <button onClick={() => gainExperience(skill, 50)}>Gain 50 EXP (Dev)</button>
+          <button onClick={() => gainExperience(skill, 50)}>Gain 50 EXP</button>
         </div>
       ))}
     </div>

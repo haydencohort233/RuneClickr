@@ -73,9 +73,7 @@ function LocationDetails({ currentLocation, player, setPlayer, gainExperience, s
           gameState={player}
           setGameState={setPlayer}
           skills={player.skills}
-          gainExperience={(skillName, exp) =>
-            gainExperience(player, setPlayer, skillName, exp, setLevelUpMessage)
-          }
+          gainExperience={gainExperience}
         />
       ) : (
         <div className={styles.featureFallback}>Feature "{selectedFeature.name}" not available.</div>

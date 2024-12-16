@@ -26,10 +26,9 @@
   .cookingItem:hover {
     background-color: #ffd700;
   }
-  
-  .selected {
-    background-color: #ffd700;
-    border: 2px solid #ffa500;
+
+  .cookingItem.selected {
+    border-color: #ff9800;
   }
   
   .cookButton {
@@ -47,3 +46,10 @@
     background-color: #228b22;
   }
   
+  .noItemsMessage {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #ff4d4d;
+    margin-top: 20px;
+  }
