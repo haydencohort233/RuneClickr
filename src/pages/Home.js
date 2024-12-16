@@ -9,7 +9,6 @@ import LocationDetails from '../components/locationdetails/locationDetails';
 import worldLocations from '../components/worldmap/worldLocations.json';
 import UI from '../components/ui/ui';
 import Skills from '../components/skills/skills';
-import { gainExperience } from '../utils/skillUtils';
 import LevelUpPopup from '../components/ui/LevelUpPopup';
 
 function Home() {
