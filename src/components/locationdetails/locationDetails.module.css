@@ -8,66 +8,93 @@
   text-align: center;
   padding: 20px;
   margin: 0 auto;
-  max-width: 600px;
-  background-color: #f8f8f8;
+  max-width: 1000px;
+  width: 80%;
+  color: #ffffff;
+  background-color: rgba(41, 41, 39, 0.9);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.locationTitle {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #f8f8f8;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.locationDescription {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #e0e0e0;
+}
+
+.locationPhotoContainer {
+  margin-bottom: 20px;
+}
+
+.locationPhoto {
+  max-width: 50%;
+  border-radius: 8px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .featuresContainer {
   margin-top: 20px;
-  width: 100%;
+  width: 50%;
 }
 
-.featuresContainer h3 {
-  margin-bottom: 10px;
-  font-size: 1.2rem;
+.featuresTitle {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #f8f8f8;
 }
 
-.featuresContainer ul {
+.featuresList {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
 .featureItem {
-  background-color: #ffffff;
+  background-color: rgba(77, 77, 73, 0.9);
   border: 1px solid #ddd;
   border-radius: 5px;
-  padding: 10px;
-  margin: 5px 0;
+  padding: 12px 20px;
+  margin: 10px 0;
   cursor: pointer;
-  transition: background-color 0.3s, box-shadow 0.3s;
+  color: #f8f8f8;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.1s;
 }
 
 .featureItem:hover {
-  background-color: #f0f0f0;
+  background-color: #9e9e9e;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+}
+
+.noFeaturesMessage {
+  font-size: 1rem;
+  color: #d3d3d3;
+  text-align: center;
+  padding: 10px;
 }
 
 .featureDetailsContainer {
   margin-top: 20px;
   padding: 15px;
   width: 100%;
-  max-width: 400px;
-  background-color: #ffffff;
+  max-width: 500px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-h2 {
-  margin-bottom: 15px;
-  font-size: 1.8rem;
-}
-
-p {
-  margin-bottom: 15px;
-  font-size: 1rem;
-  color: #333;
-}
-
-.locationPhoto {
-  max-width: 380px;
+.featureDetailsContainer.hasContent {
+  border: 2px solid #f8f8f8;
 }
 
 .enemiesContainer {
@@ -76,12 +103,7 @@ p {
   gap: 20px;
   padding: 20px;
   width: 100%;
-}
-
-@media (max-width: 768px) {
-  .enemiesContainer {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  margin-top: 20px;
 }
 
 .enemyContainer {
@@ -95,4 +117,19 @@ p {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 300px;
   margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .enemiesContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .featureItem {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+
+  .featureDetailsContainer {
+    max-width: 100%;
+  }
 }

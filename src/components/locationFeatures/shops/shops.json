@@ -1,0 +1,20 @@
+[
+    {
+      "id": 1,
+      "shop_name": "Blacksmith's Forge",
+      "shop_owner": "Gorath the Smith",
+      "owner_image": "blacksmith_gorath.png",
+      "stock": [
+        {
+          "id": 1,
+          "item_name": "Iron Scythe",
+          "quantity": 10,
+          "restock_time": 60,
+          "price": 150,
+          "item_image": "/weapons/iron_scythe.png",
+          "item_category": "weapons"
+        }
+      ]
+    }
+  ]
+  

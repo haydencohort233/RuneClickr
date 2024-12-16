@@ -1,10 +1,18 @@
 [
   {
-    "id": "aggie_magic_shop",
-    "name": "Aggies Magic Shop",
+    "id": "blacksmiths_forge",
+    "name": "Blacksmith's Forge",
     "type": "shop",
-    "description": "A magical shop run by Aggie.",
-    "component": "MagicShop",
+    "description": "A forge run by Gorath the Smith.",
+    "component": "Shop",
+    "shopId": 1
+  },
+  {
+    "id": "potion_emporium",
+    "name": "Potion Emporium",
+    "type": "shop",
+    "description": "A magical emporium filled with potions.",
+    "component": "Shop",
     "shopId": 2
   },
   {

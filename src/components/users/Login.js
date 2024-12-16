@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Login.module.css';
 
-function Login({ setUserId }) {
+function Login({ setUserId, setGameState }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistered, setIsRegistered] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = async () => {
+    if (!username || !password) {
+      setErrorMessage('Username and password are required.');
+      return;
+    }
+    if (isLoading) return;
+    setIsLoading(true);
     try {
       const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
@@ -17,16 +25,28 @@ function Login({ setUserId }) {
       if (response.ok) {
         const data = await response.json();
         setUserId(data.userId);
-        alert('Login successful');
+        if (setGameState) {
+          await loadGameFromServer(data.userId); // Automatically load the game after successful login
+        } else {
+          console.error('setGameState is not defined');
+        }
       } else {
-        alert('Login failed: Invalid credentials');
+        setErrorMessage('Login failed: Invalid credentials');
       }
     } catch (error) {
-      alert('Failed to log in. Please try again later.');
+      setErrorMessage('Failed to log in. Please try again later.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleRegister = async () => {
+    if (!username || !password) {
+      setErrorMessage('Username and password are required.');
+      return;
+    }
+    if (isLoading) return;
+    setIsLoading(true);
     try {
       const initialGameState = {
         currency: 0,
@@ -47,12 +67,36 @@ function Login({ setUserId }) {
         alert('Registration successful');
         setIsRegistered(true);
       } else if (response.status === 409) {
-        alert('Username already exists. Please choose a different username.');
+        setErrorMessage('Username already exists. Please choose a different username.');
       } else {
-        alert('Registration failed. Please try again.');
+        setErrorMessage('Registration failed. Please try again.');
       }
     } catch (error) {
-      alert('Failed to register. Please try again later.');
+      setErrorMessage('Failed to register. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const loadGameFromServer = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/load-game/${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (setGameState) {
+          setGameState((prevState) => ({
+            ...prevState,
+            ...data.gameState,
+          }));
+          console.log('Game state loaded successfully:', data.gameState);
+        } else {
+          console.error('setGameState is not defined');
+        }
+      } else {
+        console.error('No saved game found.');
+      }
+    } catch (error) {
+      console.error('Failed to load game from server:', error);
     }
   };
 
@@ -61,6 +105,7 @@ function Login({ setUserId }) {
       <h2 className={styles["login-header"]}>
         {isRegistered ? "Login to RuneClicker" : "Welcome to RuneClicker"}
       </h2>
+      {errorMessage && <p className={styles["error-message"]}>{errorMessage}</p>}
       <input
         type="text"
         placeholder="Username"
@@ -76,10 +121,11 @@ function Login({ setUserId }) {
         className={styles["login-input"]}
       />
       <button
+        disabled={isLoading}
         onClick={isRegistered ? handleLogin : handleRegister}
         className={styles["login-button"]}
       >
-        {isRegistered ? "Login" : "Register"}
+        {isLoading ? "Loading..." : isRegistered ? "Login" : "Register"}
       </button>
       <button
         onClick={() => setIsRegistered(!isRegistered)}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import buildingStats from '../buildings/building-stats.json';
 import styles from './currency.module.css';
 import currencyLevels from './currencyLevels.json';
@@ -7,8 +7,12 @@ function Currency({ gameState, setGameState = () => {} }) {
   const [currency, setCurrency] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
   const [currencyText, setCurrencyText] = useState('');
-
-  // Load currency from gameState when component mounts
+  
+  const [localCurrency, setLocalCurrency] = useState(0); // Local currency buffer
+  const [localClicks, setLocalClicks] = useState(0); // Local clicks buffer
+  const syncInterval = useRef(null); // Reference to setInterval
+  
+  // Load initial currency from gameState on mount
   useEffect(() => {
     if (gameState && gameState.currency !== undefined) {
       setCurrency(gameState.currency);
@@ -27,39 +31,50 @@ function Currency({ gameState, setGameState = () => {} }) {
       }
       setTotalIncome(income);
     }
-  }, [gameState, gameState.buildings]);
+  }, [gameState.buildings]);
 
-  // Update gameState whenever currency changes
+  // Sync localCurrency and localClicks to global gameState every 1000ms
   useEffect(() => {
-    if (typeof setGameState === 'function') {
-      setGameState(prevState => ({
-        ...prevState,
-        currency: currency
-      }));
-    }
-    // Update currency text when currency changes
+    syncInterval.current = setInterval(() => {
+      if (localCurrency > 0 || localClicks > 0) {
+        setGameState(prevState => ({
+          ...prevState,
+          currency: prevState.currency + localCurrency,
+          clicks: (prevState.clicks || 0) + localClicks
+        }));
+
+        // Reset local buffer
+        setLocalCurrency(0);
+        setLocalClicks(0);
+      }
+    }, 1000); // Sync every 1000ms (1 second)
+
+    return () => clearInterval(syncInterval.current);
+  }, [localCurrency, localClicks, setGameState]);
+
+  // Update currencyText only when currency changes
+  useEffect(() => {
     for (const level of currencyLevels.currencyLevels) {
       if (currency >= level.min) {
         setCurrencyText(level.text);
       }
     }
-  }, [currency, setGameState]);
+  }, [currency]);
 
-  // Function to increment currency and track clicks and gain experience
+  // Increment currency and clicks (only local state, not global gameState)
   const incrementCurrency = () => {
     const earnedCurrency = gameState.level || 1; // Earn currency based on player level
-    setCurrency((prevCurrency) => prevCurrency + earnedCurrency);
-    setGameState((prevState) => ({
-      ...prevState,
-      clicks: (prevState.clicks || 0) + 1, // Increment clicks count
-      experience: (prevState.experience || 0) + 1, // Gain 1 EXP per click
-    }));
-  };  
+    setLocalCurrency((prev) => prev + earnedCurrency);
+    setLocalClicks((prev) => prev + 1);
+    setCurrency((prev) => prev + earnedCurrency); // Update displayed currency
+  };
 
-  // Function to clear currency
+  // Clear local and game state currency (for development only)
   const clearCurrency = () => {
     console.log('Clearing currency for testing purposes');
     setCurrency(0);
+    setLocalCurrency(0);
+    setGameState((prevState) => ({ ...prevState, currency: 0 }));
   };
 
   // Determine which currency image to display based on the amount of currency

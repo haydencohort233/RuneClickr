@@ -90,7 +90,7 @@ function Home() {
           <Achievements gameState={gameState} setGameState={setGameState} userId={userId} />
         </>
       ) : (
-        <Login setUserId={setUserId} />
+        <Login setUserId={setUserId} setGameState={setGameState} />
       )}
     </div>
   );
