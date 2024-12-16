@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
 import styles from './playerDetails.module.css';
-import playerLevels from './playerLevel.json';
-import playerStats from './playerStats.json';
+import playerLevels from './playerLevel.json'; // Import player level configuration
+import playerStats from './playerStats.json'; // Import player stats configuration
 
+// Import images statically
 import player_100 from '../../assets/images/player/player_100.png';
 import player_75 from '../../assets/images/player/player_75.png';
 import player_50 from '../../assets/images/player/player_50.png';
@@ -16,11 +17,13 @@ import expIcon from '../../assets/images/player/exp.png';
 import mapIcon from '../../assets/images/player/map.png';
 
 function PlayerDetails({ player, setPlayer }) {
+  // Ensure that player data is defined before rendering
   const { level, experience, hitpoints, maxHitPoints, currentLocation } = player || {};
 
-  const levelUpPlayer = (startingLevel, startingExperience) => {
-    let currentLevel = startingLevel;
-    let currentExperience = startingExperience;
+  // Check if player can level up based on experience
+  useEffect(() => {
+    let currentLevel = level;
+    let currentExperience = experience;
 
     while (true) {
       const nextLevelInfo = playerLevels.levels.find(levelInfo => levelInfo.level === currentLevel + 1);
@@ -35,16 +38,10 @@ function PlayerDetails({ player, setPlayer }) {
           health: newLevelStats.health,
           attackPower: newLevelStats.attackPower,
           defencePower: newLevelStats.defencePower,
-          maxHitPoints: newLevelStats.health,
-          hitpoints: newLevelStats.health
+          maxHitPoints: newLevelStats.health, // Update max hitpoints when leveling up
+          hitpoints: newLevelStats.health // Restore health to max on level up
         }));
       }
-    }
-  };
-
-  useEffect(() => {
-    if (level !== undefined && experience !== undefined) {
-      levelUpPlayer(level, experience);
     }
   }, [experience, level, setPlayer]);
 
@@ -90,30 +87,53 @@ function PlayerDetails({ player, setPlayer }) {
           <hr className={styles.imageBreakLine} />
           <div className={styles.levelContainer}>
             <div className={styles.iconAligned}>
-              <img src={levelIcon} alt="Level" className={styles.levelImage} title="Level" />
+              <img
+                src={levelIcon}
+                alt="Level"
+                className={styles.levelImage}
+                title="Level"
+              />
               <p><strong>Level:</strong> {level}</p>
             </div>
           </div>
           <div className={styles.experienceContainer}>
             <div className={styles.iconAligned}>
-              <img src={expIcon} alt="Experience" className={styles.expImage} title="Experience" />
+              <img
+                src={expIcon}
+                alt="Experience"
+                className={styles.expImage}
+                title="Experience"
+              />
               <span className={styles.iconText}>{nextLevelExp}</span>
             </div>
           </div>
           <div className={styles.progressBarContainer}>
             <div className={styles.progressBar}>
-              <div className={styles.progress} style={{ width: `${experiencePercentage}%` }}></div>
+              <div
+                className={styles.progress}
+                style={{ width: `${experiencePercentage}%` }}
+              ></div>
             </div>
           </div>
           <div className={styles.hitpointsContainer}>
             <div className={styles.iconAligned}>
-              <img src={hitpointsImage} alt="Hitpoints" className={styles.hitpointsImage} title="Hitpoints" />
+              <img
+                src={hitpointsImage}
+                alt="Hitpoints"
+                className={styles.hitpointsImage}
+                title="Hitpoints"
+              />
             </div>
             <span className={styles.iconText}>{hitpoints} / {maxHitPoints}</span>
           </div>
           <div className={styles.currentLocationContainer}>
             <div className={styles.iconAligned}>
-              <img src={mapIcon} alt="Current Location" className={styles.mapImage} title="Current Location" />
+              <img
+                src={mapIcon}
+                alt="Current Location"
+                className={styles.mapImage}
+                title="Current Location"
+              />
             </div>
             <span className={styles.iconText}><strong>Current Location:</strong> {currentLocation}</span>
           </div>
