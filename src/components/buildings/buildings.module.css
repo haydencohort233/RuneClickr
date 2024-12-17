@@ -67,3 +67,10 @@
     background-color: #c9302c;
   }
   
+  .buildingButton:disabled {
+    background-color: #d3d3d3; /* Light gray background */
+    color: #666; /* Darker text color */
+    cursor: not-allowed; /* Show "not-allowed" cursor */
+    opacity: 0.6; /* Slightly transparent */
+  }
+  

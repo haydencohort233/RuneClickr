@@ -74,22 +74,11 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
 
   const handleEquipItem = (item) => {
     setGameState((prevState) => {
-      const equipmentSlot = item.slot;
       let updatedEquipment = { ...prevState.equipment };
-      let updatedInventory = [...prevState.inventory];
-  
-      // Remove the item from inventory
-      const itemIndex = updatedInventory.findIndex((i) => i.itemId === item.itemId);
-      if (itemIndex > -1) {
-        if (updatedInventory[itemIndex].quantity > 1) {
-          updatedInventory[itemIndex].quantity -= 1;
-        } else {
-          updatedInventory.splice(itemIndex, 1);
-        }
-      }
-  
-      // Equip the item in the appropriate slot
-      if (equipmentSlot === 'fingers') {
+      let updatedInventory = removeItemFromInventory(prevState.inventory, item.itemId);
+      
+      // Equip item logic remains the same
+      if (item.slot === 'fingers') {
         const emptyFingerSlot = updatedEquipment.fingers.findIndex((finger) => finger === null);
         if (emptyFingerSlot !== -1) {
           updatedEquipment.fingers[emptyFingerSlot] = item;
@@ -97,28 +86,15 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
           alert('No available finger slot to equip this item.');
           return prevState;
         }
-      } else if (equipmentSlot === 'leftGlove' || equipmentSlot === 'rightGlove' || equipmentSlot === 'offHand') {
-        // For leftGlove, rightGlove, and offHand slots
-        if (updatedEquipment[equipmentSlot]) {
-          // Unequip current item and add back to inventory
-          if (updatedInventory.length >= maxInventorySpace) {
-            alert('Inventory is full! Cannot unequip this item.');
-            return prevState;
-          }
-          updatedInventory.push({ ...updatedEquipment[equipmentSlot], quantity: 1 });
-        }
-        updatedEquipment[equipmentSlot] = item;
       } else {
-        // For other slots
-        if (updatedEquipment[equipmentSlot]) {
-          // Unequip current item and add back to inventory
+        if (updatedEquipment[item.slot]) {
           if (updatedInventory.length >= maxInventorySpace) {
             alert('Inventory is full! Cannot unequip this item.');
             return prevState;
           }
-          updatedInventory.push({ ...updatedEquipment[equipmentSlot], quantity: 1 });
+          updatedInventory.push({ ...updatedEquipment[item.slot], quantity: 1 });
         }
-        updatedEquipment[equipmentSlot] = item;
+        updatedEquipment[item.slot] = item;
       }
   
       return {
@@ -127,31 +103,35 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
         inventory: updatedInventory,
       };
     });
-  };
+  };  
+
+  const removeItemFromInventory = (inventory, itemId, quantity = 1) => {
+    return inventory
+      .map((item) => {
+        if (item.itemId === itemId) {
+          if (item.quantity > quantity) {
+            return { ...item, quantity: item.quantity - quantity };
+          }
+          return null; // Remove item if quantity hits 0
+        }
+        return item;
+      })
+      .filter(Boolean); // Remove null items
+  };  
 
   const handleUseItem = (item) => {
     setGameState((prevState) => {
-      let updatedInventory = [...prevState.inventory];
-      let updatedPlayer = { ...prevState.player };
-
-      // Remove the item from inventory
-      const itemIndex = updatedInventory.findIndex((i) => i.itemId === item.itemId);
-      if (itemIndex > -1) {
-        if (updatedInventory[itemIndex].quantity > 1) {
-          updatedInventory[itemIndex].quantity -= 1;
-        } else {
-          updatedInventory.splice(itemIndex, 1);
-        }
-      }
-
+      const updatedInventory = removeItemFromInventory(prevState.inventory, item.itemId);
+  
       // Apply the item's effect (e.g., healing)
+      const updatedPlayer = { ...prevState.player };
       if (item.effect && item.effect.heal) {
         updatedPlayer.health = Math.min(
-          updatedPlayer.maxHealth,
+          updatedPlayer.maxHitPoints,
           updatedPlayer.health + item.effect.heal
         );
-      }
-
+      }      
+  
       return {
         ...prevState,
         inventory: updatedInventory,
@@ -159,46 +139,27 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
       };
     });
     setItemOptions(null);
-  };
+  };  
 
   const handleDropItem = (item, dropType) => {
+    let quantityToDrop = 1;
+    if (dropType === 'all') quantityToDrop = item.quantity;
+    if (dropType === 'x') {
+      const dropAmount = parseInt(prompt('How many would you like to drop?'), 10);
+      quantityToDrop = !isNaN(dropAmount) && dropAmount > 0 ? Math.min(dropAmount, item.quantity) : 1;
+    }
+  
     setPlayer((prevPlayer) => {
-      let updatedInventory = [...prevPlayer.inventory];
-      const itemIndex = updatedInventory.findIndex((i) => i.itemId === item.itemId);
-
-      if (itemIndex > -1) {
-        switch (dropType) {
-          case 'one':
-            if (updatedInventory[itemIndex].quantity > 1) {
-              updatedInventory[itemIndex].quantity -= 1;
-            } else {
-              updatedInventory.splice(itemIndex, 1);
-            }
-            break;
-          case 'all':
-            updatedInventory.splice(itemIndex, 1);
-            break;
-          case 'x':
-            const dropAmount = prompt('How many would you like to drop?');
-            if (dropAmount > 0 && dropAmount < updatedInventory[itemIndex].quantity) {
-              updatedInventory[itemIndex].quantity -= dropAmount;
-            } else if (dropAmount >= updatedInventory[itemIndex].quantity) {
-              updatedInventory.splice(itemIndex, 1);
-            }
-            break;
-          default:
-            break;
-        }
-      }
-
+      const updatedInventory = removeItemFromInventory(prevPlayer.inventory, item.itemId, quantityToDrop);
       return {
         ...prevPlayer,
         inventory: updatedInventory,
       };
     });
+  
     setDropOptions(null);
     setItemOptions(null);
-  };
+  };   
 
   const addItemToInventory = () => {
     const randomItem = itemConfig.items[Math.floor(Math.random() * itemConfig.items.length)];
@@ -260,36 +221,57 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
   const getItemOptions = (item) => {
     if (!item) return [];
     const itemData = itemConfig.items.find((i) => i.itemId === item.itemId);
-    if (!itemData) return [];
-
+    if (!itemData) return []; // Avoid undefined errors
+  
     if (dropOptions) {
+      const createDropButton = (label, type) => (
+        <button 
+          key={type} 
+          onClick={() => {
+            if (type === 'x') {
+              const dropAmount = parseInt(prompt('How many would you like to drop?'), 10);
+              if (!isNaN(dropAmount) && dropAmount > 0) {
+                handleDropItem(item, 'x', dropAmount);
+              }
+            } else {
+              handleDropItem(item, type);
+            }
+          }}
+        >
+          {label}
+        </button>
+      );
+  
       return (
         <div className={styles.dropOptions}>
-          <button onClick={() => handleDropItem(item, 'one')}>Drop 1</button>
-          <button onClick={() => handleDropItem(item, 'x')}>Drop X</button>
-          <button onClick={() => handleDropItem(item, 'all')}>Drop All</button>
+          {createDropButton('Drop 1', 'one')}
+          {createDropButton('Drop X', 'x')}
+          {createDropButton('Drop All', 'all')}
           <button onClick={() => setDropOptions(null)}>Cancel</button>
         </div>
       );
     }
-
+  
+    const useText = {
+      food: 'Eat',
+      potion: 'Drink',
+      default: 'Use'
+    };
+  
     const options = [];
     if (itemData.isUsable) {
-      if (itemData.type === 'food') {
-        options.push(<button key="eat" onClick={() => { handleUseItem(itemData); }}>Eat</button>);
-      } else if (itemData.type === 'potion') {
-        options.push(<button key="drink" onClick={() => { handleUseItem(itemData); }}>Drink</button>);
-      } else {
-        options.push(<button key="use" onClick={() => { handleUseItem(itemData); }}>Use</button>);
-      }
+      const action = useText[itemData.type] || useText.default;
+      options.push(<button key="use" onClick={() => handleUseItem(itemData)}>{action}</button>);
     }
+  
     if (itemData.type === 'weapon' || itemData.type === 'armor' || itemData.type === 'jewelry') {
-      options.push(<button key="equip" onClick={() => { handleEquipItem(itemData); setItemOptions(null); }}>Equip</button>);
+      options.push(<button key="equip" onClick={() => handleEquipItem(itemData)}>Equip</button>);
     }
-    options.push(<button key="drop" onClick={() => { setDropOptions(true); }}>Drop</button>);
-
+  
+    options.push(<button key="drop" onClick={() => setDropOptions(true)}>Drop</button>);
+  
     return options;
-  };
+  };  
 
   return (
     <div className={styles.inventoryContainer}>
@@ -329,7 +311,7 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
   );
 }
 
-function InventorySlot({ index, item, moveItem, onLeftClick, setItemOptions }) {
+const InventorySlot = React.memo(({ index, item, moveItem, onLeftClick, setItemOptions }) => {
   const slotRef = useRef(null);
 
   const [, dropRef] = useDrop({
@@ -349,7 +331,6 @@ function InventorySlot({ index, item, moveItem, onLeftClick, setItemOptions }) {
   const [{ isDragging }, dragRef] = useDrag({
     type: ItemTypes.ITEM,
     item: () => {
-      // Dismiss item options when dragging starts
       setItemOptions(null);
       return { index };
     },
@@ -386,6 +367,6 @@ function InventorySlot({ index, item, moveItem, onLeftClick, setItemOptions }) {
       ) : null}
     </div>
   );
-}
+});
 
 export default Inventory;

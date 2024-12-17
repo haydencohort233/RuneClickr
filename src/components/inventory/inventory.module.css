@@ -1,14 +1,32 @@
-/* CSS (inventory.module.css) */
+/* inventory.module.css */
+
+/* Container for the entire inventory system */
 .inventoryContainer {
   position: relative;
   padding: 20px;
   background-color: #2e2e2e;
   height: 100%;
-  width: 100%; /* Make the container grow or shrink with the inventory */
-  max-width: 100%; /* Adjust with screen size */
-  margin: 0 auto; /* Center the inventoryContainer */
+  max-height: min(100vh, 100svh);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #555 #2e2e2e;
+  scroll-behavior: smooth;
 }
 
+.inventoryContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.inventoryContainer::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 10px;
+}
+
+.inventoryContainer::-webkit-scrollbar-track {
+  background-color: #2e2e2e;
+}
+
+/* Inventory title styles */
 .inventoryTitle {
   color: #fff;
   font-size: 24px;
@@ -16,33 +34,33 @@
   margin-bottom: 10px;
 }
 
+/* Layout for the inventory slots, responsive and auto-fit */
 .layout {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Default to 1 column */
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
 }
+
 
 @media (min-width: 600px) {
   .layout {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
   .layout {
-    grid-template-columns: repeat(3, 1fr); /* 3 columns for larger tablets or small desktops */
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
-@media (min-width: 1424px) {
+@media (min-width: 1440px) {
   .layout {
-    grid-template-columns: repeat(4, 1fr); /* 4 columns for desktops */
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
+/* Styles for each inventory slot */
 .inventorySlot {
   width: 80px;
   height: 80px;
@@ -53,8 +71,15 @@
   justify-content: center;
   background-color: #1e1e1e;
   cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
+.inventorySlot:hover {
+  transform: scale(1.05);
+  border-color: #ffa500;
+}
+
+/* Style for inventory items */
 .inventoryItem {
   width: 100%;
   height: 100%;
@@ -62,35 +87,33 @@
   align-items: center;
   justify-content: center;
   user-select: none;
-  position: relative; /* Allow child elements to be positioned relative to this container */
+  position: relative; 
+  transition: transform 0.2s ease;
 }
 
-.itemContentWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  position: relative;
+.inventoryItem:hover {
+  transform: scale(1.1);
 }
 
-.itemImage {
-  width: 32px;
-  height: 32px;
-}
-
+/* Item quantity displayed as a circular badge on each item */
 .itemQuantity {
   font-size: 12px;
-  color: #fff;
+  color: white;
   font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 4px 6px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  bottom: 4px; /* Position the quantity text at the bottom of the item */
-  right: 4px; /* Slightly offset from the bottom-right corner */
-  background-color: rgba(0, 0, 0, 0.7); /* Add background for better visibility */
-  padding: 2px 4px;
-  border-radius: 4px;
+  bottom: 4px;
+  right: 4px;
 }
 
+/* Item action options that appear on right-click */
 .itemOptions {
   background-color: #333;
   border: 2px solid #555;
@@ -101,8 +124,7 @@
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  white-space: nowrap; /* Ensure text doesn't wrap */
-  transform-origin: center; /* Smooth transition */
+  padding: 10px 15px;
 }
 
 .itemOptions h4 {
@@ -111,24 +133,43 @@
 }
 
 .itemOptions button {
-  margin: 5px 0;
-  padding: 5px 10px;
+  margin: 8px 0; 
+  padding: 10px 15px;
+  width: 100%; 
   background-color: #444;
   border: none;
   border-radius: 4px;
   color: white;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .itemOptions button:hover {
   background-color: #555;
 }
 
+.itemOptions button:first-of-type {
+  background-color: #4caf50; 
+}
+
+.itemOptions button:first-of-type:hover {
+  background-color: #66bb6a;
+}
+
+.itemOptions button:last-of-type {
+  background-color: #d32f2f; 
+}
+
+.itemOptions button:last-of-type:hover {
+  background-color: #e57373;
+}
+
+/* Highlight slot when dragging an item over */
 .highlightSlot {
   border: 2px solid #ffa500;
 }
 
-/* Rarity Styles */
+/* Rarity styles for inventory items */
 .inventoryItem.common {
   background-color: #777;
   border-color: #aaa;
@@ -152,4 +193,12 @@
 .inventoryItem.legendary {
   background-color: #ffb300;
   border-color: #ff8f00;
+}
+
+.inventorySlot:active {
+  transform: scale(0.95);
+}
+
+.inventoryItem:active {
+  transform: scale(1.05);
 }

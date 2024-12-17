@@ -72,7 +72,7 @@ function PlayerDetails({ player, setPlayer }) {
   const nextLevelExp = useMemo(() => {
     const nextLevelInfo = playerLevels.levels.find(levelInfo => levelInfo.level === level + 1);
     if (nextLevelInfo) {
-      return `${experience} / ${nextLevelInfo.expRequired} EXP`;
+      return `EXP ${experience} / ${nextLevelInfo.expRequired}`;
     }
     return `${experience} / MAX EXP`; // If max level, show max
   }, [experience, level]);
@@ -124,7 +124,7 @@ function PlayerDetails({ player, setPlayer }) {
                 title="Hitpoints"
               />
             </div>
-            <span className={styles.iconText}>{hitpoints} / {maxHitPoints}</span>
+            <span className={styles.iconText}><strong>Health</strong> {hitpoints} / {maxHitPoints}</span>
           </div>
           <div className={styles.currentLocationContainer}>
             <div className={styles.iconAligned}>
@@ -135,7 +135,7 @@ function PlayerDetails({ player, setPlayer }) {
                 title="Current Location"
               />
             </div>
-            <span className={styles.iconText}><strong>Current Location:</strong> {currentLocation}</span>
+            <span className={styles.iconText}><strong>Location:</strong> {currentLocation}</span>
           </div>
         </>
       ) : (
