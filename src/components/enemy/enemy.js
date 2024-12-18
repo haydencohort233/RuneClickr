@@ -1,73 +1,137 @@
-// /components/enemy/enemy.js
-import styles from './enemy.module.css';
 import React, { useEffect, useState } from 'react';
 import worldLocations from '../worldmap/worldLocations.json';
 import enemyConfig from './enemyConfig.json';
 import modifiersConfig from './modifiers.json';
+import './enemy.module.css';
 
 const Enemy = ({ locationId, onStartCombat }) => {
     const [enemies, setEnemies] = useState([]);
 
     useEffect(() => {
-        if (locationId) {
-            spawnEnemies(locationId);
+        const location = worldLocations.find(loc => loc.id === locationId);
+        console.log('Location ID:', locationId);
+        console.log('Location Data:', location);
+        if (location) {
+            console.log('Enemies for Location:', location.enemies);
+        } else {
+            console.warn('No location found for ID:', locationId);
         }
+    }, [locationId]);
+
+    useEffect(() => {
+        console.log('Calling spawnEnemies with locationId:', locationId);
+        spawnEnemies(locationId);
     }, [locationId]);
 
     const spawnEnemies = (locationId) => {
         const location = worldLocations.find(loc => loc.id === locationId);
-        if (!location) return;
-
-        const { enemies: enemyTypes, amount } = location;
-        let spawnedEnemies = [];
-        const enemyCount = Math.ceil(Math.random() * amount); // Random count between 1 and max amount
-
-        for (let i = 0; i < enemyCount; i++) {
-            const randomEnemyType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
-            let enemy = { type: randomEnemyType, ...enemyConfig[randomEnemyType] };
-
-            // Randomly assign modifiers
-            const modifierChance = Math.random();
-            if (modifierChance < 0.1) { // 10% chance to get a modifier
-                const randomModifierKey = Object.keys(modifiersConfig)[Math.floor(Math.random() * Object.keys(modifiersConfig).length)];
-                const modifier = modifiersConfig[randomModifierKey];
-                enemy = {
-                    ...enemy,
-                    type: `${modifier.name} ${enemy.type}`,
-                    level: enemy.level * modifier.levelMultiplier,
-                    health: enemy.health * modifier.hpMultiplier,
-                    damage: enemy.damage * modifier.damageMultiplier,
-                    experience: enemy.experience * modifier.experienceMultiplier,
-                    maxHit: enemy.maxHit * modifier.maxHitMultiplier,
-                    attackPower: enemy.attackPower * modifier.attackPowerMultiplier,
-                    defencePower: enemy.defencePower * modifier.defencePowerMultiplier,
-                    specialTag: modifier.name
-                };
-            }
-
-            spawnedEnemies.push(enemy);
+        if (!location) {
+            console.warn('No location found for ID:', locationId);
+            return;
         }
 
-        setEnemies(spawnedEnemies);
+        const { enemies: enemyTypes, amount } = location;
+        console.log('Enemy Types:', enemyTypes, 'Amount to spawn:', amount);
+        const enemyCount = Math.floor(Math.random() * amount) + 1;
+        console.log('Enemy Count:', enemyCount);
+
+        const newEnemies = Array.from({ length: enemyCount }, () => generateEnemy(enemyTypes));
+        console.log('Generated Enemies:', newEnemies);
+        setEnemies(newEnemies);
+    };
+
+    const generateEnemy = (enemyTypes) => {
+        console.log('Generating enemy from types:', enemyTypes);
+        const randomType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+        console.log('Random Enemy Type:', randomType);
+        let enemy = createEnemy(randomType);
+        
+        if (Math.random() < 0.1) {
+            const modifier = getRandomModifier();
+            console.log('Applying Modifier:', modifier);
+            enemy = applyModifier(enemy, modifier);
+        }
+
+        console.log('Enemy After Modifiers:', enemy);
+        executeAbilities(enemy);
+        return enemy;
+    };
+
+    const createEnemy = (enemyType) => {
+        console.log('Creating enemy of type:', enemyType);
+        const config = enemyConfig[enemyType];
+        console.log('Enemy Config:', config);
+        if (!config) {
+            console.warn(`No enemy configuration found for type: ${enemyType}`);
+            return null;
+        }
+        const enemy = {
+            id: crypto.randomUUID(),
+            type: enemyType,
+            properties: { ...config.properties },
+            image: config.image,
+            abilities: config.abilities || []
+        };
+        console.log('Created Enemy:', enemy);
+        return enemy;
+    };
+
+    const getRandomModifier = () => {
+        const keys = Object.keys(modifiersConfig);
+        const randomKey = keys[Math.floor(Math.random() * keys.length)];
+        return modifiersConfig[randomKey];
+    };
+
+    const applyModifier = (enemy, modifier) => {
+        Object.keys(modifier.properties).forEach(key => {
+            if (key.endsWith('Multiplier')) {
+                const statName = key.replace('Multiplier', '');
+                if (enemy.properties.hasOwnProperty(statName)) {
+                    enemy.properties[statName] *= modifier.properties[key];
+                }
+            }
+        });
+        enemy.type = `${modifier.name} ${enemy.type}`;
+        enemy.specialTag = modifier.name;
+        return enemy;
+    };
+
+    const executeAbilities = (enemy) => {
+        enemy.abilities.forEach(ability => {
+            if (ability === 'stun') {
+                enemy.properties.attackPower *= 0.5;
+            } else if (ability === 'heal') {
+                enemy.properties.health += 20;
+            }
+        });
     };
 
     return (
-        <div className={styles['enemy-container']}>
+        <>
             {enemies.map((enemy, index) => (
-                <div key={index} className={styles.enemy}>
-                    <h3>{enemy.type}</h3>
-                    <img src={`http://localhost:5000${enemy.image}`} alt={enemy.type} onError={(e) => { e.target.src = 'http://localhost:5000/assets/images/enemies/fallback.png'; }} />
-                    <p>Health: {enemy.health}</p>
-                    <p>Attack Power: {enemy.attackPower}</p>
-                    <p>Defence Power: {enemy.defencePower}</p>
-                    <p>Level: {enemy.level}</p>
-                    {enemy.specialTag && <p className={styles.specialTag}>{enemy.specialTag}</p>}
-                    <button onClick={() => onStartCombat(enemy)}>Start Combat</button>
+                <div 
+                    key={enemy.id} 
+                    className={`enemy ${enemy.specialTag?.toLowerCase()}`} 
+                    onClick={() => onStartCombat(enemy)}
+                >
+                    <h3 className="enemy-header">{`${enemy.type} (Level ${enemy.properties.level})`}</h3>
+                    <img 
+                        src={enemy.image} 
+                        alt={enemy.type} 
+                        className="enemy-image" 
+                        width="150"
+                        height="100"
+                    />
+                    <div className="enemy-stats">
+                        {Object.entries(enemy.properties).map(([key, value]) => (
+                            <p key={key} className="enemy-stat">{key}: {value}</p>
+                        ))}
+                    </div>  
+                    {enemy.specialTag && <p className="special-tag">{enemy.specialTag}</p>}
                 </div>
-            ))}
-        </div>
+            ))} 
+        </>
     );
-    
 };
 
 export default Enemy;

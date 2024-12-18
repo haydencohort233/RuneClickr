@@ -25,7 +25,6 @@ function LocationDetails({ currentLocation, player, setPlayer, gainExperience, s
     } else {
       console.log('Selected feature:', selectedFeature);
 
-      // Check if the selected feature is a shop and load its data
       if (selectedFeature?.type === 'shop' && selectedFeature?.shopId) {
         if (Array.isArray(shops)) {
           const shop = shops.find((shop) => shop.id === selectedFeature.shopId);
@@ -52,15 +51,12 @@ function LocationDetails({ currentLocation, player, setPlayer, gainExperience, s
 
   const { name, description, feature_ids = [], locationPhoto, enemies = [] } = currentLocation;
 
-  // Filter available features for this location
   const availableFeatures = features.filter((feature) => feature_ids.includes(feature.id));
 
-  // Handles clicking on a feature to select/deselect it
   const handleFeatureClick = (feature) => {
     setSelectedFeature((prevFeature) => (prevFeature === feature ? null : feature));
   };
 
-  // Renders the dynamic feature component (like Shop, Banking, etc.)
   const renderFeatureComponent = () => {
     if (selectedFeature) {
       const FeatureComponent = featureRegistry[selectedFeature.component];
@@ -82,19 +78,16 @@ function LocationDetails({ currentLocation, player, setPlayer, gainExperience, s
     return null;
   };
 
-  // Handles starting combat with an enemy
   const handleStartCombat = (enemy) => {
     setInCombat(true);
     setCurrentEnemy(enemy);
   };
 
-  // Handles combat end (player wins)
   const handleCombatEnd = () => {
     if (currentEnemy) {
       const experienceGained = currentEnemy.experience || 0;
       const droppedItems = getDropItems(currentEnemy.type);
 
-      // Update player with experience and new items
       setPlayer((prevPlayer) => {
         let updatedInventory = [...prevPlayer.inventory];
 
@@ -160,9 +153,10 @@ function LocationDetails({ currentLocation, player, setPlayer, gainExperience, s
       </div>
 
       {enemies.length > 0 && !inCombat && (
-        <div className={styles.enemiesContainer}>
-          <Enemy locationId={currentLocation.id} onStartCombat={handleStartCombat} />
-        </div>
+        <div className={styles['enemy-container']}>
+  <Enemy locationId={currentLocation.id} onStartCombat={handleStartCombat} />
+</div>
+
       )}
 
       {inCombat && currentEnemy && (

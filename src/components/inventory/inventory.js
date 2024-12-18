@@ -33,36 +33,37 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
   const handleLeftClick = useCallback((item, index, slotElement) => {
     if (item) {
       const rect = slotElement.getBoundingClientRect();
-
+      const bottomSpace = window.innerHeight - rect.bottom;
+      const topSpace = rect.top;
+  
+      const position = bottomSpace < 150 
+        ? { top: rect.top + window.scrollY - 150, left: rect.left + rect.width / 2 } // Above the slot
+        : { top: rect.bottom + window.scrollY, left: rect.left + rect.width / 2 };  // Below the slot
+  
       setItemOptions({
         item,
         index,
-        position: {
-          top: rect.bottom + window.scrollY, // Position below the inventory slot
-          left: rect.left + rect.width / 2, // Center horizontally
-        },
+        position,
       });
-
-      // Clear any existing timeout to reset the 5-second timer
+  
       if (optionsTimeout.current) {
         clearTimeout(optionsTimeout.current);
       }
-
-      // Auto-dismiss the options after 5 seconds if the mouse isn't inside
+  
       optionsTimeout.current = setTimeout(() => {
         setItemOptions(null);
       }, 5000);
     } else {
       setItemOptions(null);
     }
-  }, []);
+  }, []);  
 
   const handleMouseEnterOptions = useCallback(() => {
     if (optionsTimeout.current) {
       clearTimeout(optionsTimeout.current);
     }
   }, []);
-
+  
   const handleMouseLeaveOptions = useCallback(() => {
     if (optionsTimeout.current) {
       clearTimeout(optionsTimeout.current);
@@ -70,7 +71,7 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
     optionsTimeout.current = setTimeout(() => {
       setItemOptions(null);
     }, 5000);
-  }, []);
+  }, []);  
 
   const handleEquipItem = (item) => {
     setGameState((prevState) => {
@@ -197,26 +198,56 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (itemOptions && !event.target.closest(`.${styles.itemOptions}`) && !event.target.closest(`.${styles.dropOptions}`)) {
+      if (
+        itemOptions &&
+        !event.target.closest(`.${styles.itemOptions}`) &&
+        !event.target.closest(`.${styles.dropOptions}`)
+      ) {
         setItemOptions(null);
         setDropOptions(null);
       }
     };
-
-    // Delay adding the event listener slightly to avoid immediate dismissal
+  
     const timeoutId = setTimeout(() => {
       document.addEventListener('click', handleClickOutside);
     }, 0);
-
+  
     return () => {
       document.removeEventListener('click', handleClickOutside);
       clearTimeout(timeoutId);
-      // Clean up timeout when the component unmounts
       if (optionsTimeout.current) {
         clearTimeout(optionsTimeout.current);
       }
     };
-  }, [itemOptions, dropOptions]);
+  }, [itemOptions, dropOptions]);  
+
+  useEffect(() => {
+    const updatePosition = () => {
+      if (!itemOptions) return; // If no item options are open, do nothing
+  
+      const slotElement = document.querySelector(`[data-index="${itemOptions.index}"]`);
+      if (!slotElement) return; // If we can't find the slot, don't do anything
+  
+      const rect = slotElement.getBoundingClientRect();
+      const bottomSpace = window.innerHeight - rect.bottom;
+      const topSpace = rect.top;
+  
+      const position = bottomSpace < 150 
+        ? { top: rect.top + window.scrollY - 150, left: rect.left + rect.width / 2 } // Above the slot
+        : { top: rect.bottom + window.scrollY, left: rect.left + rect.width / 2 };  // Below the slot
+  
+      setItemOptions((prev) => ({
+        ...prev,
+        position, // Update the position
+      }));
+    };
+  
+    window.addEventListener('resize', updatePosition); // When window resizes, call updatePosition
+  
+    return () => {
+      window.removeEventListener('resize', updatePosition); // Clean up the listener when component unmounts
+    };
+  }, [itemOptions]);   
 
   const getItemOptions = (item) => {
     if (!item) return [];
@@ -288,6 +319,7 @@ function Inventory({ inventory = [], setPlayer, maxInventorySpace = MAX_INVENTOR
             moveItem={handleMoveItem}
             onLeftClick={handleLeftClick}
             setItemOptions={setItemOptions} // Pass setItemOptions to clear it on drag
+            data-index={index} // Attach index to help locate slot later
           />
         ))}
       </div>
@@ -343,14 +375,14 @@ const InventorySlot = React.memo(({ index, item, moveItem, onLeftClick, setItemO
   const opacity = isDragging ? 0.5 : 1;
 
   return (
-    <div
-      ref={(el) => {
-        slotRef.current = el;
-        dropRef(el);
-      }}
-      className={`${styles.inventorySlot} ${dropRef.current?.isOver ? styles.highlightSlot : ''}`}
-      onClick={() => onLeftClick(item, index, slotRef.current)} // Pass the slot element to calculate position
-    >
+      <div
+        ref={(el) => {
+          slotRef.current = el;
+          dropRef(el);
+        }}
+        className={`${styles.inventorySlot} ${dropRef.current?.isOver ? styles.highlightSlot : ''}`}
+        onClick={() => onLeftClick(item, index, slotRef.current)} // Pass the slot element to calculate position
+      >
       {item ? (
         <div
           ref={dragRef}

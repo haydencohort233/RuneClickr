@@ -127,6 +127,10 @@
   padding: 10px 15px;
 }
 
+.itemOptionsAbove {
+  transform: translate(-50%, -100%); /* Position above the item */
+}
+
 .itemOptions h4 {
   margin-bottom: 8px;
   font-size: 14px;

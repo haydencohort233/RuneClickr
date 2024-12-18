@@ -1,8 +1,8 @@
 .enemy-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Default to 3 columns */
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    justify-items: center; /* Align items in the center of each cell */
+    justify-items: center;
     margin-top: 20px;
 }
 
@@ -16,21 +16,52 @@
     background-color: #f9f9f9;
 }
 
-.enemy img {
-    max-width: 50%;
-    height: auto;
+.enemy-header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.enemy img.enemy-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
     border-radius: 4px;
     margin-bottom: 12px;
+    display: block;
+}
+
+.enemy-stats {
+    margin-top: 10px;
+    text-align: left;
+}
+
+.enemy-stat {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 4px;
 }
 
 .special-tag {
     font-weight: bold;
-    color: #d9534f;
+    margin-top: 10px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
 }
 
-/* Media query for smaller screens */
-@media (max-width: 635px) {
+.special-tag.legendary {
+    color: gold;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+}
+
+.special-tag.mythical {
+    color: purple;
+    text-shadow: 0 0 5px rgba(128, 0, 128, 0.7);
+}
+
+
+@media (max-width: 768px) {
     .enemy-container {
-        grid-template-columns: repeat(2, 1fr); /* Change to 2 columns on smaller screens */
+        grid-template-columns: repeat(2, 1fr);
     }
 }

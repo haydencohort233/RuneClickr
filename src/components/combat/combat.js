@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 const Combat = ({ enemy, player = {}, setPlayer, onCombatEnd }) => {
     const [currentEnemy, setCurrentEnemy] = useState(enemy);
     const [playerHp, setPlayerHp] = useState(player.hitpoints || 100);
+    const [enemyHp, setEnemyHp] = useState(enemy.health);
+    const [turn, setTurn] = useState('player'); // 'player' or 'enemy'
 
     useEffect(() => {
         if (player.hitpoints !== undefined) {
@@ -11,30 +13,31 @@ const Combat = ({ enemy, player = {}, setPlayer, onCombatEnd }) => {
     }, [player.hitpoints]);
 
     const attackEnemy = () => {
-        if (!currentEnemy) return;
+        if (!currentEnemy || turn !== 'player') return;
 
-        // Calculate damage dealt by player to enemy
         const attackRoll = Math.floor(Math.random() * (player.attackPower || 10)) + 1;
         const damageDealt = Math.max(0, attackRoll - currentEnemy.defencePower);
-        let updatedEnemyHp = currentEnemy.health - damageDealt;
+        const updatedEnemyHp = Math.max(0, enemyHp - damageDealt);
+
+        setEnemyHp(updatedEnemyHp);
 
         if (updatedEnemyHp <= 0) {
-            // Enemy defeated
             alert(`${currentEnemy.type} has been defeated!`);
             onCombatEnd();
         } else {
-            setCurrentEnemy({ ...currentEnemy, health: updatedEnemyHp });
+            setTurn('enemy');
         }
     };
 
     const enemyAttack = () => {
-        if (!currentEnemy) return;
+        if (!currentEnemy || turn !== 'enemy') return;
 
-        // Enemy attacks player
         const attackRoll = Math.floor(Math.random() * currentEnemy.attackPower) + 1;
         const damageDealt = Math.max(0, attackRoll - (player.defencePower || 5));
-        const newPlayerHp = playerHp - damageDealt;
+        const newPlayerHp = Math.max(0, playerHp - damageDealt);
+
         setPlayerHp(newPlayerHp);
+
         if (newPlayerHp <= 0) {
             alert('You have been defeated!');
             onCombatEnd();
@@ -43,20 +46,25 @@ const Combat = ({ enemy, player = {}, setPlayer, onCombatEnd }) => {
                 ...prevPlayer,
                 hitpoints: newPlayerHp
             }));
+            setTurn('player');
         }
     };
+
+    useEffect(() => {
+        if (turn === 'enemy') {
+            const enemyAttackTimeout = setTimeout(enemyAttack, 1000);
+            return () => clearTimeout(enemyAttackTimeout);
+        }
+    }, [turn]);
 
     return (
         <div className="combat-container">
             {currentEnemy ? (
                 <div className="enemy-details">
                     <h3>Fighting: {currentEnemy.type}</h3>
-                    <p>Enemy Health: {currentEnemy.health}</p>
+                    <p>Enemy Health: {enemyHp}</p>
                     <p>Enemy Level: {currentEnemy.level}</p>
-                    <p>Enemy Attack Power: {currentEnemy.attackPower}</p>
-                    <p>Enemy Defence Power: {currentEnemy.defencePower}</p>
-                    <button onClick={attackEnemy}>Attack</button>
-                    <button onClick={enemyAttack}>Enemy Attack</button>
+                    <button onClick={attackEnemy} disabled={turn !== 'player'}>Attack</button>
                 </div>
             ) : (
                 <p>No more enemies!</p>

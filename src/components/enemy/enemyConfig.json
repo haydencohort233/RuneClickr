@@ -1,13 +1,16 @@
 {
     "Cow": {
         "enemyId": "1",
-        "level": 1,
-        "health": 50,
-        "damage": 5,
-        "experience": 10,
-        "maxHit": 10,
-        "attackPower": 10,
-        "defencePower": 3,
+        "properties": {
+            "level": 1,
+            "health": 50,
+            "damage": 5,
+            "experience": 10,
+            "maxHit": 10,
+            "attackPower": 10,
+            "defencePower": 3
+        },
+        "abilities": ["heal"],
         "image": "/assets/images/enemies/cow.png"
     }
 }

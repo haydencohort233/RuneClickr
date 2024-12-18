@@ -1,5 +1,3 @@
-/* locationDetails.module.css */
-
 .locationDetailsContainer {
   display: flex;
   flex-direction: column;
@@ -97,33 +95,33 @@
   border: 2px solid #f8f8f8;
 }
 
-.enemiesContainer {
+.enemy-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 16px;
+  justify-items: center;
   padding: 20px;
   width: 100%;
   margin-top: 20px;
 }
 
-.enemyContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background-color: #f9f9f9;
+.enemy {
+  border: 1px solid #ccc;
   border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  width: 155px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 300px;
-  margin: 0 auto;
+  background-color: #f9f9f9;
 }
 
 @media (max-width: 768px) {
-  .enemiesContainer {
+  .enemy-container {
     grid-template-columns: repeat(2, 1fr);
   }
+}
 
+@media (max-width: 768px) {
   .featureItem {
     font-size: 0.9rem;
     padding: 10px 15px;
