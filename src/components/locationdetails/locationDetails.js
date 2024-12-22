@@ -130,11 +130,12 @@ function LocationDetails({ currentLocation, player, setPlayer, gainExperience, s
         />
       </div>
   
-      <div className={styles.featuresContainer}>
-        <h3 className={styles.featuresTitle}>Available Features:</h3>
-        <ul className={styles.featuresList}>
-          {availableFeatures.length > 0 ? (
-            availableFeatures.map((feature) => (
+      {/* Conditionally render the features container */}
+      {availableFeatures.length > 0 && (
+        <div className={styles.featuresContainer}>
+          <h3 className={styles.featuresTitle}>Available Features:</h3>
+          <ul className={styles.featuresList}>
+            {availableFeatures.map((feature) => (
               <li
                 key={feature.id}
                 onClick={() => handleFeatureClick(feature)}
@@ -142,14 +143,11 @@ function LocationDetails({ currentLocation, player, setPlayer, gainExperience, s
               >
                 {feature.name}
               </li>
-            ))
-          ) : (
-            <li className={styles.noFeaturesMessage}>Nothing interesting to do here...</li>
-          )}
-        </ul>
-      </div>
+            ))}
+          </ul>
+        </div>
+      )}
   
-      {/* Conditionally render featureDetailsContainer */}
       {selectedFeature && (
         <div className={styles.featureDetailsContainer}>
           {renderFeatureComponent()}
