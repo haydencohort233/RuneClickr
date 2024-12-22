@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import styles from './playerDetails.module.css';
-import playerLevels from './playerLevel.json'; // Import player level configuration
-import playerStats from './playerStats.json'; // Import player stats configuration
+import playerLevels from './playerLevel.json';
+import playerStats from './playerStats.json';
 
 // Import images statically
 import player_100 from '../../assets/images/player/player_100.png';

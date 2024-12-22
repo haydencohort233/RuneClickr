@@ -3,7 +3,7 @@ import Banking from '../banking/banking';
 import CookingRange from '../skills/cooking/CookingRange';
 
 const featureRegistry = {
-  "Shop": Shop, // Use the same Shop component for all shops
+  "Shop": Shop,
   "Banking": Banking,
   "CookingRange": CookingRange
 };

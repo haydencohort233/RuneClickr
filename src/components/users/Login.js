@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Login.module.css';
+import skills from '../skills/skills.json';
 
 function Login({ setUserId, setGameState }) {
   const [username, setUsername] = useState("");
@@ -84,10 +85,18 @@ function Login({ setUserId, setGameState }) {
       if (response.ok) {
         const data = await response.json();
         if (setGameState) {
-          setGameState((prevState) => ({
-            ...prevState,
-            ...data.gameState,
-          }));
+          setGameState((prevState) => {
+            const mergedSkills = {
+              ...skills, // Default skills from skills.json
+              ...data.gameState.skills // User skills override default skills
+            };
+
+            return {
+              ...prevState,
+              ...data.gameState,
+              skills: mergedSkills // Ensure new skills are merged into the game state
+            };
+          });
           console.log('Game state loaded successfully:', data.gameState);
         } else {
           console.error('setGameState is not defined');

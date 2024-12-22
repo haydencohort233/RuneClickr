@@ -1,0 +1,21 @@
+[
+    {
+      "name": "Fireball",
+      "damage": 20,
+      "levelRequired": 5,
+      "runesRequired": { "Fire Rune": 3, "Air Rune": 1 }
+    },
+    {
+      "name": "Ice Barrage",
+      "damage": 40,
+      "levelRequired": 75,
+      "runesRequired": { "Water Rune": 5, "Blood Rune": 2 }
+    },
+    {
+      "name": "Dev Test Spell",
+      "damage": 9999,
+      "levelRequired": 1,
+      "runesRequired": {} 
+    }
+  ]
+  

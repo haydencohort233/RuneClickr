@@ -5,11 +5,10 @@
   top: 20px;
   right: 20px;
   color: #fff;
-  background-color: rgba(41, 41, 39, 0.9); /* Optional background */
+  background-color: rgba(41, 41, 39, 0.9);
   padding: 10px;
   border-radius: 5px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  z-index: 1000; /* Ensures it stays on top */
+  z-index: 1000;
 }
 
 h2 {

@@ -5,9 +5,11 @@ import Equipment from '../equipment/equipment';
 import WorldMap from '../worldmap/worldMap';
 import PlayerDetails from '../player/playerDetails';
 import GameSaves from '../gamesaves/gameSaves';
+import Skills from '../skills/skills';
 
 function UI({ inventory, setPlayer, maxInventorySpace, gameState, setGameState, userId }) {
   const [activeComponent, setActiveComponent] = useState(null);
+  const [skillsVisible, setSkillsVisible] = useState(false);
 
   const handleInventoryToggle = () => {
     setActiveComponent(activeComponent === 'inventory' ? null : 'inventory');
@@ -19,6 +21,10 @@ function UI({ inventory, setPlayer, maxInventorySpace, gameState, setGameState, 
 
   const handleWorldMapToggle = () => {
     setActiveComponent(activeComponent === 'worldMap' ? null : 'worldMap');
+  };
+
+  const toggleSkillsVisibility = () => {
+    setSkillsVisible((prev) => !prev);
   };
 
   return (
@@ -36,6 +42,15 @@ function UI({ inventory, setPlayer, maxInventorySpace, gameState, setGameState, 
           setPlayer={setGameState}
           className={styles.playerDetails}
         />
+                <button className={styles.toggleButton} onClick={toggleSkillsVisibility}>
+          {skillsVisible ? '▲' : '▼'} Skills
+        </button>
+        {skillsVisible && (
+          <Skills
+            skills={gameState.skills}
+            totalSkillExp={gameState.totalSkillExp}
+          />
+        )}
         <GameSaves
           userId={userId}
           gameState={gameState}

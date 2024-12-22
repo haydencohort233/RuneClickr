@@ -34,48 +34,111 @@
   top: 20px;
   right: 20px;
   z-index: 10;
-  gap: 15px;
+  gap: 8px; /* Reduced gap to make it more compact */
+  width: 180px; /* Adjusted to fit better */
+  background: rgba(41, 41, 39, 0.9);
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-.buttonContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  justify-content: flex-end;
-}
-
-.gameButton {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
+.toggleButton {
+  padding: 5px 10px;
   font-size: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #a39c9c;
-  border: 2px solid #007bff;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  align-self: center;
+  margin-top: 5px;
 }
 
-.gameButton:hover {
-  background-color: #c5c2c2;
-  border-color: #fbff00;
+.toggleButton:hover {
+  background-color: #5a6268;
 }
 
-.icon {
-  width: 20px;
-  height: 20px;
+.skillsDropdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  width: 100%;
 }
 
+.skillsDropdown.open {
+  max-height: 600px; /* Adjust based on content */
+}
+
+.skillsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* Compact spacing */
+  background: rgba(41, 41, 39, 0.9); /* Match PlayerDetails */
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.skillRow {
+  display: flex;
+  align-items: center;
+  background-color: rgba(60, 60, 60, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px;
+  border-radius: 6px;
+  height: 40px; /* Compact height */
+}
+
+.skillIcon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.skillDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.levelInfo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.currentLevel {
+  color: #4caf50;
+}
+
+.nextLevel {
+  color: #ff9800;
+}
+
+.progressBarContainer {
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}
+
+/* Inventory, Equipment, and World Map styles */
 .inventoryOverlay {
   position: fixed;
   top: 0;
-  left: -100%; /* Hide by default */
+  left: -100%;
   height: 100%;
   max-width: 60%;
   min-width: 220px;
-  background-color: #ffffff;
+  background-color: rgba(41, 41, 39, 0.95);
   box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
   transition: left 0.3s ease;
   z-index: 999;
@@ -84,17 +147,31 @@
 .equipmentOverlay {
   position: fixed;
   top: 0;
-  left: -100%; /* Hide by default */
+  left: -100%;
   height: 100%;
   max-width: 60%;
   min-width: 220px;
-  background-color: #ffffff;
+  background-color: rgba(41, 41, 39, 0.95);
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+  transition: left 0.3s ease;
+  z-index: 999;
+}
+
+.worldMapOverlay {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  max-width: 60%;
+  min-width: 220px;
+  background-color: rgba(41, 41, 39, 0.95);
   box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
   transition: left 0.3s ease;
   z-index: 999;
 }
 
 .inventoryOverlay.open,
-.equipmentOverlay.open {
+.equipmentOverlay.open,
+.worldMapOverlay.open {
   left: 0; /* Slide into view */
 }

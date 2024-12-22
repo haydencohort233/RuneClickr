@@ -160,12 +160,14 @@ function Buildings({ gameState, setGameState }) {
   
           return (
             <div key={building} className={styles.buildingItem}>
-              <img 
-                src={require(`../../assets/images/buildings/building_${building.toLowerCase().replace(/ /g, '_')}.png`)} 
-                alt={building}
-                className={styles.buildingThumbnail}
-                onError={(e) => e.target.src = fallbackImage}
-              />
+              <div className={styles.buildingThumbnailWrapper} title={buildingStats[building]?.description}>
+                <img 
+                  src={require(`../../assets/images/buildings/building_${building.toLowerCase().replace(/ /g, '_')}.png`)} 
+                  alt={building}
+                  className={styles.buildingThumbnail}
+                  onError={(e) => e.target.src = fallbackImage}
+                />
+              </div>
               <div className={styles.buildingTitle}>{building}</div>
               <div className={styles.buildingDetails}>
                 Count: {count} <br />

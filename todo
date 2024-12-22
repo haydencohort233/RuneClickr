@@ -1,10 +1,5 @@
-- Rearranging Inventories (Remove sorting or add a "Manual" sort mode when interacted with)
-- Bank and Click to Drop to add to Banks
 - Equip / Drop options in Inventory should go away after 5-10secs if no option is chosen
-
-
-- Equipment Equipped Photo UI should be centered down more in current state
-- Fix Enemies CSS to spawn in columns 
+- Equipping items shifts Equipment items to the left slightly
 
 
 
@@ -21,9 +16,5 @@
 
 
 
-- Draw how out you want your icons
-- Have 10 Buildings
-- Have 10 Achievements
-- Darken behind World Map Overlay
-- Random Hit Formula for Monster/Player
+
 - Player Profile Page to see Cloud Saved Data & Local Saved Data (no editing) only viewing

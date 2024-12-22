@@ -5,12 +5,17 @@ import saveIcon from '../../assets/images/icons/save_game_state.png';
 import loadIcon from '../../assets/images/icons/load_game_state.png';
 import exportIcon from '../../assets/images/icons/export_game_state.png';
 import importIcon from '../../assets/images/icons/import_game_state.png';
+import skills from '../skills/skills.json';
 
 function GameSaves({ userId, gameState, setGameState }) {
   const fileInputRef = useRef(null);
 
   // Ensure all necessary fields are present in gameState, adding defaults if missing
   const ensureCompleteGameState = (state) => {
+    const calculateTotalSkillExp = (skills) => {
+      return Object.values(skills).reduce((total, skill) => total + skill.experience, 0);
+    };
+
     return {
       level: 1,
       currency: 0,
@@ -37,10 +42,11 @@ function GameSaves({ userId, gameState, setGameState }) {
         primaryHand: null,
       },
       skills: {
-        cooking: { level: 1, experience: 0 },
-        gathering: { level: 1, experience: 0 }
+        ...skills, // Merge default skills from skills.json
+        ...state.skills // Merge user skills (user data overrides defaults)
       },
-      ...state,
+      totalSkillExp: calculateTotalSkillExp(state.skills || {}), // Calculate total skill experience
+      ...state, // Overwrite everything else with the user's saved state
     };
   };
 

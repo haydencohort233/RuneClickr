@@ -1,19 +1,18 @@
-// /src/utils/levelUp.js
+import levels from '../components/skills/levels.json';
+
 export const handleLevelUp = (skillName, skillDetails) => {
-    const expToLevel = skillDetails.level * 100; // Example formula
-  
-    if (skillDetails.experience >= expToLevel) {
-      return {
-        level: skillDetails.level + 1,
-        experience: skillDetails.experience - expToLevel,
-        leveledUp: true,
-        message: `Congratulations! You've leveled up ${skillName} to Level ${skillDetails.level + 1}!`
-      };
-    }
-  
+  const nextLevelExp = levels[skillDetails.level + 1] ?? Infinity;
+
+  if (skillDetails.experience >= nextLevelExp) {
     return {
-      ...skillDetails,
-      leveledUp: false,
+      level: skillDetails.level + 1,
+      leveledUp: true,
+      message: `Congratulations! You've leveled up ${skillName} to Level ${skillDetails.level + 1}!`
     };
+  }
+
+  return {
+    ...skillDetails,
+    leveledUp: false,
   };
-  
+};

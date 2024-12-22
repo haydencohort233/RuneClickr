@@ -1,0 +1,9 @@
+{
+    "cooking": { "level": 1, "experience": 0 },
+    "gathering": { "level": 1, "experience": 0 },
+    "magic": { "level": 1, "experience": 0 },
+    "fishing": { "level": 1, "experience": 0 },
+    "mining": { "level": 1, "experience": 0 },
+    "woodcutting": { "level": 1, "experience": 0 }
+  }
+  

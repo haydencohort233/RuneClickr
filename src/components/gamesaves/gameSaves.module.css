@@ -17,7 +17,9 @@
   width: 40px;
   height: 40px;
   border-radius: 8px;
+  background-color: rgba(41, 41, 39, 0.9);
   font-size: 10px; /* Smaller text for compact buttons */
+  color: white;
 }
 
 .icon {

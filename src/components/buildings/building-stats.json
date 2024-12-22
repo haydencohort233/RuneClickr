@@ -15,7 +15,7 @@
     "incomeInterval": 1000,
     "costIncreaseModifier": 1.2,
     "expReward": 20,
-    "levelRequirement": 3
+    "levelRequirement": 2
   },
   "Varrock": {
     "cost": 500,
@@ -24,7 +24,7 @@
     "incomeInterval": 1000,
     "costIncreaseModifier": 1.25,
     "expReward": 50,
-    "levelRequirement": 5
+    "levelRequirement": 3
   },
   "Falador Pub": {
     "cost": 1000,
@@ -33,7 +33,7 @@
     "incomeInterval": 1000,
     "costIncreaseModifier": 1.5,
     "expReward": 100,
-    "levelRequirement": 7
+    "levelRequirement": 4
   },
   "Bank": {
     "cost": 2000,
@@ -42,6 +42,6 @@
     "incomeInterval": 1000,
     "costIncreaseModifier": 1.35,
     "expReward": 100,
-    "levelRequirement": 3
+    "levelRequirement": 5
   }
 }

@@ -1,37 +1,64 @@
 .skillsContainer {
-    border: 1px solid #ccc;
-    padding: 16px;
-    border-radius: 8px;
-    margin-top: 20px;
-    background-color: #f0f0f0;
+    background-color: rgba(41, 41, 39, 0.9);
+    display: flex;
+    flex-direction: column;
 }
 
-.skill {
-    margin-bottom: 12px;
-    text-align: center;
+.skillRow {
+    display: flex;
+    align-items: center;
+    background-color: rgba(41, 41, 39, 0.9);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 40px;
+    width: 170px;
+    transition: transform 0.3s ease;
 }
 
-.skill h4 {
-    margin: 0;
+.skillIcon {
+    width: 21px;
+    height: 21px;
+    object-fit: contain;
+    margin-right: 12px;
+}
+
+.skillDetails {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.levelInfo {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: bold;
     color: #333;
 }
 
-.skill p {
-    margin: 4px 0;
-    font-size: 14px;
+.currentLevel {
+    color: #4caf50;
 }
 
-.skill button {
-    margin-top: 8px;
-    padding: 8px 16px;
-    font-size: 14px;
-    background-color: #007bff;
+.nextLevel {
+    color: #ff9800;
+}
+
+.progressBarContainer {
+    height: 8px;
+    background-color: #e0e0e0;
+    overflow: hidden;
+}
+
+.progressBar {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.3s ease;
+}
+
+.totalExperience {
+    font-size: 12px;
+    text-align: center;
     color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.skill button:hover {
-    background-color: #0056b3;
 }
