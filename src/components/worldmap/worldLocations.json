@@ -30,7 +30,8 @@
     "name": "Wizard's Tower",
     "description": "Known to lead players to the 'Abyss' a mysterious dimension.",
     "coordinates": { "top": "-70px", "left": "90px" },
-    "travelTime": 5
+    "travelTime": 5,
+    "enemies": ["Cow"]
   },
   {
     "id": "draynor",

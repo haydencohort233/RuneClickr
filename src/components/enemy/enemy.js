@@ -3,81 +3,111 @@ import worldLocations from '../worldmap/worldLocations.json';
 import enemyConfig from './enemyConfig.json';
 import modifiersConfig from './modifiers.json';
 import './enemy.module.css';
+import EnemyClick from './enemyClick';
 
 const Enemy = ({ locationId, onStartCombat }) => {
     const [enemies, setEnemies] = useState([]);
+    const [error, setError] = useState(null); // Error state
+    const [selectedEnemy, setSelectedEnemy] = useState(null); // Selected enemy state
 
     useEffect(() => {
-        const location = worldLocations.find(loc => loc.id === locationId);
-        console.log('Location ID:', locationId);
-        console.log('Location Data:', location);
-        if (location) {
-            console.log('Enemies for Location:', location.enemies);
-        } else {
-            console.warn('No location found for ID:', locationId);
+        try {
+            const location = worldLocations.find(loc => loc.id === locationId);
+            if (location) {
+                console.log('Location Data:', location);
+            } else {
+                throw new Error(`No location found for ID: ${locationId}`);
+            }
+        } catch (err) {
+            console.error(err);
+            setError(err.message); // Set error message
         }
     }, [locationId]);
 
     useEffect(() => {
-        console.log('Calling spawnEnemies with locationId:', locationId);
-        spawnEnemies(locationId);
+        try {
+            spawnEnemies(locationId);
+        } catch (err) {
+            console.error(err);
+            setError(err.message); // Set error message
+        }
     }, [locationId]);
 
     const spawnEnemies = (locationId) => {
-        const location = worldLocations.find(loc => loc.id === locationId);
-        if (!location) {
-            console.warn('No location found for ID:', locationId);
-            return;
+        try {
+            const location = worldLocations.find(loc => loc.id === locationId);
+            if (!location) {
+                throw new Error(`No location found for ID: ${locationId}`);
+            }
+    
+            const { enemies: enemyTypes, amount } = location;
+            const enemyCount = Math.floor(Math.random() * amount) + 1;
+
+            const newEnemies = Array.from({ length: enemyCount }, () => {
+                const enemy = generateEnemy(enemyTypes);
+                return enemy ? enemy : null; // Ensure no null enemies
+            }).filter(Boolean); // Remove nulls
+
+            setEnemies(newEnemies);
+        } catch (err) {
+            console.error(err);
+            setError(err.message);
         }
-
-        const { enemies: enemyTypes, amount } = location;
-        console.log('Enemy Types:', enemyTypes, 'Amount to spawn:', amount);
-        const enemyCount = Math.floor(Math.random() * amount) + 1;
-        console.log('Enemy Count:', enemyCount);
-
-        const newEnemies = Array.from({ length: enemyCount }, () => generateEnemy(enemyTypes));
-        console.log('Generated Enemies:', newEnemies);
-        setEnemies(newEnemies);
     };
 
     const generateEnemy = (enemyTypes) => {
-        console.log('Generating enemy from types:', enemyTypes);
-        const randomType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
-        console.log('Random Enemy Type:', randomType);
-        let enemy = createEnemy(randomType);
-        
-        if (Math.random() < 0.1) {
-            const modifier = getRandomModifier();
-            console.log('Applying Modifier:', modifier);
-            enemy = applyModifier(enemy, modifier);
-        }
+        try {
+            const randomType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+            let enemy = createEnemy(randomType);
 
-        console.log('Enemy After Modifiers:', enemy);
-        executeAbilities(enemy);
-        return enemy;
+            if (!enemy) {
+                throw new Error(`Failed to generate enemy for type: ${randomType}. Check ./enemyConfig.json.`);
+            }
+
+            if (Math.random() < 0.1) {
+                const modifier = getRandomModifier();
+                if (!modifier) {
+                    throw new Error(`Modifier not found. Check ./modifiers.json.`);
+                }
+                enemy = applyModifier(enemy, modifier);
+            }
+
+            executeAbilities(enemy);
+            return enemy;
+        } catch (err) {
+            console.error(err);
+            setError(`Error in generateEnemy: ${err.message}`);
+            return null;
+        }
     };
 
     const createEnemy = (enemyType) => {
-        console.log('Creating enemy of type:', enemyType);
-        const config = enemyConfig[enemyType];
-        console.log('Enemy Config:', config);
-        if (!config) {
-            console.warn(`No enemy configuration found for type: ${enemyType}`);
+        try {
+            const config = enemyConfig[enemyType];
+            if (!config) {
+                throw new Error(`No configuration found for enemy type: "${enemyType}". Check ./enemyConfig.json.`);
+            }
+            return {
+                id: crypto.randomUUID(),
+                type: enemyType,
+                properties: { ...config.properties },
+                image: config.image,
+                abilities: config.abilities || []
+            };
+        } catch (err) {
+            console.error(err);
+            setError(`Error in createEnemy: ${err.message}`);
             return null;
         }
-        const enemy = {
-            id: crypto.randomUUID(),
-            type: enemyType,
-            properties: { ...config.properties },
-            image: config.image,
-            abilities: config.abilities || []
-        };
-        console.log('Created Enemy:', enemy);
-        return enemy;
     };
 
     const getRandomModifier = () => {
         const keys = Object.keys(modifiersConfig);
+        if (keys.length === 0) {
+            console.error('Modifiers config is empty. Check ./modifiers.json.');
+            setError('Modifiers config is empty. Check ./modifiers.json.');
+            return null;
+        }
         const randomKey = keys[Math.floor(Math.random() * keys.length)];
         return modifiersConfig[randomKey];
     };
@@ -106,13 +136,31 @@ const Enemy = ({ locationId, onStartCombat }) => {
         });
     };
 
+    const handleEnemyClick = (enemy) => {
+        setSelectedEnemy(enemy);
+    };
+
+    const handleCancel = () => {
+        setSelectedEnemy(null);
+    };
+
     return (
         <>
+            {error && (
+                <div className="error-container">
+                    <p>An error occurred:</p>
+                    <textarea
+                        className="error-message"
+                        value={error}
+                        readOnly
+                        onClick={(e) => e.target.select()} // Auto-select for easy copying
+                    />
+                </div>
+            )}
             {enemies.map((enemy, index) => (
                 <div 
                     key={enemy.id} 
-                    className={`enemy ${enemy.specialTag?.toLowerCase()}`} 
-                    onClick={() => onStartCombat(enemy)}
+                    className={`enemy ${enemy.specialTag?.toLowerCase()}`}
                 >
                     <h3 className="enemy-header">{`${enemy.type} (Level ${enemy.properties.level})`}</h3>
                     <img 
@@ -122,16 +170,20 @@ const Enemy = ({ locationId, onStartCombat }) => {
                         width="150"
                         height="100"
                     />
-                    <div className="enemy-stats">
-                        {Object.entries(enemy.properties).map(([key, value]) => (
-                            <p key={key} className="enemy-stat">{key}: {value}</p>
-                        ))}
-                    </div>  
-                    {enemy.specialTag && <p className="special-tag">{enemy.specialTag}</p>}
+                    <div className="enemy-actions">
+                        <button onClick={() => onStartCombat(enemy)}>Fight</button>
+                        <button onClick={() => handleEnemyClick(enemy)}>Info</button>
+                    </div>
                 </div>
-            ))} 
+            ))}
+
+            <EnemyClick 
+                selectedEnemy={selectedEnemy} 
+                onCancel={handleCancel} 
+                onStartCombat={onStartCombat} 
+            />
         </>
     );
 };
 
-export default Enemy;
+export default Enemy; 

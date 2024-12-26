@@ -19,9 +19,17 @@
   border-radius: 10px;
   padding: 10px;
   text-align: center;
-  background-color: #f9f9f9;
+  color: #fff;
+  background-color: rgba(82, 82, 78, 0.9);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   transition: border 0.3s;
+}
+
+.achievementItem small {
+  font-size: 0.8em;
+  color: #fff;
+  display: block;
+  margin-top: 5px;
 }
 
 .achieved {
@@ -29,13 +37,14 @@
 }
 
 .achievementTitle {
+  color: #fff;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
 .achievementDescription {
   font-size: 0.9em;
-  color: #666;
+  color: #fff;
   margin-bottom: 10px;
 }
 

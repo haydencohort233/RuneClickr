@@ -169,12 +169,12 @@ function Buildings({ gameState, setGameState }) {
                 />
               </div>
               <div className={styles.buildingTitle}>{building}</div>
-              <div className={styles.buildingDetails}>
-                Count: {count} <br />
-                Income: {buildingStats[building]?.income || 0} per interval <br />
-                Next Cost: {cost.toLocaleString()} <br />
-                Level Requirement: {levelRequirement}
-              </div>
+                <div className={styles.buildingDetails}>
+                  <div className={styles.buildingCount}>Count: {count}</div>
+                  <div className={styles.buildingIncome}>Income: {buildingStats[building]?.income || 0} per interval</div>
+                  <div className={styles.buildingNextCost}>Next Cost: {cost.toLocaleString()}</div>
+                  <div className={styles.buildingLevelRequirement}>Level Requirement: {levelRequirement}</div>
+                </div>
               <button 
                 onClick={() => addBuilding(building)} 
                 className={styles.buildingButton} 

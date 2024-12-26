@@ -1,4 +1,3 @@
-// /src/components/achievements/achievements.js
 import React, { useEffect, useState } from 'react';
 import styles from './achievements.module.css';
 import achievementData from './achievements-list.json';
@@ -41,6 +40,8 @@ function Achievements({ gameState, setGameState }) {
           return gameState.clicks >= achievement.threshold;
         case "travel-based":
           return gameState.travel_count >= achievement.threshold;
+        case "skill-level-based":
+          return Object.values(gameState.skills).some((skill) => skill.level >= achievement.threshold);
         default:
           return false;
       }
@@ -51,7 +52,27 @@ function Achievements({ gameState, setGameState }) {
     unlockedAchievements.forEach((achievement) => {
       if (!updatedAchievements[achievement.id]) {
         console.log(`Achievement unlocked: ${achievement.name}`); // Log when an achievement is unlocked
-        updatedAchievements[achievement.id] = true;
+        updatedAchievements[achievement.id] = {
+          unlocked: true,
+          timestamp: new Date().toISOString(),
+        };
+        setNotification(`Achievement unlocked: ${achievement.name}`); // Set notification message
+        setTimeout(() => setNotification(null), 3000); // Remove notification after 3 seconds
+
+        // Add experience points based on achievement
+        setGameState((prevState) => ({
+          ...prevState,
+          experience: prevState.experience + (achievement.expReward || 0), // Award EXP based on the expReward from achievement data
+        }));
+      }
+    });
+    unlockedAchievements.forEach((achievement) => {
+      if (!updatedAchievements[achievement.id]) {
+        console.log(`Achievement unlocked: ${achievement.name}`); // Log when an achievement is unlocked
+        updatedAchievements[achievement.id] = {
+          unlocked: true,
+          timestamp: new Date().toISOString(),
+        };
         setNotification(`Achievement unlocked: ${achievement.name}`); // Set notification message
         setTimeout(() => setNotification(null), 3000); // Remove notification after 3 seconds
 
@@ -101,12 +122,21 @@ function Achievements({ gameState, setGameState }) {
                 : styles.achievementItem
             }
           >
-            <h3>{achievementData.find((ach) => ach.id === key)?.name}</h3>
-            <p>{achievementData.find((ach) => ach.id === key)?.description}</p>
+            <h3 className={styles.achievementTitle}>
+  {achievementData.find((ach) => ach.id === key)?.name}
+</h3>
+<p className={styles.achievementDescription}>
+  {achievementData.find((ach) => ach.id === key)?.description}
+</p>
+{achievements[key]?.timestamp && (
+  <small>Unlocked: {new Date(achievements[key].timestamp).toLocaleDateString('en-US')}</small>
+)}
           </div>
         ))}
       </div>
-      <button onClick={clearAllAchievements} className={`${styles.achievementButton} ${styles.devButton}`}>Clear All Achievements (Dev Button)</button>
+      <button onClick={clearAllAchievements} className={`${styles.achievementButton} ${styles.devButton}`}>
+        Clear All Achievements (Dev Button)
+      </button>
       {notification && <div className={styles.notification}>{notification}</div>}
     </div>
   );

@@ -1,76 +1,101 @@
-/* /src/components/buildings/buildings.module.css */
-
 .buildings {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-  }
-  
-  .buildingList {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 800px;
-    margin-bottom: 20px;
-  }
-  
-  .buildingItem {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-    background-color: #f9f9f9;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .buildingThumbnail {
-    width: 100%;
-    height: auto;
-    max-width: 100px;
-    margin-bottom: 10px;
-  }
-  
-  .buildingTitle {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .buildingDetails {
-    font-size: 0.9em;
-    color: #666;
-    margin-bottom: 10px;
-  }
-  
-  .buildingButton {
-    padding: 8px 12px;
-    font-size: 1em;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 5px;
-  }
-  
-  .buildingButton:hover {
-    background-color: #0056b3;
-  }
-  
-  .devButton {
-    margin-top: 20px;
-    background-color: #d9534f;
-  }
-  
-  .devButton:hover {
-    background-color: #c9302c;
-  }
-  
-  .buildingButton:disabled {
-    background-color: #d3d3d3; /* Light gray background */
-    color: #666; /* Darker text color */
-    cursor: not-allowed; /* Show "not-allowed" cursor */
-    opacity: 0.6; /* Slightly transparent */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  color: #fff;
+}
+
+.buildingList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+
+.buildingItem {
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  background-color: rgba(82, 82, 78, 0.9);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.buildingThumbnail {
+  width: 100%;
+  height: auto;
+  max-width: 100px;
+}
+
+.buildingThumbnailWrapper {
+  margin-bottom: 10px;
+}
+
+.buildingTitle {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.buildingDetails {
+  font-size: 0.75em;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.buildingCount {
+  font-weight: bold;
+  color: #ffd700; /* Gold for emphasis */
+  margin-bottom: 5px;
+}
+
+.buildingIncome {
+  font-style: italic;
+  color: #87cefa; /* Light blue */
+  margin-bottom: 5px;
+}
+
+.buildingNextCost {
+  font-weight: normal;
+  color: #90ee90; /* Light green */
+  margin-bottom: 5px;
+}
+
+.buildingLevelRequirement {
+  font-weight: lighter;
+  color: #ff6347; /* Tomato red */
+  margin-bottom: 10px;
+}
+
+.buildingButton {
+  padding: 8px 12px;
+  font-size: 1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.buildingButton:hover {
+  background-color: #0056b3;
+}
+
+.devButton {
+  margin-top: 20px;
+  background-color: #d9534f;
+}
+
+.devButton:hover {
+  background-color: #c9302c;
+}
+
+.buildingButton:disabled {
+  background-color: #d3d3d3; /* Light gray background */
+  color: #666; /* Darker text color */
+  cursor: not-allowed; /* Show "not-allowed" cursor */
+  opacity: 0.6; /* Slightly transparent */
+}

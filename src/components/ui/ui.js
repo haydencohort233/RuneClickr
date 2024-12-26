@@ -33,10 +33,16 @@ function UI({ inventory, setPlayer, maxInventorySpace, gameState, setGameState, 
         <button className={styles.uiButton} onClick={handleInventoryToggle}>Inventory</button>
         <button className={styles.uiButton} onClick={handleEquipmentToggle}>Equipment</button>
         <button className={styles.uiButton} onClick={handleWorldMapToggle}>
-          World Map ({gameState.currentLocation})
+          World Map
         </button>
       </div>
       <div className={styles.playerDetailsContainer}>
+      <GameSaves
+          userId={userId}
+          gameState={gameState}
+          setGameState={setGameState}
+          className={styles.gameSaves}
+        />
         <PlayerDetails
           player={gameState}
           setPlayer={setGameState}
@@ -51,12 +57,6 @@ function UI({ inventory, setPlayer, maxInventorySpace, gameState, setGameState, 
             totalSkillExp={gameState.totalSkillExp}
           />
         )}
-        <GameSaves
-          userId={userId}
-          gameState={gameState}
-          setGameState={setGameState}
-          className={styles.gameSaves}
-        />
       </div>
       {activeComponent === 'inventory' && (
         <div className={`${styles.inventoryOverlay} ${styles.open}`}>

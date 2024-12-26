@@ -54,6 +54,14 @@
       "conditionType": "specific-building",
       "buildingName": "Bank",
       "expReward": 75
-    }
+    },
+    {
+      "id": "reach_level_3_any_skill",
+      "name": "Apprentice",
+      "description": "Reach Level 3 in any skill.",
+      "conditionType": "skill-level-based",
+      "threshold": 3,
+      "expReward": 25
+    }    
   ]
   

@@ -17,10 +17,8 @@ import expIcon from '../../assets/images/player/exp.png';
 import mapIcon from '../../assets/images/player/map.png';
 
 function PlayerDetails({ player, setPlayer }) {
-  // Ensure that player data is defined before rendering
   const { level, experience, hitpoints, maxHitPoints, currentLocation } = player || {};
 
-  // Check if player can level up based on experience
   useEffect(() => {
     let currentLevel = level;
     let currentExperience = experience;
@@ -38,8 +36,8 @@ function PlayerDetails({ player, setPlayer }) {
           health: newLevelStats.health,
           attackPower: newLevelStats.attackPower,
           defencePower: newLevelStats.defencePower,
-          maxHitPoints: newLevelStats.health, // Update max hitpoints when leveling up
-          hitpoints: newLevelStats.health // Restore health to max on level up
+          maxHitPoints: newLevelStats.health,
+          hitpoints: newLevelStats.health,
         }));
       }
     }
@@ -66,15 +64,15 @@ function PlayerDetails({ player, setPlayer }) {
     if (nextLevelInfo) {
       return (experience / nextLevelInfo.expRequired) * 100;
     }
-    return 100; // If max level, return 100%
+    return 100;
   }, [experience, level]);
 
   const nextLevelExp = useMemo(() => {
     const nextLevelInfo = playerLevels.levels.find(levelInfo => levelInfo.level === level + 1);
     if (nextLevelInfo) {
-      return `EXP ${experience} / ${nextLevelInfo.expRequired}`;
+      return `${experience} / ${nextLevelInfo.expRequired}`;
     }
-    return `${experience} / MAX EXP`; // If max level, show max
+    return `${experience} / MAX EXP`;
   }, [experience, level]);
 
   return (
@@ -93,18 +91,12 @@ function PlayerDetails({ player, setPlayer }) {
                 className={styles.levelImage}
                 title="Level"
               />
-              <p><strong>Level:</strong> {level}</p>
+              <span className={styles.playerLevelText}><strong>Level:</strong> {level}</span>
             </div>
           </div>
           <div className={styles.experienceContainer}>
             <div className={styles.iconAligned}>
-              <img
-                src={expIcon}
-                alt="Experience"
-                className={styles.expImage}
-                title="Experience"
-              />
-              <span className={styles.iconText}>{nextLevelExp}</span>
+              <span className={styles.experienceText}>{nextLevelExp}</span>
             </div>
           </div>
           <div className={styles.progressBarContainer}>
@@ -124,7 +116,7 @@ function PlayerDetails({ player, setPlayer }) {
                 title="Hitpoints"
               />
             </div>
-            <span className={styles.iconText}><strong>Health</strong> {hitpoints} / {maxHitPoints}</span>
+            <span className={styles.hitpointsText}><strong>HP:</strong> {hitpoints} / {maxHitPoints}</span>
           </div>
           <div className={styles.currentLocationContainer}>
             <div className={styles.iconAligned}>
@@ -135,14 +127,14 @@ function PlayerDetails({ player, setPlayer }) {
                 title="Current Location"
               />
             </div>
-            <span className={styles.iconText}><strong>Location:</strong> {currentLocation}</span>
+            <span className={styles.locationText}><strong>Location:</strong> {currentLocation}</span>
           </div>
         </>
       ) : (
         <div>Loading player details...</div>
       )}
     </div>
-  );  
+  );
 }
 
 export default PlayerDetails;

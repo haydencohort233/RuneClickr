@@ -1,6 +1,8 @@
 {
     "Cow": {
         "enemyId": "1",
+        "description": "A gentle creature",
+        "modifiedDescription": "This legendary cow is imbued with mystical powers, making it extremely formidable.",
         "properties": {
             "level": 1,
             "health": 50,
