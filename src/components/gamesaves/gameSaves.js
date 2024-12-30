@@ -24,6 +24,7 @@ function GameSaves({ userId, gameState, setGameState }) {
       maxHitPoints: 100,
       attackPower: 10,
       defencePower: 5,
+      magicPower: 0,
       inventory: [],
       maxInventorySpace: 30,
       bank: [],

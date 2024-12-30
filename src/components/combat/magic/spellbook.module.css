@@ -1,0 +1,66 @@
+.spellbookContainer {
+    background-color: rgba(41, 41, 39, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.spellbookHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.closeButton {
+    background-color: #ff4d4d;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.closeButton:hover {
+    background-color: #ff3333;
+}
+
+.spellbookList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.spellButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #282828;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.spellButton:hover:not(.disabled) {
+    background-color: #444444;
+    border-color: #ffd700;
+}
+
+.spellButton.disabled {
+    background-color: #555555;
+    border-color: #888888;
+    cursor: not-allowed;
+}
+
+.spellIcon {
+    max-width: 60px;
+    max-height: 60px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}

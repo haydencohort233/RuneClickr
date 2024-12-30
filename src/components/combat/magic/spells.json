@@ -1,0 +1,26 @@
+[
+    {
+        "id": "fireWave",
+        "name": "Fire Wave",
+        "requiredRunes": { },
+        "levelRequired": 1,
+        "damage": 3,
+        "cooldown": 2,
+        "levelMultiplier": 2,
+        "powerMultiplier": 1.2,
+        "variance": 0.3,
+        "icon": "/assets/images/spells/firewave.png"
+    },
+    {
+        "id": "waterWave",
+        "name": "Water Wave",
+        "requiredRunes": { "waterRune": 5, "airRune": 2 },
+        "levelRequired": 20,
+        "damage": 20,
+        "cooldown": 3,
+        "levelMultiplier": 3,
+        "powerMultiplier": 2.0,
+        "variance": 0.2,
+        "icon": "/assets/images/spells/waterwave.png"
+    }
+]

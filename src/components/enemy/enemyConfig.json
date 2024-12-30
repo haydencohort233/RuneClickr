@@ -2,7 +2,7 @@
     "Cow": {
         "enemyId": "1",
         "description": "A gentle creature",
-        "modifiedDescription": "This legendary cow is imbued with mystical powers, making it extremely formidable.",
+        "modifiedDescription": "This cow is imbued with mystical powers, making it extremely difficult.",
         "properties": {
             "level": 1,
             "health": 50,
@@ -10,7 +10,10 @@
             "experience": 10,
             "maxHit": 10,
             "attackPower": 10,
-            "defencePower": 3
+            "defencePower": 3,
+            "magicPower": 0,
+            "magicDefense": 30,
+            "agility": 1
         },
         "abilities": ["heal"],
         "image": "/assets/images/enemies/cow.png"

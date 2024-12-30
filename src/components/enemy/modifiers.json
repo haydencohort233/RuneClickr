@@ -8,7 +8,9 @@
             "experienceMultiplier": 5,
             "maxHitMultiplier": 2,
             "attackPowerMultiplier": 2,
-            "defencePowerMultiplier": 2
+            "defencePowerMultiplier": 2,
+            "magicPowerMultiplier": 2,
+            "agilityMultiplier": 3
         },
         "visualEffect": "gold-glow",
         "abilityBoost": []
@@ -16,13 +18,15 @@
     "mythical": {
         "name": "Mythical",
         "properties": {
-            "levelMultiplier": 3,
+            "levelMultiplier": 2,
             "healthMultiplier": 3,
             "damageMultiplier": 5,
             "experienceMultiplier": 10,
             "maxHitMultiplier": 3,
             "attackPowerMultiplier": 3,
-            "defencePowerMultiplier": 3
+            "defencePowerMultiplier": 3,
+            "magicPowerMultiplier": 1,
+            "agilityMultiplier": 2
         },
         "visualEffect": "purple-glow",
         "abilityBoost": []

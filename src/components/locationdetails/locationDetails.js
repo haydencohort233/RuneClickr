@@ -38,11 +38,11 @@ function LocationDetails({ currentLocation, player, setPlayer, gainExperience, s
   // Debugging logs
   useEffect(() => {
     if (locationData) {
-      console.log('Resolved Location Data:', locationData);
-      console.log('Enemies:', locationData.enemies || []);
-      console.log('Is enemies an array?', Array.isArray(locationData.enemies));
-      console.log('Features (feature_ids):', locationData.feature_ids || []);
-      console.log('Available Features:', features.filter((f) => locationData.feature_ids?.includes(f.id)) || []);
+      //console.log('Resolved Location Data:', locationData);
+      //console.log('Enemies:', locationData.enemies || []);
+      //console.log('Is enemies an array?', Array.isArray(locationData.enemies));
+      //console.log('Features (feature_ids):', locationData.feature_ids || []);
+      //console.log('Available Features:', features.filter((f) => locationData.feature_ids?.includes(f.id)) || []);
     }
   }, [locationData]);
 
