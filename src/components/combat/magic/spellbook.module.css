@@ -1,5 +1,5 @@
 .spellbookContainer {
-    background-color: rgba(41, 41, 39, 0.9);
+    background-color: rgba(58, 58, 55, 0.9);
     border-radius: 10px;
     padding: 20px;
     max-width: 600px;
@@ -38,8 +38,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #282828;
-    border: 2px solid #ffffff;
+    background-color: #4d833c;
+    border: none;
     border-radius: 8px;
     padding: 10px;
     width: 100px;
@@ -53,7 +53,7 @@
 }
 
 .spellButton.disabled {
-    background-color: #555555;
+    background-color: #460d0d;
     border-color: #888888;
     cursor: not-allowed;
 }

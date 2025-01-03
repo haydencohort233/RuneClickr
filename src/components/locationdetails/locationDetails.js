@@ -161,7 +161,7 @@ function LocationDetails({ currentLocation, player, setPlayer, gainExperience, s
       )}
   
       {inCombat && currentEnemy && (
-        <Combat enemy={currentEnemy} player={player} setPlayer={setPlayer} onCombatEnd={handleCombatEnd} />
+        <Combat enemy={currentEnemy} player={player} setPlayer={setPlayer} onCombatEnd={handleCombatEnd} currentLocation={currentLocation} />
       )}
     </div>
   );  

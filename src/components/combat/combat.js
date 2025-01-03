@@ -2,11 +2,18 @@ import React, { useState } from 'react';
 import useCombat from './useCombat';
 import CombatUI from './ui/combatUI';
 import Magic from './magic/magic';
-import './combat.module.css';
+import worldLocations from '../worldmap/worldLocations.json';
+import styles from './combat.module.css';
 
-const Combat = ({ enemy, player = {}, setPlayer, onCombatEnd }) => {
+const Combat = ({ enemy, player = {}, setPlayer, onCombatEnd, currentLocation }) => {
     const { playerHp, enemyHp, turn, attackEnemy, updateEnemyHp, cooldowns, setCooldowns, setTurn } = useCombat(player, enemy, onCombatEnd);
     const [combatLogEntries, setCombatLogEntries] = useState([]);
+
+    const locationData = worldLocations.find((location) => location.id === currentLocation) || {};
+    const combatBackground =
+        locationData.combat_bg && locationData.combat_bg.trim() !== ''
+            ? locationData.combat_bg
+            : '/assets/images/locations/cowpens/combat-bg.png';   
 
     const handleAttack = () => {
         if (turn !== 'player' || cooldowns['action']) return;
@@ -50,33 +57,40 @@ const Combat = ({ enemy, player = {}, setPlayer, onCombatEnd }) => {
     };
 
     return (
-        <div className="combat-container">
-            <CombatUI
-                player={{
-                    ...player,
-                    hitpoints: playerHp,
+        <div className={styles.modalOverlay}>
+            <div
+                className={styles.combatModal}
+                style={{
+                    backgroundImage: `url(${combatBackground})`,
                 }}
-                enemy={{
-                    ...enemy,
-                    health: enemyHp,
-                    maxHealth: enemy.properties.health,
-                }}
-                combatLog={combatLogEntries}
-                onAttack={handleAttack}
-                isPlayerTurn={turn === 'player'}
-                renderMagic={() => (
-                    <Magic
-                        player={player}
-                        setPlayer={setPlayer}
-                        onSpellCast={handleSpellCast}
-                        cooldowns={cooldowns}
-                        setCooldowns={setCooldowns}
-                        enemy={enemy}
-                        setTurn={setTurn}
-                        setCombatLogEntries={setCombatLogEntries}
-                    />
-                )}
-            />
+            >
+                <CombatUI
+                    player={{
+                        ...player,
+                        hitpoints: playerHp,
+                    }}
+                    enemy={{
+                        ...enemy,
+                        health: enemyHp,
+                        maxHealth: enemy.properties.health,
+                    }}
+                    combatLog={combatLogEntries}
+                    onAttack={handleAttack}
+                    isPlayerTurn={turn === 'player'}
+                    renderMagic={() => (
+                        <Magic
+                            player={player}
+                            setPlayer={setPlayer}
+                            onSpellCast={handleSpellCast}
+                            cooldowns={cooldowns}
+                            setCooldowns={setCooldowns}
+                            enemy={enemy}
+                            setTurn={setTurn}
+                            setCombatLogEntries={setCombatLogEntries}
+                        />
+                    )}
+                />
+            </div>
         </div>
     );
 };

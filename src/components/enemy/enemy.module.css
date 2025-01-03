@@ -23,8 +23,8 @@
 }
 
 .enemy img.enemy-image {
-    width: 100px;
-    height: 100px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
     border-radius: 4px;
     margin-bottom: 12px;

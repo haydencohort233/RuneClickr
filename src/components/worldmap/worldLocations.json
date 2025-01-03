@@ -23,7 +23,8 @@
     "coordinates": { "top": "-250px", "left": "340px" },
     "travelTime": 5,
     "enemies": ["Cow"],
-    "amount": 4
+    "amount": 4,
+    "combat_bg": "/assets/images/locations/cowpens/combat-bg.png"
   },
   {
     "id": "wizardTower",
@@ -31,7 +32,9 @@
     "description": "Known to lead players to the 'Abyss' a mysterious dimension.",
     "coordinates": { "top": "-70px", "left": "90px" },
     "travelTime": 5,
-    "enemies": ["Cow"]
+    "enemies": ["Cow"],
+    "amount": 3,
+    "combat_bg": "/assets/images/locations/wizardtower/combat-bg.png"
   },
   {
     "id": "draynor",
