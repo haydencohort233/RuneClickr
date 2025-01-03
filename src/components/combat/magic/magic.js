@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import spells from './spells.json';
+import React, { useState, useEffect } from 'react';
+import spells from './spells.json'; // Load spells
 import Spellbook from './Spellbook';
-import styles from './magic.module.css'; // Import the CSS module
+import styles from './magic.module.css';
 
-const Magic = ({ player, setPlayer, onSpellCast, cooldowns = {}, setCooldowns, enemy, setTurn, setCombatLogEntries }) => {
+const Magic = ({ spell, castDirectly, player, setPlayer, setCombatLogEntries, cooldowns = {}, setCooldowns, enemy, setTurn }) => {
     const [spellbookOpen, setSpellbookOpen] = useState(false);
 
-    const hasRequiredRunes = (spell) => {
-        return Object.keys(spell.requiredRunes).every((rune) => {
-            const inventoryItem = player.inventory.find((item) => item.name === rune);
-            return inventoryItem && inventoryItem.quantity >= spell.requiredRunes[rune];
-        });
+    const handleCastSpell = (spell) => {
+        console.log(`Casting Spell: ${spell.name}`, spell); // Log spell details
+        castSpell(spell);
+        setSpellbookOpen(false); // Close the spellbook after casting
     };
 
     const castSpell = (spell) => {
@@ -31,7 +30,6 @@ const Magic = ({ player, setPlayer, onSpellCast, cooldowns = {}, setCooldowns, e
 
         const magicLevel = player.skills.magic.level ?? 1;
         const magicPower = player.magicPower ?? 0;
-
         const baseHitChance = 50;
         const scaledHitChance = (magicLevel * 1.5) + (magicPower * 1.2);
         const effectiveHitChance = Math.min(baseHitChance + scaledHitChance - (enemy?.properties?.magicDefense ?? 0), 95);
@@ -67,35 +65,38 @@ const Magic = ({ player, setPlayer, onSpellCast, cooldowns = {}, setCooldowns, e
             [spell.id]: spell.cooldown,
         }));
 
-        onSpellCast({ ...spell, damage });
-
         setCombatLogEntries((prevLog) => [...prevLog, `You cast ${spell.name}! Dealt ${damage} damage.`]);
-
         setTurn('enemy');
     };
+
+    const hasRequiredRunes = (spell) => {
+        return Object.keys(spell.requiredRunes || {}).every((rune) => {
+            const inventoryItem = player.inventory.find((item) => item.name === rune);
+            return inventoryItem && inventoryItem.quantity >= spell.requiredRunes[rune];
+        });
+    };
+
+    useEffect(() => {
+        if (castDirectly && spell) {
+            castSpell(spell);
+        }
+    }, [castDirectly, spell]);
 
     return (
         <div className={styles.magicContainer}>
             <button
                 className={styles.magicSpellbookButton}
                 onClick={() => setSpellbookOpen(true)}
-                title="Open Spellbook"
+                disabled={cooldowns['action']} // Disable while on cooldown
             >
-                <img
-                    src="/assets/images/spells/spellbook.png"
-                    alt="Open Spellbook"
-                    className={styles.magicSpellbookIcon}
-                />
+                Open Spellbook
             </button>
             {spellbookOpen && (
                 <Spellbook
                     spells={spells}
                     player={player}
                     cooldowns={cooldowns}
-                    onCastSpell={(spell) => {
-                        setSpellbookOpen(false);
-                        castSpell(spell);
-                    }}
+                    onCastSpell={handleCastSpell}
                     closeSpellbook={() => setSpellbookOpen(false)}
                 />
             )}

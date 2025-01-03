@@ -4,8 +4,9 @@ import CombatUI from './ui/combatUI';
 import Magic from './magic/magic';
 import worldLocations from '../worldmap/worldLocations.json';
 import styles from './combat.module.css';
+import spells from './magic/spells.json';
 
-const Combat = ({ enemy, player = {}, setPlayer, onCombatEnd, currentLocation }) => {
+const Combat = ({ enemy, player = {}, setPlayer, onCombatEnd, currentLocation, isPlayerTurn }) => {
     const { playerHp, enemyHp, turn, attackEnemy, updateEnemyHp, cooldowns, setCooldowns, setTurn } = useCombat(player, enemy, onCombatEnd);
     const [combatLogEntries, setCombatLogEntries] = useState([]);
 
@@ -38,23 +39,20 @@ const Combat = ({ enemy, player = {}, setPlayer, onCombatEnd, currentLocation })
 
         setTurn('enemy');
     };
-
+       
     const handleSpellCast = (spell) => {
         if (turn !== 'player' || cooldowns['action']) return;
-
-        if (spell.damage) {
-            updateEnemyHp(spell.damage);
-            setCombatLogEntries((prevLog) => [
-                ...prevLog,
-                `You cast ${spell.name}! Dealt ${spell.damage} damage.`,
-            ]);
-        } else {
-            setCombatLogEntries((prevLog) => [
-                ...prevLog,
-                `${spell.name} missed!`,
-            ]);
-        }
-    };
+    
+        console.log(`Casting spell: ${spell.name}`);
+        
+        updateEnemyHp(spell.damage); // Apply damage
+        setCombatLogEntries((prevLog) => [
+            ...prevLog,
+            `You cast ${spell.name}! Dealt ${spell.damage} damage.`,
+        ]);
+    
+        setTimeout(() => setTurn('enemy'), 500); // Slight delay before switching turns
+    };    
 
     return (
         <div className={styles.modalOverlay}>
@@ -64,32 +62,34 @@ const Combat = ({ enemy, player = {}, setPlayer, onCombatEnd, currentLocation })
                     backgroundImage: `url(${combatBackground})`,
                 }}
             >
-                <CombatUI
-                    player={{
-                        ...player,
-                        hitpoints: playerHp,
-                    }}
-                    enemy={{
-                        ...enemy,
-                        health: enemyHp,
-                        maxHealth: enemy.properties.health,
-                    }}
-                    combatLog={combatLogEntries}
-                    onAttack={handleAttack}
-                    isPlayerTurn={turn === 'player'}
-                    renderMagic={() => (
-                        <Magic
-                            player={player}
-                            setPlayer={setPlayer}
-                            onSpellCast={handleSpellCast}
-                            cooldowns={cooldowns}
-                            setCooldowns={setCooldowns}
-                            enemy={enemy}
-                            setTurn={setTurn}
-                            setCombatLogEntries={setCombatLogEntries}
-                        />
-                    )}
-                />
+<CombatUI
+    player={{
+        ...player,
+        hitpoints: playerHp,
+    }}
+    enemy={{
+        ...enemy,
+        health: enemyHp,
+        maxHealth: enemy.properties.health,
+    }}
+    combatLog={combatLogEntries}
+    onAttack={handleAttack}
+    isPlayerTurn={turn === 'player'}
+    handleSpellCast={handleSpellCast} // Pass handleSpellCast here
+    renderMagic={() => (
+        <Magic
+            player={player}
+            setPlayer={setPlayer}
+            onSpellCast={handleSpellCast} // Ensure handleSpellCast is passed here too
+            cooldowns={cooldowns}
+            setCooldowns={setCooldowns}
+            enemy={enemy}
+            setTurn={setTurn}
+            setCombatLogEntries={setCombatLogEntries}
+            isPlayerTurn={turn === 'player'}
+        />
+    )}
+/>
             </div>
         </div>
     );

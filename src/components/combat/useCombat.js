@@ -33,16 +33,12 @@ const useCombat = (player, enemy, onCombatEnd) => {
     }, [player?.agility, enemy?.properties?.agility]);
 
     const updateEnemyHp = (damage) => {
-        console.log(`Player deals ${damage} damage.`);
+        console.log(`Before update: Enemy HP = ${enemyHp}`);
         const updatedHp = Math.max(0, enemyHp - damage);
-        console.log(`Enemy HP updated: ${enemyHp} -> ${updatedHp}`);
         setEnemyHp(updatedHp);
-
-        if (updatedHp <= 0) {
-            console.log('Enemy defeated! Player wins.');
-            onCombatEnd('victory');
-        }
-    };
+        console.log(`After update: Enemy HP = ${updatedHp}`);
+        if (updatedHp <= 0) onCombatEnd('victory');
+    };    
 
     const attackEnemy = () => {
         if (!enemy || turn !== 'player' || cooldowns['action']) {

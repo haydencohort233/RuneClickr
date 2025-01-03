@@ -1,26 +1,31 @@
 .magicContainer {
-    position: relative;
-    margin: 10px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s;
+  border-radius: 4px;
   }
   
   .magicSpellbookButton {
-    width: 35px;
-    height: 35px;
-    background: none;
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
     border: none;
-    padding: 0;
     cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  
-  .magicSpellbookButton:hover {
-    transform: scale(1.1);
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+    border-radius: 4px;
   }
   
   .magicSpellbookIcon {
     object-fit: contain;
+    width: 5%;
   }
   

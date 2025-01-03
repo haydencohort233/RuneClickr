@@ -1,16 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import HealthBar from './healthBar';
 import CombatLog from './combatLog';
+import Spellbook from '../magic/Spellbook'; // Import Spellbook component
+import spells from '../magic/spells.json'; // Import spells from spells.json
 import styles from './combatUI.module.css';
 
-const CombatUI = ({ player, enemy, combatLog, onAttack, isPlayerTurn, renderMagic, combatBackground }) => {
+const CombatUI = ({
+    player,
+    cooldowns,
+    enemy,
+    combatLog,
+    onAttack,
+    handleSpellCast,
+    isPlayerTurn,
+    renderMagic,
+    combatBackground,
+}) => {
     const logContainerRef = useRef(null);
+    const [spellbookOpen, setSpellbookOpen] = useState(false);
 
     useEffect(() => {
         if (logContainerRef.current) {
             logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
         }
-    }, [combatLog]); // Auto-scroll when combatLog updates
+    }, [combatLog]);
 
     return (
         <div
@@ -42,22 +55,55 @@ const CombatUI = ({ player, enemy, combatLog, onAttack, isPlayerTurn, renderMagi
 
             {/* Action Buttons */}
             <div className={styles.actionMenu}>
-                {isPlayerTurn ? (
-                    <>
-                        <button className={styles.attackButton} onClick={onAttack}>Attack</button>
-                        {renderMagic && renderMagic()}
-                        <button className={styles.itemsButton} disabled>Items</button>
-                        <button className={styles.runButton} disabled>Run</button> {/* Dummy Run Button */}
-                    </>
-                ) : (
-                    <p>Enemy's Turn...</p>
-                )}
+                <button
+                    className={`${styles.attackButton} ${!isPlayerTurn && styles.disabled}`}
+                    onClick={onAttack}
+                    disabled={!isPlayerTurn}
+                >
+                    Attack
+                </button>
+                <button
+                    className={`${styles.spellbookButton} ${!isPlayerTurn && styles.disabled}`}
+                    onClick={() => setSpellbookOpen(true)}
+                    disabled={!isPlayerTurn}
+                >
+                    Spellbook
+                </button>
+                <button
+                    className={`${styles.itemsButton} ${!isPlayerTurn && styles.disabled}`}
+                    disabled
+                >
+                    Items
+                </button>
+                <button
+                    className={`${styles.runButton} ${!isPlayerTurn && styles.disabled}`}
+                    disabled
+                >
+                    Run
+                </button>
             </div>
 
             {/* Combat Logs */}
             <div className={styles.combatLogContainer} ref={logContainerRef}>
                 <CombatLog log={combatLog} />
             </div>
+
+            {/* Spellbook Modal */}
+            {spellbookOpen && (
+                <div className={styles.spellbookOverlay}>
+<Spellbook
+    spells={spells}
+    player={player}
+    cooldowns={cooldowns}
+    onCastSpell={(spell) => {
+        handleSpellCast(spell); // Ensure this calls the combat logic
+        setSpellbookOpen(false);
+    }}
+    closeSpellbook={() => setSpellbookOpen(false)}
+/>
+
+                </div>
+            )}
         </div>
     );
 };
