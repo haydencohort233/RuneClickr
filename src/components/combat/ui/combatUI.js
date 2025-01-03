@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import HealthBar from './healthBar';
 import CombatLog from './combatLog';
-import Spellbook from '../magic/Spellbook'; // Import Spellbook component
-import spells from '../magic/spells.json'; // Import spells from spells.json
+import Spellbook from '../magic/Spellbook';
+import spells from '../magic/spells.json';
 import styles from './combatUI.module.css';
 
 const CombatUI = ({
@@ -91,17 +91,16 @@ const CombatUI = ({
             {/* Spellbook Modal */}
             {spellbookOpen && (
                 <div className={styles.spellbookOverlay}>
-<Spellbook
-    spells={spells}
-    player={player}
-    cooldowns={cooldowns}
-    onCastSpell={(spell) => {
-        handleSpellCast(spell); // Ensure this calls the combat logic
-        setSpellbookOpen(false);
-    }}
-    closeSpellbook={() => setSpellbookOpen(false)}
-/>
-
+                <Spellbook
+                    spells={spells}
+                    player={player}
+                    cooldowns={cooldowns}
+                    onCastSpell={(spell) => {
+                        handleSpellCast(spell); // Ensure this calls the combat logic
+                        setSpellbookOpen(false);
+                    }}
+                    closeSpellbook={() => setSpellbookOpen(false)}
+                />
                 </div>
             )}
         </div>
